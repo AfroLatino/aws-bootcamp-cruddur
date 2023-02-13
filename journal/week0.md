@@ -16,7 +16,16 @@ Constraints could include time and budget.
 
 He also categorised stakeholder expectation to project delivery to 3 categories; fast, cheap or good.
 
-The architecture is usally divided into Conceptual Design, Logical Design and Physical Design.
+The architecture is usally divided into Conceptual Design, Logical Design and Physical Design. Lucid chart was used to create the logical design.
 
 Andrew Brown asked if we could create a conceptual diagram on a napkin.
+
+
+## Additional Youtube Videos
+
+Andrew Brown created a youtube video on how to launch AWS CloudShell, Generate AWS credentials, Setting up AWS Budgets and Billing Alarms.
+
+Chirag did a youtube video on Spend Considerations.
+
+Ashish did one on Security Considerations.
 
