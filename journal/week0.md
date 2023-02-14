@@ -76,3 +76,30 @@ https://github.com/AfroLatino/aws-bootcamp-cruddur-2023
 
 ![Cruddur Conceptual Napkin Design](https://user-images.githubusercontent.com/78261965/218870057-bed4e86d-aeb4-4508-83cf-735769da9112.jpg)
 
+### My review of all the questions of each pillars in the Well Architected Tool are as follows:
+
+Operational Excellence Pillar
+The Operational Excellence pillar includes the ability to support development and run workloads effectively, gain insight into your operations, and to continuously improve supporting processes and procedures to deliver business value. 
+
+Design Principles:
+•	Perform operations as code
+•	Make frequent, small, reversible changes
+•	Refine operations procedures frequently
+•	Anticipate failure
+•	Learn from all operational failures
+
+Best Practices Topics and Categories:
+•	Organization -> Organizational Priorities
+•	Organization -> Organizational Structure
+•	Organization -> Organizational Culture
+•	Prepare -> Design Workload
+•	Prepare -> Design for Operations
+•	Prepare -> Mitigate Deployment Risks
+•	Prepare -> Operational Readiness 
+•	Operate -> Understanding Workload Health
+•	Operate -> Understanding Operational Health
+•	Operate -> Managing Workload and Operational Events
+•	Evolve -> Evolving Operations
+
+
+
