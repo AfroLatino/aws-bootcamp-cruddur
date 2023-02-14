@@ -29,6 +29,7 @@ Chirag did a youtube video on Spend Considerations.
 
 Ashish did one on Security Considerations.
 
+
 ### Homework Challenges
 
 ### I have set up MFA on my root account as advised by Ashish but only use my IAM account for tasks. This also have MFA set up.
