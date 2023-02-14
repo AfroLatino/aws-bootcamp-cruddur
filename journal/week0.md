@@ -64,3 +64,7 @@ https://us-east-1.console.aws.amazon.com/sns/v3/home?region=us-east-1#/topics
 
 https://us-east-1.console.aws.amazon.com/billing/home?region=us-east-1#/budgets/overview
 
+### I installed AWS CLI as seen from the link below:
+
+https://github.com/AfroLatino/aws-bootcamp-cruddur-2023
+
