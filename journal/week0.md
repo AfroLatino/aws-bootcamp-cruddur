@@ -31,6 +31,10 @@ Ashish did one on Security Considerations.
 
 ### Homework Challenges
 
+An Architectural diagram (to the best of your ability) the CI/CD logical pipeline is seen below:
+
+https://lucid.app/lucidchart/5dba407d-3c11-4eb6-83fb-877c530ebbf5/edit?invitationId=inv_a22c61ab-b1e5-4a07-a383-33508a66cb6a&page=0_0#
+
 I have opened a support ticket and requested a service limit as seen below:
 
 https://support.console.aws.amazon.com/support/home#/case/?displayId=11997932311&language=en
