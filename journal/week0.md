@@ -78,7 +78,7 @@ https://github.com/AfroLatino/aws-bootcamp-cruddur-2023
 
 ### My review of all the questions of each pillars in the Well Architected Tool are as follows:
 
-Operational Excellence Pillar
+## Operational Excellence Pillar
 
 The Operational Excellence pillar includes the ability to support development and run workloads effectively, gain insight into your operations, and to continuously improve supporting processes and procedures to deliver business value. 
 
@@ -91,6 +91,7 @@ The Operational Excellence pillar includes the ability to support development an
 -	Learn from all operational failures
 
 ## Best Practices Topics and Categories:
+
 -	Organization -> Organizational Priorities
 -	Organization -> Organizational Structure
 -	Organization -> Organizational Culture
@@ -102,6 +103,64 @@ The Operational Excellence pillar includes the ability to support development an
 -	Operate -> Understanding Operational Health
 -	Operate -> Managing Workload and Operational Events
 -	Evolve -> Evolving Operations
+
+## Self-Assessment Questions:
+
+-	OPS 1:  How do you determine what your priorities are?
+-	OPS 2:  How do you structure your organization to support your business outcomes?
+-	OPS 3:  How does your organizational culture support your business outcomes?
+-	OPS 4:  How do you design your workload so that you can understand its state?
+-	OPS 5:  How do you reduce defects, ease remediation, and improve flow into production?
+-	OPS 6:  How do you mitigate deployment risks?
+-	OPS 7:  How do you know that you are ready to support a workload?
+-	OPS 8:  How do you understand the health of your workload?
+-	OPS 9:  How do you understand the health of your operations?
+-	OPS 10: How do you manage workload and operations events?
+-	OPS 11: How do you evolve operations?
+
+## Level of Risk exposed if these best practices are not established:
+
+-	There are 82 sub-questions; 34 with High Risk, 31 with Medium risk and 17 with Low Risk. 
+
+## Security Pillar
+
+The security pillar describes how to take advantage of cloud technologies to protect data, systems, and assets in a way that can improve your security posture.
+
+# Design Principles:
+-	Implement a strong identity foundation
+•	Enable traceability
+•	Apply security at all layers
+•	Automate security best practices
+•	Protect data in transit and at rest
+•	Keep people away from data
+•	Prepare for security events
+
+Best Practices Topics and Categories:
+•	Security > Operation of Workloads Securely
+
+•	Identity & Access Management -> Identity Management for people and machines
+•	Identity & Access Management -> Permissions Management for people and machines
+•	Detection -> Investigation of Security Events
+•	Infrastructure Protection -> Protecting Network Resources
+•	Infrastructure Protection ->Protecting Computer Resources
+•	Data Protection > Data Classification
+•	Data Protection > Data Protection at Rest
+•	Data Protection > Data Protection in Transit
+•	Incident Response > Anticipation, Response and Recovery from Incidents
+
+Self-Assessment Questions:
+•	SEC 1: How do you securely operate your workload?
+•	SEC 2: How do you manage authentication for people and machines?
+•	SEC 3: How do you manage permissions for people and machines?
+•	SEC 4: How do you detect and investigate security events?
+•	SEC 5: How do you protect your network resources?
+•	SEC 6: How do you protect your compute resources?
+•	SEC 7: How do you classify your data?
+•	SEC 8: How do you protect your data at rest?
+•	SEC 9: How do you protect your data in transit?
+•	SEC 10: How do you anticipate, respond to, and recover from incidents?
+Level of Risk exposed if this best practice is not established:
+•	There are 56 sub-questions; 25 with High Risk, 16 with Medium risk and 15 with Low Risk. 
 
 
 
