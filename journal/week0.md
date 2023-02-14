@@ -79,27 +79,29 @@ https://github.com/AfroLatino/aws-bootcamp-cruddur-2023
 ### My review of all the questions of each pillars in the Well Architected Tool are as follows:
 
 Operational Excellence Pillar
+
 The Operational Excellence pillar includes the ability to support development and run workloads effectively, gain insight into your operations, and to continuously improve supporting processes and procedures to deliver business value. 
 
-Design Principles:
-•	Perform operations as code
-•	Make frequent, small, reversible changes
-•	Refine operations procedures frequently
-•	Anticipate failure
-•	Learn from all operational failures
+## Design Principles:
 
-Best Practices Topics and Categories:
-•	Organization -> Organizational Priorities
-•	Organization -> Organizational Structure
-•	Organization -> Organizational Culture
-•	Prepare -> Design Workload
-•	Prepare -> Design for Operations
-•	Prepare -> Mitigate Deployment Risks
-•	Prepare -> Operational Readiness 
-•	Operate -> Understanding Workload Health
-•	Operate -> Understanding Operational Health
-•	Operate -> Managing Workload and Operational Events
-•	Evolve -> Evolving Operations
+-	Perform operations as code
+-	Make frequent, small, reversible changes
+-	Refine operations procedures frequently
+-	Anticipate failure
+-	Learn from all operational failures
+
+## Best Practices Topics and Categories:
+-	Organization -> Organizational Priorities
+-	Organization -> Organizational Structure
+-	Organization -> Organizational Culture
+-	Prepare -> Design Workload
+-	Prepare -> Design for Operations
+-	Prepare -> Mitigate Deployment Risks
+-	Prepare -> Operational Readiness 
+-	Operate -> Understanding Workload Health
+-	Operate -> Understanding Operational Health
+-	Operate -> Managing Workload and Operational Events
+-	Evolve -> Evolving Operations
 
 
 
