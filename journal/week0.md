@@ -41,18 +41,26 @@ IAM MFA set up is as follows:
 
 https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/home
 
-### See my example below of using EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
+### Please see the link below of using EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
 
 https://us-east-1.console.aws.amazon.com/events/home?region=us-east-1#/rules
 
 
-### An Architectural diagram (to the best of your ability) the CI/CD logical pipeline is seen below:
+### An Architectural diagram (to the best of your ability) the CI/CD logical pipeline is seen from the link below:
 
 https://lucid.app/lucidchart/5dba407d-3c11-4eb6-83fb-877c530ebbf5/edit?invitationId=inv_a22c61ab-b1e5-4a07-a383-33508a66cb6a&page=0_0#
 
-### I have opened a support ticket and requested a service limit as seen below:
+### I have opened a support ticket and requested a service limit as seen from the link below:
 
 https://support.console.aws.amazon.com/support/home#/case/?displayId=11997932311&language=en
 
 Case ID is 11997932311.
+
+### I created a Billing Alarm as seen from the link below:
+
+https://us-east-1.console.aws.amazon.com/sns/v3/home?region=us-east-1#/topics
+
+### I created an AWS Budget as seen from the link below:
+
+https://us-east-1.console.aws.amazon.com/billing/home?region=us-east-1#/budgets/overview
 
