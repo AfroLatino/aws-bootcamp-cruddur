@@ -78,6 +78,8 @@ https://github.com/AfroLatino/aws-bootcamp-cruddur-2023
 
 ### My review of all the questions of each pillars in the Well Architected Tool are as follows:
 
+There are 58 main questions on the AWS Well-Architected Tool comprised of 6 pillars.
+
 ## Operational Excellence Pillar
 
 The Operational Excellence pillar includes the ability to support development and run workloads effectively, gain insight into your operations, and to continuously improve supporting processes and procedures to deliver business value. 
@@ -90,7 +92,7 @@ The Operational Excellence pillar includes the ability to support development an
 -	Anticipate failure
 -	Learn from all operational failures
 
-## Best Practices Topics and Categories:
+## Best Practices Topics and Considerations:
 
 -	Organization -> Organizational Priorities
 -	Organization -> Organizational Structure
@@ -126,41 +128,226 @@ The Operational Excellence pillar includes the ability to support development an
 
 The security pillar describes how to take advantage of cloud technologies to protect data, systems, and assets in a way that can improve your security posture.
 
-# Design Principles:
+## Design Principles:
+
 -	Implement a strong identity foundation
-•	Enable traceability
-•	Apply security at all layers
-•	Automate security best practices
-•	Protect data in transit and at rest
-•	Keep people away from data
-•	Prepare for security events
+-	Enable traceability
+-	Apply security at all layers
+-	Automate security best practices
+-	Protect data in transit and at rest
+-	Keep people away from data
+-	Prepare for security events
 
-Best Practices Topics and Categories:
-•	Security > Operation of Workloads Securely
+## Best Practices Topics and Considerations:
 
-•	Identity & Access Management -> Identity Management for people and machines
-•	Identity & Access Management -> Permissions Management for people and machines
-•	Detection -> Investigation of Security Events
-•	Infrastructure Protection -> Protecting Network Resources
-•	Infrastructure Protection ->Protecting Computer Resources
-•	Data Protection > Data Classification
-•	Data Protection > Data Protection at Rest
-•	Data Protection > Data Protection in Transit
-•	Incident Response > Anticipation, Response and Recovery from Incidents
+-	Security -> Operation of Workloads Securely
+-	Identity & Access Management -> Identity Management for people and machines
+-	Identity & Access Management -> Permissions Management for people and machines
+-	Detection -> Investigation of Security Events
+-	Infrastructure Protection -> Protecting Network Resources
+-	Infrastructure Protection -> Protecting Computer Resources
+-	Data Protection -> Data Classification
+-	Data Protection -> Data Protection at Rest
+-	Data Protection -> Data Protection in Transit
+-	Incident Response -> Anticipation, Response and Recovery from Incidents
 
-Self-Assessment Questions:
-•	SEC 1: How do you securely operate your workload?
-•	SEC 2: How do you manage authentication for people and machines?
-•	SEC 3: How do you manage permissions for people and machines?
-•	SEC 4: How do you detect and investigate security events?
-•	SEC 5: How do you protect your network resources?
-•	SEC 6: How do you protect your compute resources?
-•	SEC 7: How do you classify your data?
-•	SEC 8: How do you protect your data at rest?
-•	SEC 9: How do you protect your data in transit?
-•	SEC 10: How do you anticipate, respond to, and recover from incidents?
-Level of Risk exposed if this best practice is not established:
-•	There are 56 sub-questions; 25 with High Risk, 16 with Medium risk and 15 with Low Risk. 
+## Self-Assessment Questions:
 
+-	SEC 1: How do you securely operate your workload?
+-	SEC 2: How do you manage authentication for people and machines?
+-	SEC 3: How do you manage permissions for people and machines?
+-	SEC 4: How do you detect and investigate security events?
+-	SEC 5: How do you protect your network resources?
+-	SEC 6: How do you protect your compute resources?
+-	SEC 7: How do you classify your data?
+-	SEC 8: How do you protect your data at rest?
+-	SEC 9: How do you protect your data in transit?
+-	SEC 10: How do you anticipate, respond to, and recover from incidents?
+-	
+## Level of Risks exposed if these best practices are not established:
+
+-	There are 56 sub-questions; 25 with High Risk, 16 with Medium risk and 15 with Low Risk. 
+
+## Reliability Pillar
+
+The Reliability pillar encompasses the ability of a workload to perform its intended function correctly and consistently when it’s expected to. 
+
+## Design Principles:
+
+-	Automatically recover from failure
+-	Test recovery procedures
+-	Scale horizontally to increase aggregate workload availability
+-	Stop guessing capacity
+-	Manage change in automation
+
+## Best Practices Topics and Considerations:
+
+-	Foundations -> Manage Service Quotas and Constraints
+-	Foundations -> Plan your Network Topology
+-	Workload Architecture -> Design Your Workload Service Architecture
+-	Workload Architecture -> Design Interactions in a Distributed System to Prevent Failures
+-	Workload Architecture -> Design Interactions in a Distributed System to Mitigate or Withstand Failures
+-	Change Management -> Monitor Workload Resources
+-	Change Management -> Design your Workload to Adapt to Changes in Demand
+-	Change Management -> Implement Change
+-	Failure Management -> Back up Data
+-	Failure Management -> Use Fault Isolation to Protect Your Workload
+-	Failure Management -> Design your Workload to Withstand Component Failures
+-	Failure Management -> Test Reliability
+-	Failure Management -> Plan for Disaster Recovery (DR)
+
+## Self-Assessment Questions:
+
+-	REL 1: How do you manage service quotas and constraints?
+-	REL 2: How do you plan your network topology?
+-	REL 3: How do you design your workload service architecture?
+-	REL 4: How do you design interactions in a distributed system to prevent failures?
+-	REL 5: How do you design interactions in a distributed system to mitigate or withstand failures?
+-	REL 6: How do you monitor workload resources?
+-	REL 7: How do you design your workload to adapt to changes in demand?
+-	REL 8: How do you implement change?
+-	REL 9: How do you back up data?
+-	REL 10: How do you use fault isolation to protect your workload?
+-	REL 11: How do you design your workload to withstand component failures?
+-	REL 12: How do you test reliability?
+-	REL 13: How do you plan for disaster recovery (DR)?
+
+## Level of Risks exposed if these best practices are not established:
+
+- There are 66 sub-questions; 34 with High Risk, 30 with Medium risk and 2 with Low Risk. 
+
+## Performance Efficiency Pillar
+
+The Performance Efficiency pillar includes the ability to use computing resources efficiently to meet system requirements, and to maintain that efficiency as demand changes and technologies evolve. 
+
+## Design Principles:
+
+-	Democratize advanced technologies
+-	Go global in minutes
+-	Use serverless architectures
+-	Experiment more often
+-	Consider mechanical sympathy
+
+## Best Practices Topics and Considerations:
+
+-	Selection -> Performance Architecture Selection
+-	Selection -> Compute Architecture Selection
+-	Selection -> Storage Architecture Selection
+-	Selection -> Database Architecture Selection
+-	Selection -> Networking Configuration Solution
+-	Review -> Evolving Workload to Take Advantage of New Releases
+-	Monitoring -> Monitoring Resources 
+-	Trade-offs -> Using Trade-offs to Improve Performance
+
+## Self-Assessment Questions:
+
+-	PERF 1: How do you select the best performing architecture?
+-	PERF 2: How do you select your compute solution?
+-	PERF 3: How do you select your storage solution?
+-	PERF 4: How do you select your database solution?
+-	PERF 5: How do you configure your networking solution?
+-	PERF 6: How do you evolve your workload to take advantage of new releases?
+-	PERF 7:  How do you monitor your resources to ensure they are performing?
+-	PERF 8: How do you use trade-offs to improve performance?
+
+## Level of Risks exposed if these best practices are not established:
+
+-	There are 42 sub-questions; 20 with High Risk, 14 with Medium risk and 8 with Low Risk. 
+
+## Cost Optimization Pillar
+
+The Cost Optimization pillar includes the ability to run systems to deliver business value at the lowest price point.
+
+## Design Principles:
+
+-	Implement Cloud Financial Management
+-	Adopt a consumption model
+-	Measure overall efficiency
+-	Stop spending money on undifferentiated heavy lifting
+-	Analyze and attribute expenditure
+
+## Best Practices Topics and Considerations:
+
+-	Practice Cloud Financial Management -> Implementing Cloud Financial Management 
+-	Expenditure and usage awareness -> Usage Governance
+-	Expenditure and usage awareness -> Monitor Cost and Usage
+-	Expenditure and usage awareness -> Decommission Resources
+-	Cost-effective resources -> Evaluating Cost When Selecting Services
+-	Cost-effective resources -> Meeting Cost Targets
+-	Cost-effective resources -> Select the Best Pricing Model
+-	Cost-effective resources -> Plan for Data Transfer Charges
+-	Manage demand and supply resources -> Manage Demand
+-	Optimize over time -> Evaluation of New Services
+
+## Self-Assessment Questions:
+
+-	COST 1: How do you implement cloud financial management?
+-	COST 2: How do you govern usage?
+-	COST 3: How do you monitor usage and cost?
+-	COST 4: How do you decommission resources?
+-	COST 5: How do you evaluate cost when you select services?
+-	COST 6: How do you meet cost targets when you select resource type, size and number?
+-	COST 7: How do you use pricing models to reduce cost?
+-	COST 8: How do you plan for data transfer charges?
+-	COST 9: How do you manage demand, and supply resources?
+-	COST 10: How do you evaluate new services?
+
+## Level of Risks exposed if these best practices are not established:
+
+-	There are 47 sub-questions; 19 with High Risk, 5 with Medium risk and 23 with Low Risk. 
+
+## Sustainability Pillar
+
+The Sustainability pillar focuses on environmental impacts, especially energy consumption and efficiency, since they are important levers for architects to inform direct action to reduce resource usage. 
+
+## Design Principles:
+
+-	Understand your impact
+-	Establish sustainability goals
+-	Maximize utilization
+-	Anticipate and adopt new, more efficient hardware and software offerings
+-	Use managed services
+-	Reduce the downstream impact of your cloud workloads
+
+## Best Practices Topics and Considerations:
+
+-	Region selection -> Choose Regions near Amazon renewable energy projects  
+-	User behavior patterns -> Scale infrastructure with user load
+-	User behavior patterns -> Align SLAs with sustainability goals
+-	User behavior patterns -> Eliminate creation and maintenance of unused assets
+-	User behavior patterns -> Optimize geographic placement of workloads for user locations
+-	User behavior patterns -> Optimize team member resources for activities performed
+-	Software and architecture patterns -> Optimize software and architecture for asynchronous and scheduled jobs
+-	Software and architecture patterns -> Remove or refactor workload components with low or no use 
+-	Software and architecture patterns -> Optimize areas of code that consume the most time or resources
+-	Software and architecture patterns -> Optimize impact on customer devices and equipment
+-	Data patterns -> Implement a data classification policy
+-	Data patterns -> Use technologies that support data access and storage patterns
+-	Data patterns -> Use lifecycle policies to delete unnecessary data
+-	Data patterns -> Minimize over-provisioning in block storage
+-	Data patterns -> Remove unneeded or redundant data
+-	Data patterns -> Use shared file systems or object storage to access common data
+-	Data patterns -> Back up data only when difficult to recreate
+-	Hardware patterns -> Use the minimum amount of hardware to meet your needs
+-	Hardware patterns -> Use instance types with the least impact
+-	Hardware patterns -> Use managed services
+-	Hardware patterns -> Optimize your use of GPUs
+-	Development and deployment process > Adopt methods that can rapidly introduce sustainability improvements
+-	Development and deployment process > Keep your workload up to date
+-	Development and deployment process > Increase utilization of build environments
+-	Development and deployment process > Use managed device farms for testing
+
+## Self-Assessment Questions:
+
+-	SUS 1: How do you select Regions to support your sustainability goals?
+-	SUS 2: How do you take advantage of user behavior patterns to support your sustainability goals?
+-	SUS 3: How do you take advantage of software and architecture patterns to support your sustainability goals?
+-	SUS 4: How do you take advantage of data access and usage patterns to support your sustainability goals?
+-	SUS 5: How do your hardware management and usage practices support your sustainability goals?
+-	SUS 6: How do your development and deployment processes support your sustainability goals?
+
+## Level of Risks exposed if these best practices are not established:
+
+-	There are 27 sub-questions; 6 with Medium risk and 21 with Low Risk. 
 
 
