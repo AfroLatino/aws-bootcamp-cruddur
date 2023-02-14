@@ -163,7 +163,7 @@ The security pillar describes how to take advantage of cloud technologies to pro
 -	SEC 8: How do you protect your data at rest?
 -	SEC 9: How do you protect your data in transit?
 -	SEC 10: How do you anticipate, respond to, and recover from incidents?
--	
+
 ## Level of Risks exposed if these best practices are not established:
 
 -	There are 56 sub-questions; 25 with High Risk, 16 with Medium risk and 15 with Low Risk. 
