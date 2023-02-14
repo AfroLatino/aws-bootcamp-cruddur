@@ -74,5 +74,5 @@ https://github.com/AfroLatino/aws-bootcamp-cruddur-2023
 
 ### Please see a screenshot of my napkin design below:
 
-![Cruddur Architectural Napkin Design] (https://user-images.githubusercontent.com/78261965/218867870-a44aad4b-722c-498d-babd-e9351cde95fe.jpg)
+![Cruddur Conceptual Napkin Design](https://user-images.githubusercontent.com/78261965/218868389-463aaaac-0116-40d9-b6fc-1c5e9fc2c366.jpg)
 
