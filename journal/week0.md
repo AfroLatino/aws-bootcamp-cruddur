@@ -29,3 +29,11 @@ Chirag did a youtube video on Spend Considerations.
 
 Ashish did one on Security Considerations.
 
+### Homework Challenges
+
+I have opened a support ticket and requested a service limit as seen below:
+
+https://support.console.aws.amazon.com/support/home#/case/?displayId=11997932311&language=en
+
+Case ID is 11997932311.
+
