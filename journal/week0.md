@@ -352,3 +352,9 @@ The Sustainability pillar focuses on environmental impacts, especially energy co
 -	There are 27 sub-questions; 6 with Medium risk and 21 with Low Risk. 
 
 
+### Challenges faced whilst doing the homework
+
+I made a mistake whilst trying to install CLI on Gitpod. I didn't amend one of the files you copied as a json file and later realised this and fixed it.
+I faced difficulty trying to import the moment icon into Lucid charts but I was finally able to do this.
+It took me longer to comit some tasks as this is my first time of doing most of these. However, your videos were very helpful. Thank you very much!
+
