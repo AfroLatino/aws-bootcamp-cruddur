@@ -48,6 +48,8 @@ https://us-east-1.console.aws.amazon.com/events/home?region=us-east-1#/rules
 
 ### An Architectural diagram (to the best of your ability) the CI/CD logical pipeline is seen from the link below:
 
+![Cruddur Logical Architecture](https://user-images.githubusercontent.com/78261965/218863161-2d7bd51e-008e-47c3-bb36-d7be644c4285.png)
+
 https://lucid.app/lucidchart/5dba407d-3c11-4eb6-83fb-877c530ebbf5/edit?invitationId=inv_a22c61ab-b1e5-4a07-a383-33508a66cb6a&page=0_0#
 
 ### I have opened a support ticket and requested a service limit as seen from the link below:
