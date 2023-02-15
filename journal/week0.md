@@ -34,7 +34,7 @@ Ashish did one on Security Considerations.
 
 ### I have set up MFA on my root account as advised by Ashish but only use my IAM account for tasks. This also have MFA set up.
 
-IAM Roles are as follows:
+IAM Role is called IAMRole and this is available via the link below:
 
 https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/roles
 
