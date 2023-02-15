@@ -47,9 +47,9 @@ https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/home
 https://us-east-1.console.aws.amazon.com/events/home?region=us-east-1#/rules
 
 
-### Please find below a screenshot of my Architectural diagram of the CI/CD logical pipeline below:
+### Please find a screenshot of my Architectural diagram of AWS CI/CD logical pipeline using Kubernetes below:
 
-![Cruddur Logical Architecture](https://user-images.githubusercontent.com/78261965/218863161-2d7bd51e-008e-47c3-bb36-d7be644c4285.png)
+![AWS CI_CD pipeline using Kubernetes](https://user-images.githubusercontent.com/78261965/218963681-8363ddd5-2dde-4c7e-9bb8-ef14fd030920.png)
 
 The link is as follows:
 
