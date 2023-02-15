@@ -20,9 +20,13 @@ My IAM Role is called IAMRole. The screenshot and share link are as follows:
 
 [IAM Role Share Link](https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/roles)
 
-### Please see the link below for using EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
+### Amazon EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
 
-https://us-east-1.console.aws.amazon.com/events/home?region=us-east-1#/rules
+The screenshot and share link of my Amazon EventBridge created are as follows:
+
+![Amazon EventBridge](https://user-images.githubusercontent.com/78261965/219118679-9fb9b1cb-de05-463d-a375-6a48c502de43.png)
+
+[Amazon EventBridge Share Link](https://us-east-1.console.aws.amazon.com/events/home?region=us-east-1#/rules)
 
 
 ### Please find a screenshot of my Architectural diagram of AWS CI/CD logical pipeline using Kubernetes below:
