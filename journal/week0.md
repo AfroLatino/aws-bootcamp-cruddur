@@ -302,7 +302,9 @@ The Sustainability pillar focuses on environmental impacts, especially energy co
 
 -	There are 27 sub-questions; *6* with *Medium risk* and *21* with *Low Risk*. 
 
-### Please find a screenshot of my Architectural diagram of AWS CI/CD logical pipeline using Kubernetes below:
+### Architectural diagram of AWS CI/CD logical pipeline using Kubernetes:
+
+Please find below a screenshot of my architectural diagram of AWS CI/CD logical pipeline using Kubernetes.
 
 ![AWS CI_CD pipeline using Kubernetes](https://user-images.githubusercontent.com/78261965/218963681-8363ddd5-2dde-4c7e-9bb8-ef14fd030920.png)
 
