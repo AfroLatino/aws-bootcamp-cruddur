@@ -476,15 +476,15 @@ Please find below a screenshot of my Cruddur Conceptual Napkin Design
 ![Cruddur Conceptual Napkin Design](https://user-images.githubusercontent.com/78261965/218870057-bed4e86d-aeb4-4508-83cf-735769da9112.jpg)
 
 
-### Recreation of Conceptual Architectural Design
+### Recreation of Conceptual Architectural Diagram
 
-I also re-created the conceptual architectural design in LucidCharts by Andrew Brown.
+I also re-created the conceptual architectural diagram in LucidCharts by Andrew Brown.
 
 The screenshot and share link are as follows:
 
 ![Cruddur Logical Architecture](https://user-images.githubusercontent.com/78261965/219129942-f4f81465-05f5-490b-a7b9-efb7d6d2f1a8.png)
 
-[Recreation of Conceptual Architectural Design By Andrew Brown](https://lucid.app/lucidchart/5dba407d-3c11-4eb6-83fb-877c530ebbf5/edit?viewport_loc=-301%2C207%2C2550%2C1152%2C0_0&invitationId=inv_a22c61ab-b1e5-4a07-a383-33508a66cb6a)
+[Recreation of Conceptual Architectural Diagram By Andrew Brown](https://lucid.app/lucidchart/5dba407d-3c11-4eb6-83fb-877c530ebbf5/edit?viewport_loc=-301%2C207%2C2550%2C1152%2C0_0&invitationId=inv_a22c61ab-b1e5-4a07-a383-33508a66cb6a)
 
 
 
