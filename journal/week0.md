@@ -10,7 +10,7 @@ I do not have any access keys attached to my root account. I have also set up MF
 
 ![MFA Set-up](https://user-images.githubusercontent.com/78261965/219115744-851061d3-abbc-4cfe-b77a-5cc39f7a53ab.png)
 
-![MFA Set-up Share Link](https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/home)
+[MFA Set-up Share Link](https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/home)
 
 ### IAM Role
 
@@ -18,7 +18,7 @@ My IAM Role is called IAMRole. The screenshot and share link are as follows:
 
 ![IAM Role](https://user-images.githubusercontent.com/78261965/219116905-7d7b4c8f-bb66-400d-b3df-9ee0aeeb0954.png)
 
-![IAM Role Share Link](https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/roles)
+[IAM Role Share Link](https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/roles)
 
 
 ### Please see the link below of using EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
