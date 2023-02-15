@@ -53,7 +53,7 @@ https://us-east-1.console.aws.amazon.com/events/home?region=us-east-1#/rules
 
 The link is as follows:
 
-https://lucid.app/lucidchart/5dba407d-3c11-4eb6-83fb-877c530ebbf5/edit?invitationId=inv_a22c61ab-b1e5-4a07-a383-33508a66cb6a&page=0_0#
+https://lucid.app/lucidchart/defe270e-cc64-4e1d-8655-f23a35e07d1e/edit?beaconFlowId=28C963D0FC2410B9&invitationId=inv_785e5048-e221-47e6-ad0b-4716e3abe4d6&page=0_0#
 
 ### I have opened a support ticket and requested a service limit as seen from the link below:
 
