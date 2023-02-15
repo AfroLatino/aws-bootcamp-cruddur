@@ -6,11 +6,13 @@
 
 I do not have any access keys attached to my root account. I have also set up MFA as advised by Ashish on his security video.
 
+
 ### MFA Set-up on Root and IAM user accounts
 
 ![MFA Set-up](https://user-images.githubusercontent.com/78261965/219115744-851061d3-abbc-4cfe-b77a-5cc39f7a53ab.png)
 
 [MFA Set-up Share Link](https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/home)
+
 
 ### IAM Role
 
@@ -20,6 +22,7 @@ My IAM Role is called IAMRole. The screenshot and share link are as follows:
 
 [IAM Role Share Link](https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/roles)
 
+
 ### Amazon EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
 
 The screenshot and share link of my Amazon EventBridge called Health Dashboard are as follows:
@@ -27,6 +30,7 @@ The screenshot and share link of my Amazon EventBridge called Health Dashboard a
 ![Amazon EventBridge](https://user-images.githubusercontent.com/78261965/219118679-9fb9b1cb-de05-463d-a375-6a48c502de43.png)
 
 [Amazon EventBridge Share Link](https://us-east-1.console.aws.amazon.com/events/home?region=us-east-1#/rules)
+
 
 ### My review of all the questions of each pillars in the Well Architected Tool are as follows:
 
@@ -302,6 +306,7 @@ The Sustainability pillar focuses on environmental impacts, especially energy co
 
 -	There are 27 sub-questions; *6* with *Medium risk* and *21* with *Low Risk*. 
 
+
 ### Architectural diagram of AWS CI/CD logical pipeline using Kubernetes:
 
 Please find below a screenshot of my architectural diagram of AWS CI/CD logical pipeline using Kubernetes.
@@ -310,13 +315,26 @@ Please find below a screenshot of my architectural diagram of AWS CI/CD logical 
 
 The link is as follows:
 
-.[AWS CI_CD pipeline using Kubernetes Share link](https://lucid.app/lucidchart/defe270e-cc64-4e1d-8655-f23a35e07d1e/edit?viewport_loc=-11%2C55%2C1699%2C690%2C0_0&invitationId=inv_785e5048-e221-47e6-ad0b-4716e3abe4d6)
+[AWS CI_CD pipeline using Kubernetes Share link](https://lucid.app/lucidchart/defe270e-cc64-4e1d-8655-f23a35e07d1e/edit?viewport_loc=-11%2C55%2C1699%2C690%2C0_0&invitationId=inv_785e5048-e221-47e6-ad0b-4716e3abe4d6)
 
-### I have opened a support ticket and requested a service limit as seen from the link below:
+### Opening a support ticket and requesting a service limit
+
+I have opened a support ticket and requested a service limit as seen from the link below:
 
 https://support.console.aws.amazon.com/support/home#/case/?displayId=11997932311&language=en
 
 Case ID is 11997932311.
+
+
+
+
+### Challenges faced whilst doing the homework
+
+- I made a mistake whilst trying to install CLI on Gitpod. I didn't amend one of the files copied as a json file, so got an error message. I later realised this and fixed it.
+- I faced difficulty trying to import the moment icon into Lucid charts but I was finally able to do this.
+- It took me longer to complete most of the tasks as this was my first time doing them. However, your videos were very helpful. Thank you very much!
+
+### Additional Homework Challenges
 
 ### I created a Billing Alarm as seen from the link below:
 
@@ -333,14 +351,4 @@ https://github.com/AfroLatino/aws-bootcamp-cruddur-2023
 ### Please see a screenshot of my napkin design below:
 
 ![Cruddur Conceptual Napkin Design](https://user-images.githubusercontent.com/78261965/218870057-bed4e86d-aeb4-4508-83cf-735769da9112.jpg)
-
-
-
-### Challenges faced whilst doing the homework
-
-- I made a mistake whilst trying to install CLI on Gitpod. I didn't amend one of the files copied as a json file, so got an error message. I later realised this and fixed it.
-- I faced difficulty trying to import the moment icon into Lucid charts but I was finally able to do this.
-- It took me longer to complete most of the tasks as this was my first time doing them. However, your videos were very helpful. Thank you very much!
-
-### Additional Homework Challenges
 
