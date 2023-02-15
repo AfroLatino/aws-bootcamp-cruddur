@@ -317,13 +317,112 @@ The link is as follows:
 
 [AWS CI_CD pipeline using Kubernetes Share link](https://lucid.app/lucidchart/defe270e-cc64-4e1d-8655-f23a35e07d1e/edit?viewport_loc=-11%2C55%2C1699%2C690%2C0_0&invitationId=inv_785e5048-e221-47e6-ad0b-4716e3abe4d6)
 
+
+### The technical and service limits of specific services and how they could impact the technical path for technical flexibility
+
+### Amazon S3
+
+Amazon Simple Storage Service (Amazon S3) is an object storage service offering industry-leading scalability, data availability, security, and performance. Customers of all sizes and industries can store and protect any amount of data for virtually any use case, such as data lakes, cloud-native applications, and mobile apps. With cost-effective storage classes and easy-to-use management features, you can optimize costs, organize data, and configure fine-tuned access controls to meet specific business, organizational, and compliance requirements.
+
+5 GB of S3 standard storage is available for 12 months with AWS Free Tier.
+
+AWS charges less where their costs are less. For example, their costs are lower in the US East (Northern Virginia) Region than in the US West (Northern California) Region.
+
+For example, the S3 Standard - General purpose storage for any type of data, typically used for frequently accessed data, for the first 50 TB per month for Europe (Paris) Region is $0.024 per GB. The next 450 TB per month is $0.023 per GB and $0.022 per GB over 500TB.
+
+For South America (Sao Paulo) region, this is $0.0405 per GB. The next 450 TB per month is $0.039 per GB and $0.037 per GB over 500TB. This shows that those using the Sao Paulo region would have to pay more for these services. For those that can not afford these rates and would only want to use Sao Paulo region for several factors, they may decide not to store their frequently accessed data effectively, thereby negatively impacting their technical path and flexibility.
+
+The advantage is that Amazon S3 is available in AWS Regions worldwide, and one can use Amazon S3 regardless of their location. This then have a positive impact on a user’s technical path and flexibility. 
+
+There are no additional charges for using Amazon S3 for event notifications. One pays only for use of Amazon SNS or Amazon SQS to deliver event notifications. In situations where Amazon SNS or Amazon SQS may be the better option to deliver event notifications, users may not opt for either of these because of financial constraints. This would, in return, prevent users from learning how to use these services, thereby affecting their technical path and may also negatively affect service delivery if event notifications are not utilised.
+
+When you create a bucket, you choose its name and the AWS Region to create it in. After you create a bucket, you can't change its name or Region. There may be users that had to create a bucket based on the existing regions or customer base at the time of creation. These users will be unable to change their Regions to take advantage of lower rates or being closer to their new customer base in the future. There are also instances where companies may want to rename their companies and amend all previous names. If the bucket was linked to the previous company name, they will be unable to change this.
+
+### AWS Free Tier
+
+Your AWS usage stays within the AWS Free Tier limits when all of these conditions are met:
+
+•	You’re within the first 12 months of creating your AWS account.
+•	You use only AWS services that offer AWS Free Tier benefits.
+•	Your usage stays within the AWS Free Tier limits of those services.
+
+If you use AWS services beyond one or more of these conditions, then that usage exceeds the Free Tier limits. You're charged at the standard AWS billing rates for usage that exceeds the Free Tier limits.
+
+During the Free Tier period, about 36 services or more offer you free usage up to certain limits.
+
+This only applies to some kinds of usage even within those limits. E.g. for EC2, you get 750 hours a month of t2 or t3 micro instance usage. If you spin up a c5.small instance instead, you will be billed starting as soon as you hit the launch button. 
+
+You get a free t2.micro in regions where they are available. In regions where they are not, you instead get a free t3.micro. Get this wrong in either direction and you are paying for it.
+
+You get 1GB of data transfer out to the internet for free each month in perpetuity. However, you will get charged for data transfer to other availability zones in the same AWS region. Further, that free 1GB is shared between a whole bunch of services; you can use it up quickly if you are not careful.
+
+In Free Tier services, one can get a free load balancer but it is only an ELB Classic or an Application Load Balancer. If you pick a Network Load Balancer or NLB, it costs you money. You can get a free Oracle RDS instance but only if you bring your own license.
+
+AWS Free Tier version is a service specific limited-time trial period that begins from your first use of a service. This applies to any use of the service, by any user in the account.
+
+If one of your users spins up an Amazon Workspace to test something one day then turns it off, that free trial is over for the entire AWS account once the trial period ends. If you enable Amazon Detective, it will be free for 30 days, so your next bill is care-free and breezy. However, there may be some charges to your next bill.
+
+A new user may not know any of the conditions above and utilise some of the services that incur charges thinking they are on a free tier service. Hence, they will be charged which results in them closing their account in panic. This would consequently affect their training and development and have a negative impact on their technical path.
+
+### CloudWatch 
+
+The Alarm Actions resource has a default quota of 5 per alarm. This quota cannot be changed. Hence, users that may need more than 5 won’t be able to have this functionality. 
+
+For Metrics Insights queries resource, a single query can process no more than 10,000 metrics. This means that if the SELECT, FROM, and WHERE clauses would match more than 10,000 metrics, only the first 10,000 of these metrics that are found will be processed by the query.
+
+A single query can return no more than 500 time series.
+
+You can query only the most recent three hours of data.
+
+These are limitations for users that may want to process more than 10,000 metrics or return 600 time series or query the most recent 24 hours of data. These would in effect negatively affect the technical path for technical flexibility.
+
+### AWS Control Tower
+
+There are known limitations and unsupported use cases in AWS Control Tower.
+
+-	AWS Control Tower has overall concurrency limitations. In general, one operation at a time is permitted. Two exceptions to this limitation are allowed:
+  -	Optional controls can be activated and deactivated concurrently, through an asynchronous process. Up to ten (10) control-related operations at a time can be in progress
+  - Accounts can be provisioned, updated, and enrolled concurrently in Account Factory, through an asynchronous process, with up to five (5) account-related operations in progress simultaneously.
+-	Email addresses of shared accounts in the Security OU can be changed, but you must update your landing zone to see these changes in the AWS Control Tower console.
+-	A limit of 5 SCPs per OU applies to OUs in your AWS Control Tower landing zone.
+-	Existing OUs with over 300 accounts cannot be registered or re-registered in AWS Control Tower.
+-	The limit for EnableControl and DisableControl updates in AWS Control Tower is 10 concurrent operations.
+
+You can contact AWS Support to request a limit increase for some resources in AWS Control Tower. For example, you can request a limit increase from five of up to ten (10) concurrent account-related operations. Some AWS Control Tower performance metrics may change after a limit increase.
+When provisioning new accounts in this environment, you can use lifecycle events to trigger automated requests for service limit increases in specified AWS Regions.
+
+#### Control limitations
+
+If you modify AWS Control Tower resources, such as an SCP, or remove any AWS Config resource, such as a Config recorder or aggregator, AWS Control Tower can no longer guarantee that the controls are functioning as designed. Therefore, the security of your multi-account environment may be compromised. The AWS shared responsibility model of security is applicable to any such changes you may make.
+
+AWS Control Tower helps maintain the integrity of your environment by resetting the SCPs of the controls to their standard configuration when you update your landing zone. Changes that you may have made to SCPs are replaced by the standard version of the control, by design.
+
+## References
+
+References for this are; 
+
+
+
+
+
+
+
+
+
+
 ### Opening a support ticket and requesting a service limit
 
-I have opened a support ticket and requested a service limit as seen from the link below:
+Please find the screen shot of the support ticket requesting a service limit below:
 
-https://support.console.aws.amazon.com/support/home#/case/?displayId=11997932311&language=en
+![Service Limit Support Ticket](https://user-images.githubusercontent.com/78261965/219122623-a7ae65d8-d516-477b-a0f7-2229c002f5a1.png)
 
 Case ID is 11997932311.
+
+The share link is as follows:
+
+[Service Limit Support Ticket Share Link](https://support.console.aws.amazon.com/support/home#/case/?displayId=11997932311&language=en)
+
+
 
 
 
