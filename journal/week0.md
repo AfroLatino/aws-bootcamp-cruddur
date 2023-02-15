@@ -53,7 +53,7 @@ https://us-east-1.console.aws.amazon.com/events/home?region=us-east-1#/rules
 
 The link is as follows:
 
-https://lucid.app/lucidchart/defe270e-cc64-4e1d-8655-f23a35e07d1e/edit?beaconFlowId=28C963D0FC2410B9&invitationId=inv_785e5048-e221-47e6-ad0b-4716e3abe4d6&page=0_0#
+.[AWS CI_CD pipeline using Kubernetes link](https://lucid.app/lucidchart/defe270e-cc64-4e1d-8655-f23a35e07d1e/edit?viewport_loc=-11%2C55%2C1699%2C690%2C0_0&invitationId=inv_785e5048-e221-47e6-ad0b-4716e3abe4d6)
 
 ### I have opened a support ticket and requested a service limit as seen from the link below:
 
