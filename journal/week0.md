@@ -20,8 +20,7 @@ My IAM Role is called IAMRole. The screenshot and share link are as follows:
 
 [IAM Role Share Link](https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/roles)
 
-
-### Please see the link below of using EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
+### Please see the link below for using EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
 
 https://us-east-1.console.aws.amazon.com/events/home?region=us-east-1#/rules
 
