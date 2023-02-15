@@ -478,7 +478,7 @@ Please find below a screenshot of my Cruddur Conceptual Napkin Design
 
 ### Recreate Conceptual Architectural Design
 
-I also re-created the conceptual architectural design ion LucidCharts by Andrew Brown.
+I also re-created the conceptual architectural design in LucidCharts by Andrew Brown.
 
 The screenshot and share link are as follows:
 
