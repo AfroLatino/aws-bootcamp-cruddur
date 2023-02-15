@@ -442,19 +442,49 @@ The share link is as follows:
 
 ### Billing Alarm 
 
-I created a Billing Alarm as seen from the link below:
+I created 2 billing alarms; one was created for the SNS notification when there is a service health issue for the homework challenge.
 
-https://us-east-1.console.aws.amazon.com/sns/v3/home?region=us-east-1#/topics
+The screenshot and share link are as follows:
 
-### I created an AWS Budget as seen from the link below:
+![AWS Billing Alarms](https://user-images.githubusercontent.com/78261965/219127583-59507b1d-aaf6-46f5-867d-fa6a37d16dfc.png)
 
-https://us-east-1.console.aws.amazon.com/billing/home?region=us-east-1#/budgets/overview
+[AWS Billing Alarms Share Link](https://us-east-1.console.aws.amazon.com/sns/v3/home?region=us-east-1#/topics)
 
-### I installed AWS CLI as seen from the link below:
 
-https://github.com/AfroLatino/aws-bootcamp-cruddur-2023
+### AWS Budget 
 
-### Please see a screenshot of my napkin design below:
+I created 2 AWS Budgets with a spend of $1.00 for demo purposes.
+
+The screenshot and share link are as follows:
+
+![AWS Budgets](https://user-images.githubusercontent.com/78261965/219128647-81c46c29-5f41-43a5-ae61-6ca996c9be9e.png)
+
+[AWS Budget Share Link](https://us-east-1.console.aws.amazon.com/billing/home?region=us-east-1#/budgets/overview)
+
+
+### AWS CLI 
+
+I installed AWS CLI as seen from the link below:
+
+[AWS CLI Share Link](https://github.com/AfroLatino/aws-bootcamp-cruddur-2023)
+
+
+### Napkin Design
+
+Please find below a screenshot of my Cruddur Conceptual Napkin Design
 
 ![Cruddur Conceptual Napkin Design](https://user-images.githubusercontent.com/78261965/218870057-bed4e86d-aeb4-4508-83cf-735769da9112.jpg)
+
+
+### Recreate Conceptual Architectural Design
+
+I also re-created the conceptual architectural design ion LucidCharts by Andrew Brown.
+
+The screenshot and share link are as follows:
+
+![Cruddur Logical Architecture](https://user-images.githubusercontent.com/78261965/219129942-f4f81465-05f5-490b-a7b9-efb7d6d2f1a8.png)
+
+[Recreation of Conceptual Architectural Design By Andrew Brown](https://lucid.app/lucidchart/5dba407d-3c11-4eb6-83fb-877c530ebbf5/edit?viewport_loc=-301%2C207%2C2550%2C1152%2C0_0&invitationId=inv_a22c61ab-b1e5-4a07-a383-33508a66cb6a)
+
+
 
