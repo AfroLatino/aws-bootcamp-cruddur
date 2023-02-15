@@ -74,7 +74,7 @@ The Operational Excellence pillar includes the ability to support development an
 
 #### Level of Risk exposed if these best practices are not established:
 
--	There are 82 sub-questions; **34** with **High Risk**, **31** with **Medium risk** and **17** with **Low Risk**. 
+-	There are 82 sub-questions; *34* with *High Risk*, *31* with *Medium risk* and *17* with *Low Risk*. 
 
 ### Security Pillar
 
@@ -166,7 +166,7 @@ The Reliability pillar encompasses the ability of a workload to perform its inte
 
 #### Level of Risks exposed if these best practices are not established:
 
-- There are 66 sub-questions; 34 with High Risk, 30 with Medium risk and 2 with Low Risk. 
+- There are 66 sub-questions; *34* with *High Risk*, *30* with *Medium risk* and *2* with *Low Risk*. 
 
 ### Performance Efficiency Pillar
 
@@ -204,7 +204,7 @@ The Performance Efficiency pillar includes the ability to use computing resource
 
 #### Level of Risks exposed if these best practices are not established:
 
--	There are 42 sub-questions; 20 with High Risk, 14 with Medium risk and 8 with Low Risk. 
+-	There are 42 sub-questions; *20* with *High Risk*, *14* with *Medium risk* and *8* with *Low Risk*. 
 
 #### Cost Optimization Pillar
 
@@ -246,7 +246,7 @@ The Cost Optimization pillar includes the ability to run systems to deliver busi
 
 #### Level of Risks exposed if these best practices are not established:
 
--	There are 47 sub-questions; 19 with High Risk, 5 with Medium risk and 23 with Low Risk. 
+-	There are 47 sub-questions; *19* with *High Risk*, *5* with *Medium risk* and *23* with *Low Risk*. 
 
 ### Sustainability Pillar
 
@@ -300,7 +300,7 @@ The Sustainability pillar focuses on environmental impacts, especially energy co
 
 #### Level of Risks exposed if these best practices are not established:
 
--	There are 27 sub-questions; 6 with Medium risk and 21 with Low Risk. 
+-	There are 27 sub-questions; *6* with *Medium risk* and *21* with *Low Risk*. 
 
 ### Please find a screenshot of my Architectural diagram of AWS CI/CD logical pipeline using Kubernetes below:
 
