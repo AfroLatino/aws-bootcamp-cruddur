@@ -1,38 +1,12 @@
 # Week 0 — Billing and Architecture
 
-## Bootcamp Overview
+## Required Homework Challenges
 
-Margaret Valtierra, an AWS Community Hero, went over the business use case of our project.
+### Destroy your root account credentials
 
-Chris Williams, an AWS Community Hero, went through the Well-Architected tool on AWS Management Console. He also encouraged us to ask "dumb" questions if we were unsure of any requirements. Chris talked about how important Requirements, Risks, Constraints and Assumptions were to architecture.
+I do not have any access keys attached to my root account. I have also set up MFA as advised by Ashish on his security video.
 
-Requirements must be verifiable, monitorable and feasible.
-
-Risks could include user commitment and Late Delivery.
-
-Some assumptions are; Budget is approved, Stakeholders will be available to make decisions and there will be sufficient network bandwidth.
-
-Constraints could include time and budget.
-
-He also categorised stakeholder expectation to project delivery to 3 categories; fast, cheap or good.
-
-The architecture is usally divided into Conceptual Design, Logical Design and Physical Design. Lucid chart was used to create the logical design.
-
-Andrew Brown asked if we could create a conceptual diagram on a napkin.
-
-
-## Additional Youtube Videos
-
-Andrew Brown created a youtube video on how to launch AWS CloudShell, Generate AWS credentials, Setting up AWS Budgets and Billing Alarms.
-
-Chirag did a youtube video on Spend Considerations.
-
-Ashish did one on Security Considerations.
-
-
-### Homework Challenges
-
-### I have set up MFA on my root account as advised by Ashish but only use my IAM account for tasks. This also have MFA set up.
+### , Set MFA, IAM role
 
 IAM Role is called IAMRole and this is available via the link below:
 
@@ -357,4 +331,6 @@ The Sustainability pillar focuses on environmental impacts, especially energy co
 - I made a mistake whilst trying to install CLI on Gitpod. I didn't amend one of the files copied as a json file, so got an error message. I later realised this and fixed it.
 - I faced difficulty trying to import the moment icon into Lucid charts but I was finally able to do this.
 - It took me longer to complete most of the tasks as this was my first time doing them. However, your videos were very helpful. Thank you very much!
+
+### Additional Homework Challenges
 
