@@ -306,6 +306,14 @@ The Sustainability pillar focuses on environmental impacts, especially energy co
 
 -	There are 27 sub-questions; *6* with *Medium risk* and *21* with *Low Risk*. 
 
+### References
+
+References are as follows:
+
+[Hyperglance Share Link](https://www.hyperglance.com/blog/aws-well-architected/)
+
+[AWS Well Architected Share Link](https://docs.aws.amazon.com/wellarchitected/latest/framework/oe-prepare.html)
+
 
 ### Architectural diagram of AWS CI/CD logical pipeline using Kubernetes:
 
@@ -381,8 +389,8 @@ These are limitations for users that may want to process more than 10,000 metric
 There are known limitations and unsupported use cases in AWS Control Tower.
 
 -	AWS Control Tower has overall concurrency limitations. In general, one operation at a time is permitted. Two exceptions to this limitation are allowed:
-  -	Optional controls can be activated and deactivated concurrently, through an asynchronous process. Up to ten (10) control-related operations at a time can be in progress
-  - Accounts can be provisioned, updated, and enrolled concurrently in Account Factory, through an asynchronous process, with up to five (5) account-related operations in progress simultaneously.
+    -	Optional controls can be activated and deactivated concurrently, through an asynchronous process. Up to ten (10) control-related operations at a time can be in progress
+    - Accounts can be provisioned, updated, and enrolled concurrently in Account Factory, through an asynchronous process, with up to five (5) account-related operations in progress simultaneously.
 -	Email addresses of shared accounts in the Security OU can be changed, but you must update your landing zone to see these changes in the AWS Control Tower console.
 -	A limit of 5 SCPs per OU applies to OUs in your AWS Control Tower landing zone.
 -	Existing OUs with over 300 accounts cannot be registered or re-registered in AWS Control Tower.
@@ -399,7 +407,15 @@ AWS Control Tower helps maintain the integrity of your environment by resetting 
 
 ## References
 
-References for this are; 
+References are as follows; 
+
+[Control Tower Share Link](https://docs.aws.amazon.com/controltower/latest/userguide/limits.html)
+
+[Amazon S3 Share Link](https://aws.amazon.com/s3/)
+
+[Amazon Free Tire Share Link](https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all)
+
+[AWS Service Limits Share Link](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html)
 
 
 
