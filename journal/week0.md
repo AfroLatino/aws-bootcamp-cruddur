@@ -440,7 +440,9 @@ The share link is as follows:
 
 ### Additional Homework Challenges
 
-### I created a Billing Alarm as seen from the link below:
+### Billing Alarm 
+
+I created a Billing Alarm as seen from the link below:
 
 https://us-east-1.console.aws.amazon.com/sns/v3/home?region=us-east-1#/topics
 
