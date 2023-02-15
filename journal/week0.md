@@ -435,7 +435,7 @@ The share link is as follows:
 
 - I made a mistake whilst trying to install CLI on Gitpod. I didn't amend one of the files copied as a json file, so got an error message. I later realised this and fixed it.
 - I faced difficulty trying to import the momento.svg icon into Lucid charts but I was finally able to do this.
-- It took me longer to complete most of the tasks as this was my first time doing them. However, your videos were very helpful. Thank you very much!
+- It took me a fair bit of time to complete most of the tasks as I am very new to this field. However, your videos were very helpful. Thank you very much!
 
 
 ## Additional Homework Challenges
