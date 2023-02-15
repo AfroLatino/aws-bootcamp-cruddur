@@ -418,14 +418,6 @@ References are as follows;
 [AWS Service Limits Share Link](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html)
 
 
-
-
-
-
-
-
-
-
 ### Opening a support ticket and requesting a service limit
 
 Please find the screen shot of the support ticket requesting a service limit below:
@@ -439,15 +431,12 @@ The share link is as follows:
 [Service Limit Support Ticket Share Link](https://support.console.aws.amazon.com/support/home#/case/?displayId=11997932311&language=en)
 
 
-
-
-
-
 ### Challenges faced whilst doing the homework
 
 - I made a mistake whilst trying to install CLI on Gitpod. I didn't amend one of the files copied as a json file, so got an error message. I later realised this and fixed it.
-- I faced difficulty trying to import the moment icon into Lucid charts but I was finally able to do this.
+- I faced difficulty trying to import the momento.svg icon into Lucid charts but I was finally able to do this.
 - It took me longer to complete most of the tasks as this was my first time doing them. However, your videos were very helpful. Thank you very much!
+
 
 ### Additional Homework Challenges
 
