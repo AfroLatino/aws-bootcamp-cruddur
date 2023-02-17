@@ -436,7 +436,7 @@ References are as follows;
 
 Please find the screen shot of the support ticket requesting a service limit below:
 
-![Service Limit Support Ticket](https://user-images.githubusercontent.com/78261965/219122623-a7ae65d8-d516-477b-a0f7-2229c002f5a1.png)
+![Service Limit Support Ticket](https://user-images.githubusercontent.com/78261965/219662835-3ca02eba-a17c-43a8-82c0-5fe0dbaa87bf.png)
 
 Case ID is 11997932311.
 
