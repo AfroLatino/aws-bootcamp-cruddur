@@ -18,7 +18,7 @@ I do not have any access keys attached to my root account. I have also set up MF
 
 My IAM Role is called IAMRole. The screenshot and share link are as follows:
 
-![IAM Role](https://user-images.githubusercontent.com/78261965/219116905-7d7b4c8f-bb66-400d-b3df-9ee0aeeb0954.png)
+![IAM Role](https://user-images.githubusercontent.com/78261965/219658386-a0ff80f1-fe83-47b6-8dbf-172780686491.png)
 
 [IAM Role Share Link](https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/roles)
 
