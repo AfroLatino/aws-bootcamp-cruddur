@@ -16,9 +16,15 @@ I do not have any access keys attached to my root account. I have also set up MF
 
 ### IAM Role
 
-My IAM Role is called IAMRole. The screenshot and share link are as follows:
+My IAM Role is called IAMRole. I have attached screenshots of the Role and Policy created. The permissions given was to access Billing information.
 
 ![IAM Role](https://user-images.githubusercontent.com/78261965/219658386-a0ff80f1-fe83-47b6-8dbf-172780686491.png)
+
+![IAMRole Policy](https://user-images.githubusercontent.com/78261965/219659039-87969a78-96f2-41bb-92ea-5e7e05cdf050.png)
+
+![IAM Role Policy - Billing](https://user-images.githubusercontent.com/78261965/219659094-9b8de86f-b904-42cb-9c2d-91c837d71682.png)
+
+The IAM role share link is as follows:
 
 [IAM Role Share Link](https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/roles)
 
