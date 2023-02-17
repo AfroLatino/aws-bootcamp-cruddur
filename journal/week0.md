@@ -31,9 +31,17 @@ The IAM role share link is as follows:
 
 ### Amazon EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
 
-The screenshot and share link of my Amazon EventBridge called Health Dashboard are as follows:
+I utilised Amazon EventBridge service by creating a rule called HealthDashboard to send notification to myself when there is a service health issue.
+
+A SNS topic was created to send this notification. The screenshots are as follows:
 
 ![Amazon EventBridge](https://user-images.githubusercontent.com/78261965/219659956-e5ed6493-8afd-4e05-88fb-40e8db878dcf.png)
+
+![HealthDashboard Rule](https://user-images.githubusercontent.com/78261965/219660561-1d30620b-558c-4daf-afef-915de13cd88e.png)
+
+![ServiceHealthIssue SNS](https://user-images.githubusercontent.com/78261965/219661962-be1e8d5b-7a33-4ae9-9fb8-cff4af7b3d2b.png)
+
+The share link of my Amazon EventBridge is as follows:
 
 [Amazon EventBridge Share Link](https://us-east-1.console.aws.amazon.com/events/home?region=us-east-1#/rules)
 
