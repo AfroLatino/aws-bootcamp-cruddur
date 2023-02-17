@@ -460,7 +460,7 @@ I created 2 billing alarms; one was created for the SNS notification when there 
 
 The screenshot and share link are as follows:
 
-![AWS Billing Alarms](https://user-images.githubusercontent.com/78261965/219127583-59507b1d-aaf6-46f5-867d-fa6a37d16dfc.png)
+![AWS Billing Alarms](https://user-images.githubusercontent.com/78261965/219663260-5a2fd673-3cda-453a-8ca0-597bbfec8ff1.png)
 
 [AWS Billing Alarms Share Link](https://us-east-1.console.aws.amazon.com/sns/v3/home?region=us-east-1#/topics)
 
@@ -471,7 +471,7 @@ I created 2 AWS Budgets with a spend of $1.00 for demo purposes.
 
 The screenshot and share link are as follows:
 
-![AWS Budgets](https://user-images.githubusercontent.com/78261965/219128647-81c46c29-5f41-43a5-ae61-6ca996c9be9e.png)
+![AWS Budgets](https://user-images.githubusercontent.com/78261965/219663282-4afe1a61-5048-46c7-98e3-90cc35850a6e.png)
 
 [AWS Budget Share Link](https://us-east-1.console.aws.amazon.com/billing/home?region=us-east-1#/budgets/overview)
 
