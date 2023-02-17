@@ -9,7 +9,7 @@ I do not have any access keys attached to my root account. I have also set up MF
 
 ### MFA Set-up on Root and IAM user accounts
 
-![MFA Set-up](https://user-images.githubusercontent.com/78261965/219115744-851061d3-abbc-4cfe-b77a-5cc39f7a53ab.png)
+![MFA Set-up](https://user-images.githubusercontent.com/78261965/219657999-1c4b4779-f2fb-4c12-b2bc-d67c27e2a649.png)
 
 [MFA Set-up Share Link](https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/home)
 
