@@ -33,7 +33,7 @@ The IAM role share link is as follows:
 
 The screenshot and share link of my Amazon EventBridge called Health Dashboard are as follows:
 
-![Amazon EventBridge](https://user-images.githubusercontent.com/78261965/219118679-9fb9b1cb-de05-463d-a375-6a48c502de43.png)
+![Amazon EventBridge](https://user-images.githubusercontent.com/78261965/219659956-e5ed6493-8afd-4e05-88fb-40e8db878dcf.png)
 
 [Amazon EventBridge Share Link](https://us-east-1.console.aws.amazon.com/events/home?region=us-east-1#/rules)
 
