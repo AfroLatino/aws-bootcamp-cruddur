@@ -26,7 +26,7 @@ Ran DynamoDB Local Container and Postgres Container to ensure they worked.
 
 ### Add Dockerfile
 
-Create a file here: `backend-flask/Dockerfile`
+Create a file here: `Dockerfile`
 
 ```dockerfile
 FROM nginx:latest
