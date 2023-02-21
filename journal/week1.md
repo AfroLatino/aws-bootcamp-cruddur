@@ -26,7 +26,7 @@ Ran DynamoDB Local Container and Postgres Container to ensure they worked.
 
 ### Add Dockerfile
 
-Create a file here: `Dockerfile`
+Creat a file called `Dockerfile`
 
 ```dockerfile
 FROM nginx:latest
@@ -67,6 +67,12 @@ Please see the screenshot of the image pushed below and the Docker hub page and 
 
 ## Use multi-stage building for a Dockerfile build
 
+I used multi-stage docker build to compile binaries and other operations typically performed before building container images.
+
+### Add Dockerfile
+
+Creat a file called `Dockerfile`
+
 ```Dockerfile
 FROM golang:1.16 AS build
 ADD . /src
@@ -77,5 +83,23 @@ FROM alpine:3.4
 EXPOSE 8080
 CMD ["demo"]
 ```
+
+### Build Container
+
+```sh
+docker image build --tag  demo .
+```
+
+### List Images
+
+```sh
+docker image list
+```
+
+List the images to view if yours have been created
+
+As shown on the screenshot below, this produced a demo file of size 4.82MB and another image of 922MB
+
+![Multi-Stage Docker Build Screenshot](https://user-images.githubusercontent.com/78261965/220471045-4abc5281-7fa4-4a59-947a-05c5ac14e45e.png)
 
 [Reference - DevOps Toolkit](https://www.youtube.com/watch?v=zpkqNPwEzac)
