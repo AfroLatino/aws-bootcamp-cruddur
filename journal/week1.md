@@ -46,4 +46,6 @@ CMD ["nginx", "-g", "daemon off;"]
 docker build -t iis
 ```
 
+### Container successfully built and tagged
+
 ![Docker CMD Screenshot](https://user-images.githubusercontent.com/78261965/220466499-b6fb2b50-3281-4ef7-889a-046cf22ad5c5.png)
