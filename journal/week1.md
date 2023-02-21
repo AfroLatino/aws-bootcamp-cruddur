@@ -23,3 +23,20 @@ Ran DynamoDB Local Container and Postgres Container to ensure they worked.
 ## Stretch Homework Challenges
 
 ### Run the dockerfile CMD as an external script
+
+### Add Dockerfile
+
+Create a file here: `backend-flask/Dockerfile`
+
+```dockerfile
+FROM nginx:latest
+
+LABEL maintainer=",<email-address>" 
+
+COPY 2048 /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+```
+
