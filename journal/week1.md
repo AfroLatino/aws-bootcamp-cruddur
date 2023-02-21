@@ -2,11 +2,17 @@
 
 ## Required Homework Challenges
 
-I have now watched and completed all the checklists of the videos for this week.
+I watched all the videos published and completed my tasks for the week as follows:
 
-I gained practical knowledge working with docker commands and running conatiner images.
+Gained practical knowledge working with docker commands and running container images.
 
-I was also able to navigate a backend and frontend we application using React and Flask.
+Watched the security video from Ashish to know the Top 10 Docker Container Security Best Practices
+
+Created docker-compose file
+
+Configured Gitpod.yml configuration
+
+Ran DynamoDB Local Container and Postgres Container to ensure they worked.
 
 
 ## Stretch Homework Challenges
