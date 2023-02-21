@@ -96,7 +96,7 @@ docker image build --tag  demo .
 docker image list
 ```
 
-List the images to view if yours have been created
+List the images to see if yours have been created.
 
 As shown on the screenshot below, this produced a demo file of size 4.82MB and another image of 922MB
 
