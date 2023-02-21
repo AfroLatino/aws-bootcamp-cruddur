@@ -55,7 +55,7 @@ docker build -t iis
 
 I pushed an image called containerofcats by Adrian Cantrill and went through his Docker Fundamentals course.
 
-Please see the screenshot of the image pushed below andthe Docker hub share link.
+Please see the screenshot of the image pushed below and the Docker hub page and share link.
 
 ![Container of Cats Screenshot](https://user-images.githubusercontent.com/78261965/220468848-4453fac4-f705-487f-818d-cba49becd952.png)
 
@@ -64,3 +64,18 @@ Please see the screenshot of the image pushed below andthe Docker hub share link
 [Docker Hub Share link](https://hub.docker.com/)
 
 [Reference - Docker Fundamentals by Adrian Cantrill](https://github.com/acantril/docker-fundamentals/blob/main/build-a-simple-containerized-application/build-a-simple-containerized-application.md)
+
+## Use multi-stage building for a Dockerfile build
+
+```Dockerfile
+FROM golang:1.16 AS build
+ADD . /src
+WORKDIR /src
+
+
+FROM alpine:3.4
+EXPOSE 8080
+CMD ["demo"]
+```
+
+[Reference - DevOps Toolkit](https://www.youtube.com/watch?v=zpkqNPwEzac)
