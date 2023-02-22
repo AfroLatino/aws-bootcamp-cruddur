@@ -323,6 +323,6 @@ Listing packages on each line can also prevent mistakes in package duplication.
 
 ![Docker Best Practice V2](https://user-images.githubusercontent.com/78261965/220727613-b203ba23-8cdf-4401-a239-e6d9cabde51f.png)
 
-Reference
+**Reference**
 
 [Dockerfile Best Practices Share Link](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
