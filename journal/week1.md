@@ -108,7 +108,7 @@ As shown on the screenshot below, this produced a demo file of size 4.82MB and a
 
 ### References
 
-[DevOps Toolkit](https://www.youtube.com/watch?v=zpkqNPwEzac)
+[DevOps Toolkit by Viktor Farcic & Darin Pope](https://www.youtube.com/watch?v=zpkqNPwEzac)
 
 [Earthly Blog by Lukonde Mwila](https://earthly.dev/blog/docker-multistage/)
 
