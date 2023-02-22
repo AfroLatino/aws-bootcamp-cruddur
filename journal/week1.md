@@ -326,3 +326,26 @@ Listing packages on each line can also prevent mistakes in package duplication.
 **Reference**
 
 [Dockerfile Best Practices Share Link](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
+
+
+## Learn how to install Docker on your local machine and get the same containers running outside of Gitpod / Codespaces
+
+I successfully installed Docker on my local machine as seen from the screenshot below:
+
+![Docker Desktop](https://user-images.githubusercontent.com/78261965/220754483-a97148ce-dc3f-416f-a152-eeeb34855a30.png)
+
+I ran the docker command below on Gitpod and my local machine to get the same container
+
+```sh
+docker run -it ubuntu bash
+```
+
+**Containers running outside of Gitpod**
+
+![Container from Gitpod](https://user-images.githubusercontent.com/78261965/220754745-30143423-072e-4066-bf2d-21006822a1ee.png)
+
+**Containers from my local Docker machine
+
+![Docker on local machine](https://user-images.githubusercontent.com/78261965/220755107-bc3c3ba4-1909-4a07-a002-082b3296fb49.png)
+
+
