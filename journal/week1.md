@@ -111,3 +111,57 @@ As shown on the screenshot below, this produced a demo file of size 4.82MB and a
 [DevOps Toolkit](https://www.youtube.com/watch?v=zpkqNPwEzac)
 
 [Earthly Blog](https://earthly.dev/blog/docker-multistage/)
+
+
+## Implement a healthcheck in the V3 Docker compose file
+
+```sh
+version: '3.9'  # optional since Compose v1.27.0
+
+services:
+  kong-database:
+    image: postgres:9.5
+    container_name: kong-postgres
+    environment:
+      - POSTGRES_USER=kong
+      - POSTGRES_DB=kong
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kong-migration:
+    image: kong
+    container_name: kong-migration
+    depends_on:
+      kong-database:
+        condition: service_healthy
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=kong-database
+    command: kong migrations bootstrap
+
+  kong:
+    image: kong
+    container_name: kong
+    restart: always
+    depends_on:
+      kong-database:
+        condition: service_healthy
+      kong-migration:
+        condition: service_started
+    links:
+      - kong-database:kong-database
+    ports:
+      - 8000:8000
+      - 8443:8443
+      - 8001:8001
+      - 8444:8444
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=kong-database
+      - KONG_PG_DATABASE=kong
+      - KONG_ADMIN_LISTEN=0.0.0.0:8001
+     ```
