@@ -180,7 +180,7 @@ healthcheck:
   retries: 5
 ```
 
-If the check is successful the container will be marked as healthy as seen below. Until then it will remain in an unhealthy state.
+If the check is successful the container will be marked as ```healthy``` as seen below. Until then it will remain in an ```unhealthy``` state.
 
 ![V3 Docker Compose Healthy](https://user-images.githubusercontent.com/78261965/220711420-bbe31f8e-5bcd-4735-99ea-7b041a0da467.png)
 
