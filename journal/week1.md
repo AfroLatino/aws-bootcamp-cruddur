@@ -110,7 +110,7 @@ As shown on the screenshot below, this produced a demo file of size 4.82MB and a
 
 [DevOps Toolkit](https://www.youtube.com/watch?v=zpkqNPwEzac)
 
-[Earthly Blog](https://earthly.dev/blog/docker-multistage/)
+[Earthly Blog by Lukonde Mwila](https://earthly.dev/blog/docker-multistage/)
 
 
 ## Implement a healthcheck in the V3 Docker compose file
