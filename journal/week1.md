@@ -239,23 +239,15 @@ RUN apt-get update && apt-get install -y \
 CMD python /app/app.py
 ```
 
-Use multi-stage builds🔗
-Multi-stage builds allow you to drastically reduce the size of your final image, without struggling to reduce the number of intermediate layers and files.
-
-Because an image is built during the final stage of the build process, you can minimize image layers by leveraging build cache.
-### Exclude with .dockerignore
-
-To exclude files not relevant to the build, without restructuring your source repository, use a .dockerignore file.
-
 ### General guidelines and recommendations
 
-Create ephemeral containers
-Understand build context
-Pipe Dockerfile through stdin
-Build an image using a Dockerfile from stdin, without sending build context
-Build from a local build context, using a Dockerfile from stdin
+I have listed some general guidelines and recommendations below:
 
-##### Minimize the number of layers
+#### Create ephemeral containers
+
+The image defined by your Dockerfile should generate containers that are as ephemeral as possible. Ephemeral means that the container can be stopped and destroyed, then rebuilt and replaced with an absolute minimum set up and configuration.
+
+#### Minimise the number of layers
 
 In older versions of Docker, it was important that you minimised the number of layers in your images to ensure they were performant. The following features were added to reduce this limitation:
 
@@ -272,6 +264,22 @@ Whenever possible, ease later changes by sorting multi-line arguments alphanumer
 When building an image, Docker steps through the instructions in your Dockerfile, executing each in the order specified. As each instruction is examined, Docker looks for an existing image in its cache that it can reuse, rather than creating a new, duplicate image.
 
 If you don’t want to use the cache at all, you can use the ```--no-cache=true``` option on the ```docker build``` command.
+
+#### Use multi-stage builds
+
+Multi-stage builds allow you to drastically reduce the size of your final image, without struggling to reduce the number of intermediate layers and files.
+
+Because an image is built during the final stage of the build process, you can minimise image layers by leveraging build cache.
+
+#### Exclude with .dockerignore
+
+To exclude files not relevant to the build, without restructuring your source repository, use a .dockerignore file.
+
+## Dockerfile Instructions
+
+My dockerfile used the FROM, COPY, RUN and CMD commands. LABEL, CMD, EXPOSE, ENV, ENTRYPOINT, VOLUME, USER, WORKDIR, ONBUILD are other commands that can also be used.
+
+I have written only about the RUN command below as I encountered some challenges running my dockerfile with this command.
 
 ### RUN
 
@@ -311,13 +319,9 @@ RUN apt-get update && apt-get install -y \
 
 Listing packages on each line can also prevent mistakes in package duplication.
 
-
 ![Docker Best Practice Screenshot](https://user-images.githubusercontent.com/78261965/220727587-c1130356-d864-4c4b-b569-ad40a930a9cb.png)
 
 ![Docker Best Practice V2](https://user-images.githubusercontent.com/78261965/220727613-b203ba23-8cdf-4401-a239-e6d9cabde51f.png)
-
-
-
 
 Reference
 
