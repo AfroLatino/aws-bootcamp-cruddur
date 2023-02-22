@@ -69,6 +69,10 @@ Please see the screenshot of the image pushed below and the Docker hub page and 
 
 I used multi-stage docker build to compile binaries and other operations typically performed before building container images.
 
+Multistage builds make use of one Dockerfile with multiple FROM instructions. Each of these FROM instructions is a new build stage that can COPY artifacts from the previous stages. By going and copying the build artifact from the build stage, you eliminate all the intermediate steps such as downloading of code, installing dependencies, and testing. All these steps create additional layers, and you want to eliminate them from the final image.
+
+The build stage is named by appending AS name-of-build to the FROM instruction. The name of the build stage can be used in a subsequent FROM command by providing a convenient way to identify the source layer for files brought into the image build. The final image is produced from the last stage executed in the Dockerfile.
+
 ### Add Dockerfile
 
 Creat a file called `Dockerfile`
@@ -102,4 +106,8 @@ As shown on the screenshot below, this produced a demo file of size 4.82MB and a
 
 ![Multi-Stage Docker Build Screenshot](https://user-images.githubusercontent.com/78261965/220471045-4abc5281-7fa4-4a59-947a-05c5ac14e45e.png)
 
-[Reference - DevOps Toolkit](https://www.youtube.com/watch?v=zpkqNPwEzac)
+### References
+
+[DevOps Toolkit](https://www.youtube.com/watch?v=zpkqNPwEzac)
+
+[Earthly Blog](https://earthly.dev/blog/docker-multistage/)
