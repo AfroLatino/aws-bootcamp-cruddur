@@ -164,4 +164,4 @@ services:
       - KONG_PG_HOST=kong-database
       - KONG_PG_DATABASE=kong
       - KONG_ADMIN_LISTEN=0.0.0.0:8001
-     ```
+    ```
