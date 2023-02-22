@@ -170,7 +170,7 @@ services:
 
 ### Waiting for PostgreSQL to be "healthy"
 
-The following healthcheck has been configured to periodically check if PostgreSQL is ready using the pg_isready command.
+The following healthcheck has been configured to periodically check if PostgreSQL is ready using the ```pg_isready``` command.
 
 ```sh
 healthcheck:
@@ -184,4 +184,30 @@ If the check is successful the container will be marked as ```healthy``` as seen
 
 ![V3 Docker Compose Healthy](https://user-images.githubusercontent.com/78261965/220711420-bbe31f8e-5bcd-4735-99ea-7b041a0da467.png)
 
+Services that depend on PostgreSQL can then be configured with the depends_on parameter as follows:
 
+```sh
+depends_on:
+  postgres-database:
+    condition: service_healthy
+```
+
+### Waiting for PostgreSQL before starting Kong
+
+In this complete example docker-compose waits for the PostgreSQL service to be *healthy* before starting [kong](https://konghq.com/products/kong-gateway), an open-source API gateway.
+
+Test it out with:
+
+```sh
+docker-compose up -d
+```
+Wait until all services are running.
+
+Test by querying Kong's admin endpoint:
+
+```sh
+curl http://localhost:8001/
+```
+
+See the screenshot of the result below:
+![V3 Docker Compose Kong](https://user-images.githubusercontent.com/78261965/220713976-5f5f8aee-fe6c-4101-9565-1ce5b5781613.png)
