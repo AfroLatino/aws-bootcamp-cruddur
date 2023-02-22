@@ -391,11 +391,11 @@ sudo service docker start
 sudo usermod -a -G docker ec2-user
 ```
 
-Then ```exit``'. Re-enter your details through the PuTTY configuration file.
+Then ```exit```. Re-enter your details through the PuTTY configuration file.
 
 ### Run Python Script
 
-'''sh
+```sh
 Docker info
 ```
 
