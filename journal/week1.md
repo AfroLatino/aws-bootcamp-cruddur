@@ -211,3 +211,7 @@ curl http://localhost:8001/
 
 See the screenshot of the result below:
 ![V3 Docker Compose Kong](https://user-images.githubusercontent.com/78261965/220713976-5f5f8aee-fe6c-4101-9565-1ce5b5781613.png)
+
+Reference
+
+[Docker Compose Healthcheck by Peter Evans](https://github.com/peter-evans/docker-compose-healthcheck)
