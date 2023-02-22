@@ -215,3 +215,76 @@ See the screenshot of the result below:
 Reference
 
 [Docker Compose Healthcheck by Peter Evans](https://github.com/peter-evans/docker-compose-healthcheck)
+
+
+## Research best practices of Dockerfiles and attempt to implement it in your Dockerfile 
+
+A Docker image consists of read-only layers each of which represents a Dockerfile instruction. The layers are stacked and each one is a delta of the changes from the previous layer. The following is the contents of the Dockerfile I implemented:
+
+```sh
+# syntax=docker/dockerfile:1
+FROM ubuntu:18.04
+COPY . /app
+RUN apt-get update && apt-get install -y \
+    aufs-tools \
+    automake \
+    build-essential \
+    curl \
+    dpkg-sig \
+    libcap-dev \
+    libsqlite3-dev \
+    mercurial \
+    reprepro \
+    && rm -rf /var/lib/apt/lists/*
+CMD python /app/app.py
+```
+
+### RUN
+
+Dockerfile can be made more readable and understandable by splitting long or complex RUN statements on multiple lines separated with backslashes.
+
+#### apt-get
+
+apt-get is probably the most common use-case for RUN. Because it installs packages, the RUN apt-get command has several counter-intuitive behaviours to look out for.
+
+Always combine RUN apt-get update with apt-get install in the same RUN statement. 
+
+Using apt-get update alone in a RUN statement causes caching issues and subsequent apt-get install instructions fail. 
+
+After building the image, all layers are in the Docker cache.
+
+Docker sees the initial and modified instructions as identical and reuses the cache from previous steps. As a result, the apt-get update is not executed because the build uses the cached version. Because the apt-get update isn’t run, your build can potentially get an outdated version of the curl and nginx packages.
+
+Using RUN apt-get update && apt-get install -y ensures your Dockerfile installs the latest package versions with no further coding or manual intervention. This technique is known as cache busting. You can also achieve cache busting by specifying a package version. This is known as version pinning. 
+
+Version pinning forces the build to retrieve a particular version regardless of what’s in the cache. This technique can also reduce failures due to unanticipated changes in required packages
+
+Below is a well-formed RUN instruction that demonstrates all the apt-get recommendations which I also implemented.
+
+```sh
+RUN apt-get update && apt-get install -y \
+    aufs-tools \
+    automake \
+    build-essential \
+    curl \
+    dpkg-sig \
+    libcap-dev \
+    libsqlite3-dev \
+    mercurial \
+    reprepro \
+&& rm -rf /var/lib/apt/lists/*
+```
+
+Listing packages on each line can also prevent mistakes in package duplication.
+
+
+![Docker Best Practice Screenshot](https://user-images.githubusercontent.com/78261965/220727587-c1130356-d864-4c4b-b569-ad40a930a9cb.png)
+
+![Docker Best Practice V2](https://user-images.githubusercontent.com/78261965/220727613-b203ba23-8cdf-4401-a239-e6d9cabde51f.png)
+
+
+
+
+Reference
+
+[Dockerfile Best Practices Share Link](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
