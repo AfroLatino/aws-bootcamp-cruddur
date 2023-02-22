@@ -239,6 +239,40 @@ RUN apt-get update && apt-get install -y \
 CMD python /app/app.py
 ```
 
+Use multi-stage builds🔗
+Multi-stage builds allow you to drastically reduce the size of your final image, without struggling to reduce the number of intermediate layers and files.
+
+Because an image is built during the final stage of the build process, you can minimize image layers by leveraging build cache.
+### Exclude with .dockerignore
+
+To exclude files not relevant to the build, without restructuring your source repository, use a .dockerignore file.
+
+### General guidelines and recommendations
+
+Create ephemeral containers
+Understand build context
+Pipe Dockerfile through stdin
+Build an image using a Dockerfile from stdin, without sending build context
+Build from a local build context, using a Dockerfile from stdin
+
+##### Minimize the number of layers
+
+In older versions of Docker, it was important that you minimised the number of layers in your images to ensure they were performant. The following features were added to reduce this limitation:
+
+Only the instructions RUN, COPY, ADD create layers. Other instructions create temporary intermediate images, and don’t increase the size of the build.
+
+Where possible, use multi-stage builds, and only copy the artifacts you need into the final image. This allows you to include tools and debug information in your intermediate build stages without increasing the size of the final image.
+
+#### Sort multi-line arguments
+
+Whenever possible, ease later changes by sorting multi-line arguments alphanumerically. This helps to avoid duplication of packages and make the list much easier to update. Adding a space before a backslash (\) helps as well.
+
+#### Leverage build cache
+
+When building an image, Docker steps through the instructions in your Dockerfile, executing each in the order specified. As each instruction is examined, Docker looks for an existing image in its cache that it can reuse, rather than creating a new, duplicate image.
+
+If you don’t want to use the cache at all, you can use the ```--no-cache=true``` option on the ```docker build``` command.
+
 ### RUN
 
 Dockerfile can be made more readable and understandable by splitting long or complex RUN statements on multiple lines separated with backslashes.
@@ -263,7 +297,7 @@ Below is a well-formed RUN instruction that demonstrates all the apt-get recomme
 
 ```sh
 RUN apt-get update && apt-get install -y \
-    aufs-tools \
+    auf-tools \
     automake \
     build-essential \
     curl \
