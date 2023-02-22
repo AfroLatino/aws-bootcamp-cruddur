@@ -349,3 +349,80 @@ docker run -it ubuntu bash
 ![Docker on local machine](https://user-images.githubusercontent.com/78261965/220755107-bc3c3ba4-1909-4a07-a002-082b3296fb49.png)
 
 
+## Launch an EC2 instance that has docker installed, and pull a container to demonstrate you can run your own docker processes. 
+
+I created an AWS EC2 instance as seen below:
+
+![EC2InstanceHelloWorld](https://user-images.githubusercontent.com/78261965/220777299-91f7e1ff-8cff-4ea3-9da2-b91e7cc47da9.png)
+
+[Amazon EC2 Instance Share Link](https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:)
+
+I configured 2 security groups of SSH and HTTP to enable me log into the instance.
+
+I created a new key pair as this needs to be converted into .ppx file.
+
+I took note of my Public IPv4 address and Public IPv4 DNS details as these would be needed later.
+
+I installed PuTTY Key Generator to convert the private key to a .ppk file.
+
+I entered my details onto PuTTY Configuration and launched the EC2 instance created.
+
+### For package update
+
+```sh
+sudo yum update -y
+```
+
+### For docker installation
+
+```sh
+sudo yum install -y docker
+```
+
+### To start the service
+
+```sh
+sudo service docker start
+```
+
+### In order to stop using sudo command
+
+```sh
+sudo usermod -a -G docker ec2-user
+```
+
+Then ```exit``. Re-enter your details through the PuTTY configuration file.
+
+### Run Python Script
+
+'''sh
+Docker info
+```
+
+```sh
+docker run -d -p 80:5000 training/webapp:latest python app.py
+```
+
+### Viewing Hello World on local host using curl commans
+
+```sh
+ curl http://localhost
+
+ ```
+ Create container in nginx
+ 
+ ```sh
+ docker run -d -p 80:80 --name nginx nginx 
+ ```
+ 
+![HelloWorld_EC2Instance](https://user-images.githubusercontent.com/78261965/220784359-6d9793a9-4608-493b-8f98-4ec905d5d2aa.png)
+
+When my Public IPv4 DNS address was added onto the browser, I was able to view Hello World as seen below:
+
+![EC2InstanceHelloWorld](https://user-images.githubusercontent.com/78261965/220784425-dd2ecc8f-970e-43be-b667-9b6b314d9f1d.png)
+
+**Reference**
+
+https://www.youtube.com/watch?v=cdqbPfGkUu4&t=3s
+
+
