@@ -115,6 +115,8 @@ As shown on the screenshot below, this produced a demo file of size 4.82MB and a
 
 ## Implement a healthcheck in the V3 Docker compose file
 
+The healthcheck property is now part of the Compose Specification used by recent versions of Docker Compose. This allows a check to be configured in order to determine whether containers for a service are healthy or not.
+
 ```sh
 version: '3.9'  # optional since Compose v1.27.0
 
@@ -165,3 +167,15 @@ services:
       - KONG_PG_DATABASE=kong
       - KONG_ADMIN_LISTEN=0.0.0.0:8001
  ```
+
+### Waiting for PostgreSQL to be "healthy"
+
+The following healthcheck has been configured to periodically check if PostgreSQL is ready using the pg_isready command.
+
+```sh
+healthcheck:
+  test: ["CMD-SHELL", "pg_isready"]
+  interval: 10s
+  timeout: 5s
+  retries: 5
+```
