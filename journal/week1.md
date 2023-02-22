@@ -344,7 +344,7 @@ docker run -it ubuntu bash
 
 ![Container from Gitpod](https://user-images.githubusercontent.com/78261965/220754745-30143423-072e-4066-bf2d-21006822a1ee.png)
 
-**Containers from my local Docker machine
+**Containers running from my local Docker machine**
 
 ![Docker on local machine](https://user-images.githubusercontent.com/78261965/220755107-bc3c3ba4-1909-4a07-a002-082b3296fb49.png)
 
