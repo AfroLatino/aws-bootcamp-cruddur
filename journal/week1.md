@@ -407,9 +407,9 @@ docker run -d -p 80:5000 training/webapp:latest python app.py
 
 ```sh
  curl http://localhost
-
  ```
- Create container in nginx
+ 
+ **Create container in nginx**
  
  ```sh
  docker run -d -p 80:80 --name nginx nginx 
@@ -423,6 +423,6 @@ When my Public IPv4 DNS address was added onto the browser, I was able to view H
 
 **Reference**
 
-https://www.youtube.com/watch?v=cdqbPfGkUu4&t=3s
+[Launch a Docker Container On A Single EC2 instance by ITJobHacks](https://www.youtube.com/watch?v=cdqbPfGkUu4&t=3s)
 
 
