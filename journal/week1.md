@@ -51,7 +51,7 @@ docker build -t iis
 ![Docker CMD Screenshot](https://user-images.githubusercontent.com/78261965/220466499-b6fb2b50-3281-4ef7-889a-046cf22ad5c5.png)
 
 
-## Push and tag a image to DockerHub 
+## Push and tag an image to DockerHub 
 
 I pushed an image called containerofcats by Adrian Cantrill and went through his Docker Fundamentals course.
 
