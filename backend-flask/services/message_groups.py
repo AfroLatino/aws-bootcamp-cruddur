@@ -22,3 +22,4 @@ class MessageGroups:
     }]
     model['data'] = results
     return model
+  
