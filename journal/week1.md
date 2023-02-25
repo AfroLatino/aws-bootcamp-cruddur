@@ -353,6 +353,8 @@ docker run -it ubuntu bash
 
 I created an AWS EC2 instance as seen below:
 
+![EC2 Instance Screenshot](https://user-images.githubusercontent.com/78261965/221367337-a7699e23-f917-47d6-928f-2cd6b751da57.png)
+
 ![EC2InstanceHelloWorld](https://user-images.githubusercontent.com/78261965/220777299-91f7e1ff-8cff-4ea3-9da2-b91e7cc47da9.png)
 
 [Amazon EC2 Instance Share Link](https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:)
