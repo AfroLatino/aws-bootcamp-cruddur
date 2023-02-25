@@ -367,6 +367,8 @@ I installed PuTTY Key Generator to convert the private key to a .ppk file.
 
 I entered my details onto PuTTY Configuration and launched the EC2 instance created.
 
+![EC2UserInstance](https://user-images.githubusercontent.com/78261965/221367468-33ba6910-1bb0-40cd-8910-dd55149fdc26.png)
+
 ### For package update
 
 ```sh
