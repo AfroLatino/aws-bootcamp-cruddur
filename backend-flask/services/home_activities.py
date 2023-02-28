@@ -10,10 +10,12 @@ class HomeActivities:
     with tracer.start_as_current_span("home-activities-mock-data"):
       span = trace.get_current_span()
       now = datetime.now(timezone.utc).astimezone()
-      span.set_attribute("app.now", now.isoformat())     
+      span.set_attribute("user.id", 'AfroLatino')
+      span.set_attribute("app.now", now.isoformat())  
       results = [{
       'uuid': '68f126b0-1ceb-4a33-88be-d90fa7109eee',
       'handle':  'Andrew Brown',
+      'user.id':  'AfroLatino',
       'message': 'Cloud is fun!',
       'created_at': (now - timedelta(days=2)).isoformat(),
       'expires_at': (now + timedelta(days=5)).isoformat(),
@@ -37,7 +39,7 @@ class HomeActivities:
       'message': 'I am out of prune juice',
       'created_at': (now - timedelta(days=7)).isoformat(),
       'expires_at': (now + timedelta(days=9)).isoformat(),
-      'likes': 0,
+       'likes': 0,
       'replies': []
     },
     {
