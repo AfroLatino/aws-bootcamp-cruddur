@@ -23,10 +23,22 @@ I have now completed all my mandatory homework from Week 0 - 2.
 
 ### Instrument Honeycomb for the frontend-application to observe network latency between frontend and backend
 
-I was unable to implement this. However, I 
+I was unable to implement this. However, I read the documentation below:
 
-[Open Telemetry By Marc Pickler](https://github.com/open-telemetry/opentelemetry-js)
+[Open Telemetry By Marc Pichler](https://github.com/open-telemetry/opentelemetry-js)
 
 [HoneyComb Open Telemetry](https://docs.honeycomb.io/getting-data-in/opentelemetry/browser-js/)
 
 [Open Telemetry Docs](https://opentelemetry.io/docs/instrumentation/js/getting-started/browser/)
+
+### •	Add custom instrumentation to Honeycomb to add more attributes eg. UserId, Add a custom span
+
+I added a UserID and a custom span of http handler
+
+```sh
+from opentelemetry import trace
+
+tracer = trace.get_tracer(__name__)
+with tracer.start_as_current_span("http-handler"):
+   
+```
