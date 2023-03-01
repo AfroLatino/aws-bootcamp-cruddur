@@ -70,4 +70,3 @@ Please see screenshots of my queries below:
 ![RecentTraces](https://user-images.githubusercontent.com/78261965/222270228-b53ec6b3-fc58-4e35-a452-93541a2e7d78.png)
 
 
-
