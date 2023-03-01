@@ -25,7 +25,7 @@ I have now completed all my mandatory homework from Week 0 - 2.
 
 I was unable to implement this. However, I 
 
-[Open Telemetry](https://github.com/open-telemetry/opentelemetry-js)
+[Open Telemetry By Marc Pickler](https://github.com/open-telemetry/opentelemetry-js)
 
 [HoneyComb Open Telemetry](https://docs.honeycomb.io/getting-data-in/opentelemetry/browser-js/)
 
