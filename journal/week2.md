@@ -10,7 +10,7 @@ Instrumented WAS X-Ray into backend flask application.
 
 Configured logging in AWS Cloud Watch using CLI.
 
-All these are evident on my repository and AWS account.
+All these are evident on my repository and AWS account. I have attached some screemshots below:
 
 ![Rollbar sceenshot](https://user-images.githubusercontent.com/78261965/222268656-3de67036-5210-4981-b105-4fbfbb7929ad.png)
 
@@ -55,12 +55,18 @@ with tracer.start_as_current_span("http-handler") as outer_span:
 
 ![Custom Span Instrumentation](https://user-images.githubusercontent.com/78261965/222267195-dbabe541-d289-4905-a2ba-b721f8fc27e9.png)
 
-
-
-
-
-
-
 These are all available within my HoneyComb account via the link below:
 
 [Honeycomb Share Link](https://ui.honeycomb.io/afrolatino/environments/bootcamp/datasets/backend-flask/result/4WadRwe72UB)
+
+
+## Run custom queries in Honeycomb and save them later eg. Latency by UserID, Recent Traces
+
+Please see screenshots of my queries below:
+
+![Latency By UserID](https://user-images.githubusercontent.com/78261965/222270205-a98a7d20-ca36-4c35-b299-149d35d64cb4.png)
+
+![RecentTraces](https://user-images.githubusercontent.com/78261965/222270228-b53ec6b3-fc58-4e35-a452-93541a2e7d78.png)
+
+
+
