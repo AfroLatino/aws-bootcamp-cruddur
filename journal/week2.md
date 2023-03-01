@@ -33,7 +33,7 @@ I was unable to implement this. However, I read the documentation below:
 
 ### •	Add custom instrumentation to Honeycomb to add more attributes eg. UserId, Add a custom span
 
-I added UserID to the home-activities.py page as seen below:
+I added UserID and a custom span of http-handler to the home-activities.py page as seen below:
 
 ```sh
 span = trace.get_current_span()
