@@ -12,6 +12,13 @@ Configured logging in AWS Cloud Watch using CLI.
 
 All these are evident on my repository and AWS account.
 
+![Rollbar sceenshot](https://user-images.githubusercontent.com/78261965/222268656-3de67036-5210-4981-b105-4fbfbb7929ad.png)
+
+![WAS Xray Traces](https://user-images.githubusercontent.com/78261965/222268717-a8372539-39f3-4bbe-a9ee-aeb7f74898cc.png)
+
+![CloudWatch Logs](https://user-images.githubusercontent.com/78261965/222268732-24f32359-142d-4a22-95b6-e935c6ae24f6.png)
+
+
 ### Challenges faced
 
 I was unable to view some of the contents of the frontend page last week, so had to start delete some files and re-start some of the exercises from Week 0.
@@ -31,7 +38,7 @@ I was unable to implement this. However, I read the documentation below:
 
 [Open Telemetry Docs](https://opentelemetry.io/docs/instrumentation/js/getting-started/browser/)
 
-### •	Add custom instrumentation to Honeycomb to add more attributes eg. UserId, Add a custom span
+### Add custom instrumentation to Honeycomb to add more attributes eg. UserId, Add a custom span
 
 I added UserID and a custom span of http-handler to the home-activities.py page as seen below:
 
