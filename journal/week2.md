@@ -33,12 +33,13 @@ I was unable to implement this. However, I read the documentation below:
 
 ### •	Add custom instrumentation to Honeycomb to add more attributes eg. UserId, Add a custom span
 
-I added a UserID and a custom span of http handler
+I added UserID to the home-activities.py page as seen below:
 
 ```sh
-from opentelemetry import trace
-
-tracer = trace.get_tracer(__name__)
-with tracer.start_as_current_span("http-handler"):
-   
+span = trace.get_current_span()
+ span.set_attribute("user.id", 'AfroLatino')
+```
+```sh
+with tracer.start_as_current_span("http-handler") as outer_span:
+        outer_span.set_attribute("http-handler", True)
 ```
