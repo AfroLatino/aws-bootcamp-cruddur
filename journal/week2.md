@@ -41,5 +41,19 @@ span = trace.get_current_span()
 ```
 ```sh
 with tracer.start_as_current_span("http-handler") as outer_span:
-        outer_span.set_attribute("http-handler", True)
+        outer_span.set_attribute("http-handler", True)        
 ```
+
+![Custom Instrumentation UserID](https://user-images.githubusercontent.com/78261965/222267130-022ea7b6-e719-4341-ac3a-2d50776bc442.png)
+
+![Custom Span Instrumentation](https://user-images.githubusercontent.com/78261965/222267195-dbabe541-d289-4905-a2ba-b721f8fc27e9.png)
+
+
+
+
+
+
+
+These are all available within my HoneyComb account via the link below:
+
+[Honeycomb Share Link](https://ui.honeycomb.io/afrolatino/environments/bootcamp/datasets/backend-flask/result/4WadRwe72UB)
