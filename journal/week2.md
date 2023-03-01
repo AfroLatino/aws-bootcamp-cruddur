@@ -38,6 +38,7 @@ I was unable to implement this. However, I read the documentation below:
 
 [Open Telemetry Docs](https://opentelemetry.io/docs/instrumentation/js/getting-started/browser/)
 
+
 ### Add custom instrumentation to Honeycomb to add more attributes eg. UserId, Add a custom span
 
 I added UserID and a custom span of http-handler to the home-activities.py page as seen below:
@@ -60,7 +61,7 @@ These are all available within my HoneyComb account via the link below:
 [Honeycomb Share Link](https://ui.honeycomb.io/afrolatino/environments/bootcamp/datasets/backend-flask/result/4WadRwe72UB)
 
 
-## Run custom queries in Honeycomb and save them later eg. Latency by UserID, Recent Traces
+### Run custom queries in Honeycomb and save them later eg. Latency by UserID, Recent Traces
 
 Please see screenshots of my queries below:
 
