@@ -30,13 +30,15 @@ I have now completed all my mandatory homework from Week 0 - 2.
 
 ### Instrument Honeycomb for the frontend-application to observe network latency between frontend and backend
 
-I was unable to implement this. However, I read the documentation below:
+I was unable to implement this. I made good progress in following the steps on Honeycomb's website. However, with my limited react JavaScript knowledge, I was unable to fully implement this. I read the documentation below:
 
-[Open Telemetry By Marc Pichler](https://github.com/open-telemetry/opentelemetry-js)
+[OpenTelemetry By Marc Pichler](https://github.com/open-telemetry/opentelemetry-js)
 
-[HoneyComb Open Telemetry](https://docs.honeycomb.io/getting-data-in/opentelemetry/browser-js/)
+[HoneyComb OpenTelemetry](https://docs.honeycomb.io/getting-data-in/opentelemetry/browser-js/)
 
-[Open Telemetry Docs](https://opentelemetry.io/docs/instrumentation/js/getting-started/browser/)
+[OpenTelemetry Docs](https://opentelemetry.io/docs/instrumentation/js/getting-started/browser/)
+
+[OpenTelemetry Bootcamp](https://github.com/aspecto-io/opentelemetry-bootcamp/blob/master/src/ws-instrumentation/ws.ts)
 
 
 ### Add custom instrumentation to Honeycomb to add more attributes eg. UserId, Add a custom span
