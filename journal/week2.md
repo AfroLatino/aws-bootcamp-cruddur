@@ -30,7 +30,32 @@ I have now completed all my mandatory homework from Week 0 - 2.
 
 ### Instrument Honeycomb for the frontend-application to observe network latency between frontend and backend
 
-I was unable to implement this. I made good progress in following the steps on Honeycomb's website. However, with my limited react JavaScript knowledge, I was unable to fully implement this. I read the documentation below:
+```sh
+// tracing.js
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+import { WebTracerProvider, BatchSpanProcessor } from '@opentelemetry/sdk-trace-web';
+import { ZoneContextManager } from '@opentelemetry/context-zone';
+import { Resource }  from '@opentelemetry/resources';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+
+const exporter = new OTLPTraceExporter({
+  url: 'https://<your collector endpoint>:443/v1/traces'
+});
+const provider = new WebTracerProvider({
+  resource: new Resource({
+    [SemanticResourceAttributes.SERVICE_NAME]: 'browser',
+  }),
+});
+provider.addSpanProcessor(new BatchSpanProcessor(exporter));
+provider.register({
+  contextManager: new ZoneContextManager()
+});
+```
+
+I was unable to implement this. I made good progress in following the steps on Honeycomb's website. However, with my limited react JavaScript knowledge, I was unable to fully implement this. 
+
+
+### References
 
 [OpenTelemetry By Marc Pichler](https://github.com/open-telemetry/opentelemetry-js)
 
