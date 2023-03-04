@@ -8,7 +8,14 @@ import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
 
 // [TODO] Authenication
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
+
+// Honeycomb-----
+//import { trace } from "@opentelemetry/api";
+import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
+import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
+import { registerInstrumentations } from '@opentelemetry/instrumentation';
+
 
 export default function HomeFeedPage() {
   const [activities, setActivities] = React.useState([]);
@@ -18,9 +25,35 @@ export default function HomeFeedPage() {
   const [user, setUser] = React.useState(null);
   const dataFetchedRef = React.useRef(false);
 
+  //const tracer = trace.getTracer();
+
+  //const rootSpan = tracer.startActiveSpan('document_load', span => {
+    //span.setAttribute('pageUrlwindow', window.location.href);
+   // window.onload = (event) => {
+      
+   //  span.end(); 
+  //  };
+  //});
+
+  registerInstrumentations({
+    instrumentations: [
+      new XMLHttpRequestInstrumentation({
+        propagateTraceHeaderCorsUrls: [
+           /.+/g, /^http:\/\/localhost:4567\/.*$/
+        ]
+      }),
+      new FetchInstrumentation({
+        propagateTraceHeaderCorsUrls: [
+           /.+/g, /^http:\/\/localhost:4567\/.*$/
+        ]
+      }),
+    ],
+  });
+
   const loadData = async () => {
     try {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/home`
+           
       const res = await fetch(backend_url, {
         method: "GET"
       });

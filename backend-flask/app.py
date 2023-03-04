@@ -3,6 +3,16 @@ from flask import request
 from flask_cors import CORS, cross_origin
 import os
 
+#Honeycomb ---------
+# app.py updates
+from opentelemetry import trace
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from opentelemetry.instrumentation.requests import RequestsInstrumentor
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
+
 from services.home_activities import *
 from services.notifications_activities import *
 from services.user_activities import *
@@ -13,16 +23,6 @@ from services.message_groups import *
 from services.messages import *
 from services.create_message import *
 from services.show_activity import *
-
-#Honeycomb ---------
-# app.py updates
-from opentelemetry import trace
-from opentelemetry.instrumentation.flask import FlaskInstrumentor
-from opentelemetry.instrumentation.requests import RequestsInstrumentor
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
 
 # X-RAY ----------
 from aws_xray_sdk.core import xray_recorder
@@ -60,18 +60,18 @@ provider.add_span_processor(processor)
 
 
 ##Show this in the logs within the backend-flask app (STDOUT)
-simple_processor = SimpleSpanProcessor(ConsoleSpanExporter())
-provider.add_span_processor(simple_processor)
+#simple_processor = SimpleSpanProcessor(ConsoleSpanExporter())
+#provider.add_span_processor(simple_processor)
 
 trace.set_tracer_provider(provider)
 tracer = trace.get_tracer(__name__)
 ##add attributes
-with tracer.start_as_current_span("http-handler") as outer_span:
+#with tracer.start_as_current_span("http-handler") as outer_span:
     #with tracer.start_as_current_span("my-cool-function") as inner_span:
-      outer_span.set_attribute("outer", True)
+     # outer_span.set_attribute("outer", True)
        # inner_span.set_attribute("inner", True)
 ##UserID Span
-span = trace.get_current_span()
+#span = trace.get_current_span()
 
 #span.set_attribute("user.id", user.id())
 
@@ -93,8 +93,8 @@ cors = CORS(
   app, 
   resources={r"/api/*": {"origins": origins}},
   expose_headers="location,link",
-  allow_headers="content-type,if-modified-since",
-  methods="OPTIONS,GET,HEAD,POST"
+  allow_headers=["content-type", "if-modified-since", "traceparent"],
+  methods="OPTIONS,GET,HEAD,POST",
 )
 
 #@app.after_request
