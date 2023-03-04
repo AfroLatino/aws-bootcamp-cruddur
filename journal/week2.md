@@ -30,8 +30,25 @@ I have now completed all my mandatory homework from Week 0 - 2.
 
 ### Instrument Honeycomb for the frontend-application to observe network latency between frontend and backend
 
+I did a test span through Postman on my Honeycomb application and got the results below:
+
+![TestWithCurl](https://user-images.githubusercontent.com/78261965/222917353-8b170471-c735-455a-90de-928767754eb4.png)
+
+I created an OTEL collector yaml file to receive, process and export telemetry data. It removes the need to run, operate, and maintain multiple agents/collectors.
+
+I added the packages below to instrument my Web Page.
+
 ```sh
-// tracing.js
+npm install --save \
+    @opentelemetry/api \
+    @opentelemetry/sdk-trace-web \
+    @opentelemetry/exporter-trace-otlp-http \
+    @opentelemetry/context-zone
+```
+
+An initiation file called ```tracing.js``` was created as seen below:
+
+```sh
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import { WebTracerProvider, BatchSpanProcessor } from '@opentelemetry/sdk-trace-web';
 import { ZoneContextManager } from '@opentelemetry/context-zone';
@@ -64,6 +81,10 @@ I was unable to implement this. I made good progress in following the steps on H
 [OpenTelemetry Docs](https://opentelemetry.io/docs/instrumentation/js/getting-started/browser/)
 
 [OpenTelemetry Bootcamp](https://github.com/aspecto-io/opentelemetry-bootcamp/blob/master/src/ws-instrumentation/ws.ts)
+
+[Honeycomb Blog](https://www.honeycomb.io/blog/test-span-opentelemetry-collector)
+
+[Otel Collector](https://opentelemetry.io/docs/collector/)
 
 
 ### Add custom instrumentation to Honeycomb to add more attributes eg. UserId, Add a custom span
