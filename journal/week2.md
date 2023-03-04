@@ -141,7 +141,7 @@ Find below the screenshot of the tracing between the frontend and backend applic
 
 [Otel Collector](https://opentelemetry.io/docs/collector/)
 
-[Support from Discord](https://github.com/annleefores)
+[Support from Discord - AnnLee Fores]([https://github.com/annleefores/aws-bootcamp-cruddur-2023])
 
 
 ### Add custom instrumentation to Honeycomb to add more attributes eg. UserId, Add a custom span
