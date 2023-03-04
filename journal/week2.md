@@ -141,6 +141,8 @@ Find below the screenshot of the tracing between the frontend and backend applic
 
 [Otel Collector](https://opentelemetry.io/docs/collector/)
 
+[Support from Discord](https://github.com/annleefores)
+
 
 ### Add custom instrumentation to Honeycomb to add more attributes eg. UserId, Add a custom span
 
