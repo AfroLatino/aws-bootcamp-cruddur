@@ -69,7 +69,7 @@ provider.register({
 });
 ```
 
-Instrumentation for actions were added to my HomeFeedPage as seen below:
+#### Instrumentation for actions were added to my HomeFeedPage as seen below:
 
 ```sh
 import { trace } from '@opentelemetry/api';
@@ -90,6 +90,42 @@ Then, I was able to view my frontend-react-js dataset in Honeycomb. Find the scr
 
 ![Frontend query](https://user-images.githubusercontent.com/78261965/222918119-cf9a61fc-0bbf-4c97-af67-98898297159a.png)
 
+#### Connecting the Frontend and Backend Traces 
+
+I installed the packages below
+
+```sh
+npm install --save \
+    @opentelemetry/instrumentation \
+    @opentelemetry/instrumentation-xml-http-request \
+    @opentelemetry/instrumentation-fetch
+```
+
+I propagated the trace header automatically by setting this configuration property of instrumentation-xml-http-request and instrumentation-fetch packages.
+
+```sh
+import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
+import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
+import { registerInstrumentations } from '@opentelemetry/instrumentation';
+
+registerInstrumentations({
+  instrumentations: [
+    new XMLHttpRequestInstrumentation({
+      propagateTraceHeaderCorsUrls: [
+         /.+/g, //Regex to match your backend urls. This should be updated.
+      ]
+    }),
+    new FetchInstrumentation({
+      propagateTraceHeaderCorsUrls: [
+         /.+/g, //Regex to match your backend urls. This should be updated.
+      ]
+    }),
+  ],
+});
+```
+Find below the screenshot of the tracing between the frontend and backend application.
+
+![Frontend to backend tracing](https://user-images.githubusercontent.com/78261965/222918396-704b3269-da59-4517-a898-f408174c1723.png)
 
 ### References
 
