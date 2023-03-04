@@ -56,7 +56,7 @@ import { Resource }  from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 
 const exporter = new OTLPTraceExporter({
-  url: 'https://<your collector endpoint>:443/v1/traces'
+ url: `${process.env.REACT_APP_OTEL_COLLECTOR_URL}/v1/traces`
 });
 const provider = new WebTracerProvider({
   resource: new Resource({
@@ -69,7 +69,26 @@ provider.register({
 });
 ```
 
-I was unable to implement this. I made good progress in following the steps on Honeycomb's website. However, with my limited react JavaScript knowledge, I was unable to fully implement this. 
+Instrumentation for actions were added to my HomeFeedPage as seen below:
+
+```sh
+import { trace } from '@opentelemetry/api';
+
+const tracer = trace.getTracer();
+
+const rootSpan = tracer.startActiveSpan('document_load', span => {
+  //start span when navigating to page
+  span.setAttribute('pageUrlwindow', window.location.href);
+  window.onload = (event) => {
+    span.end(); //once page is loaded, end the span
+  };
+```
+
+Then, I was able to view my frontend-react-js dataset in Honeycomb. Find the screenshots below:
+
+![frontend screenshot](https://user-images.githubusercontent.com/78261965/222918108-4caf9a70-8555-4b60-807c-ef2b49e68632.png)
+
+![Frontend query](https://user-images.githubusercontent.com/78261965/222918119-cf9a61fc-0bbf-4c97-af67-98898297159a.png)
 
 
 ### References
