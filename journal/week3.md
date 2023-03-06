@@ -19,7 +19,7 @@ The following pages need to be amended to include the aws-amplify, const resend_
 
 ```ProfileInfo.js```
 
-```SignInPage.js```
+```SigninPage.js```
 
 ```SignupPage.js```
 
