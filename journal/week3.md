@@ -1,8 +1,8 @@
 # Week 3 — Decentralized Authentication
 
-Stretch Homework Challenges
+## Stretch Homework Challenges
 
-AWS X-Ray Subsegments
+### AWS X-Ray Subsegments
 
 Subsegments extend a trace's segment with details about work done in order to serve a request. Each time you make a call with an instrumented client, the X-Ray SDK records the information generated in a subsegment
 
