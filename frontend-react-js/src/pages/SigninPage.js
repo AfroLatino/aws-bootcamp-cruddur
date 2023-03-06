@@ -17,6 +17,7 @@ export default function SigninPage() {
     event.preventDefault();
       Auth.signIn(email, password)
        .then(user => {
+          console.log('user',user)
           localStorage.setItem("access_token", user.signInUserSession.accessToken.jwtToken)
           window.location.href = "/"
         })
@@ -37,6 +38,7 @@ export default function SigninPage() {
   }
 
   let el_errors;
+
   if (errors){
     el_errors = <div className='errors'>{errors}</div>;
   }
