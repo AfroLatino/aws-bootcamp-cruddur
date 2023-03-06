@@ -51,3 +51,11 @@ I was able to sign in to the web app using this user.
 The handle also displayed the name and preferred username as seen below:
 
 ![Logged in as name and preferred_username](https://user-images.githubusercontent.com/78261965/223216178-01881773-7a75-42ee-8c9b-b467fb069dd7.png)
+
+![Details of Home Feed Page](https://user-images.githubusercontent.com/78261965/223218890-a6748662-753b-4701-bcc0-6b5bb1b35d7b.png)
+
+The HomeFeedPage displays the session, sgtrinutes, client, pool, signInUserSession, storage as seen below:
+
+![Details of Home Feed Page](https://user-images.githubusercontent.com/78261965/223219142-2e6b3c1f-5f11-412e-b7a7-70b17ae7e9bc.png)
+
+
