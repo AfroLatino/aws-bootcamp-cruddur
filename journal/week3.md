@@ -12,14 +12,19 @@ Install AWS Amplify is needed for authentication.
 npm i aws-amplify --save
 ```
 The following pages need to be amended to include the aws-amplify, const resend_code and const onsubmit codes:
+
 ```App.js```
 
 ```HomeFeedPage.js```
 
 ```ProfileInfo.js```
+
 ```SignInPage.js```
+
 ```SignupPage.js```
+
 ```ConfirmationPage.js```
+
 ```RecoverPage.js```
 
 
