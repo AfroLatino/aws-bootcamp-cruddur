@@ -1,13 +1,30 @@
 # Week 3 — Decentralized Authentication
 
-## Stretch Homework Challenges
+## Required Homework 
 
-### AWS X-Ray Subsegments
+### AWS Cognito Custom Pages
 
-Subsegments extend a trace's segment with details about work done in order to serve a request. Each time you make a call with an instrumented client, the X-Ray SDK records the information generated in a subsegment
+AWS Cognito lets you easily add user sign-up and authentication to your mobile and web apps. 
 
-After watching the live stream video, I was able to create an AWS Subsegment as seen from the screenshots below:
+Install AWS Amplify is needed for authentication.
 
-![subsegment nodes](https://user-images.githubusercontent.com/78261965/223013359-1796090e-6ef6-4c09-807d-75be37caaa3c.png)
+```sh
+npm i aws-amplify --save
+```
+The following pages need to be amended:
+```App.js```
+```HomeFeedPage.js```
+```ProfileInfo.js```
 
-![Subsegments screenshot](https://user-images.githubusercontent.com/78261965/223013365-00977f00-dc9f-447b-aacd-d165496a1d65.png)
+
+I created a user pool called crudder-user-pool and a user called afrolatino as seen below:
+
+![User Confirmation Status](https://user-images.githubusercontent.com/78261965/223215541-f5d605a1-48b8-4c34-8cd3-3ad13a6c33db.png).
+
+I was able to sign in to the web app using this user.
+
+![Sign In Page screenshot](https://user-images.githubusercontent.com/78261965/223215727-2329e7f9-cd19-4883-b43f-4daa272bcfda.png)
+
+The handle also displayed the name and preferred username as seen below:
+
+![Logged in as name and preferred_username](https://user-images.githubusercontent.com/78261965/223216178-01881773-7a75-42ee-8c9b-b467fb069dd7.png)
