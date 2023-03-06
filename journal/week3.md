@@ -11,15 +11,31 @@ Install AWS Amplify is needed for authentication.
 ```sh
 npm i aws-amplify --save
 ```
-The following pages need to be amended:
+The following pages need to be amended to include the aws-amplify, const resend_code and const onsubmit codes:
 ```App.js```
 ```HomeFeedPage.js```
 ```ProfileInfo.js```
+```SignInPage.js```
+```SignupPage.js```
+```ConfirmationPage.js```
+```RecoverPage.js```
 
 
-I created a user pool called crudder-user-pool and a user called afrolatino as seen below:
+I created a user group called crudder-user-pool and a user called afrolatino as seen below:
 
 ![User Confirmation Status](https://user-images.githubusercontent.com/78261965/223215541-f5d605a1-48b8-4c34-8cd3-3ad13a6c33db.png).
+
+During the livestream, we were unable to confirm the user created.
+
+The command for user confirmation is as follows:
+
+```sh
+aws cognito-idp admin-set-user-password \
+      --user-pool-id <your-user-pool-id> \
+      --username <username> \
+      --password <password> \
+      --permanent
+```
 
 I was able to sign in to the web app using this user.
 
