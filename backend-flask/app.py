@@ -26,7 +26,7 @@ from services.messages import *
 from services.create_message import *
 from services.show_activity import *
 
-from lib.cognito_jwt_token import CognitoJwtToken
+from lib.cognito_jwt_token import CognitoJwtToken, extract_access_token, TokenVerifyError
 # X-RAY ----------
 from aws_xray_sdk.core import xray_recorder
 from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
@@ -174,9 +174,18 @@ def data_create_message():
 @app.route("/api/activities/home", methods=['GET'])
 #@xray_recorder.capture('activities_home')
 def data_home():
-    data = HomeActivities.run()
-    #app.logger.debug('claims')
-    #app.logger.debug(claims)
+    access_token = extract_access_token(request.headers)
+    try:
+      claims = cognito_jwt_token.verify(access_token)
+
+      app.logger.debug("authenticated")
+      app.logger.debug(claims)
+    except TokenVerifyError as e:
+
+      app.logger.debug("unauthenticated")
+    
+      data = HomeActivities.run()
+    
     return data, 200
 
 @app.route("/api/activities/notifications", methods=['GET'])
