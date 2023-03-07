@@ -4,6 +4,7 @@ from flask_cors import CORS, cross_origin
 import os
 import sys
 
+
 #Honeycomb ---------
 # app.py updates
 from opentelemetry import trace
@@ -25,6 +26,7 @@ from services.messages import *
 from services.create_message import *
 from services.show_activity import *
 
+from lib.cognito_jwt_token import CognitoJwtToken
 # X-RAY ----------
 from aws_xray_sdk.core import xray_recorder
 from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
@@ -78,6 +80,8 @@ tracer = trace.get_tracer(__name__)
 
 
 app = Flask(__name__)
+
+#cognito_jwt_token = CognitoJwtToken() 
 
 ## X-RAY -----------
 #XRayMiddleware(app, xray_recorder)
@@ -166,6 +170,8 @@ def data_create_message():
 #@xray_recorder.capture('activities_home')
 def data_home():
     data = HomeActivities.run()
+    #app.logger.debug('claims')
+    #app.logger.debug(claims)
     return data, 200
 
 @app.route("/api/activities/notifications", methods=['GET'])
