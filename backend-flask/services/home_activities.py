@@ -5,7 +5,7 @@ import logging
 tracer = trace.get_tracer("home.activities")
 
 class HomeActivities:
-  def run(): 
+  def run(cognito_user_id): 
     #logger.info("HomeActivities")
     ## HoneyComb Span addition
     with tracer.start_as_current_span("http-handler") as outer_span:
