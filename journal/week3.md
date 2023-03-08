@@ -57,3 +57,12 @@ The HomeFeedPage displays the **session, attributes, client, pool, signInUserSes
 ![Details of Home Feed Page](https://user-images.githubusercontent.com/78261965/223219142-2e6b3c1f-5f11-412e-b7a7-70b17ae7e9bc.png)
 
 
+### Verify JWT Token server side to serve authenticated API endpoints in Flask Application
+
+I was able to authenticate myself following the instructions on the video as seen below:
+
+![debug authenticated](https://user-images.githubusercontent.com/78261965/223822945-99646db9-9d94-44f8-a55d-26ca377420ff.png)
+
+I was able to view the additional message in the codes visible only to authenticated users.
+
+![Hidden authentication message](https://user-images.githubusercontent.com/78261965/223823644-53d38757-69ff-44a5-9c52-8c3d0015e7f4.png)
