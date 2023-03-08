@@ -174,15 +174,15 @@ def data_create_message():
 @app.route("/api/activities/home", methods=['GET'])
 #@xray_recorder.capture('activities_home')
 def data_home():
-   # access_token = extract_access_token(request.headers)
-   # try:
-   #   claims = cognito_jwt_token.verify(access_token)
+    access_token = extract_access_token(request.headers)
+    try:
+      claims = cognito_jwt_token.verify(access_token)
 
-     # app.logger.debug("authenticated")
-     # app.logger.debug(claims)
-  #  except TokenVerifyError as e:
+      app.logger.debug("authenticated")
+      app.logger.debug(claims)
+    except TokenVerifyError as e:
  
-     # app.logger.debug("unauthenticated")
+      app.logger.debug("unauthenticated")
     
     data = HomeActivities.run()
     
