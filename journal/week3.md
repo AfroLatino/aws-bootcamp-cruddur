@@ -63,6 +63,6 @@ I was able to authenticate myself following the instructions on the video as see
 
 ![debug authenticated](https://user-images.githubusercontent.com/78261965/223822945-99646db9-9d94-44f8-a55d-26ca377420ff.png)
 
-I was able to view the additional message in the codes visible only to authenticated users by Lore, **My dear brother, it is the humans that are the problem.
+I was able to view the additional message in the codes visible only to authenticated users by Lore, **My dear brother, it is the humans that are the problem.**
 
 ![Hidden authentication message](https://user-images.githubusercontent.com/78261965/223823644-53d38757-69ff-44a5-9c52-8c3d0015e7f4.png)
