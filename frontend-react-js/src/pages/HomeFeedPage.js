@@ -10,7 +10,7 @@ import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
 
 // [TODO] Authenication
-import Cookies from 'js-cookie';
+//import Cookies from 'js-cookie';
 
 // Honeycomb-----
 //import { trace } from "@opentelemetry/api";
