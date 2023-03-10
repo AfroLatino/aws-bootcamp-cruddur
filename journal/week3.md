@@ -153,9 +153,9 @@ Amazon Cognito Compliance standard is what your business requires.
 
 Amazon Cognito should only be in the AWS Region that you are legally allowed to be holding user data in.
 
-Amazon Organisations SCP - to manage User Pool deletion, creation, region lock etc.
+- Amazon Organisations SCP - to manage User Pool deletion, creation, region lock etc.
 
-AWS Cloud Trail is enabled and monitored to trigger alerts on malicious Cognito behaviour by an identity in AWS.
+- AWS Cloud Trail is enabled and monitored to trigger alerts on malicious Cognito behaviour by an identity in AWS.
 
 
 
