@@ -143,3 +143,21 @@ Identity Broker for AWS Resources with Temporary Credentials
 
 Can extend users to AWS Resources easily
 
+#### AWS Cognito - Security Best Practices
+
+AWS Services - API Gateway, AWS Resources shared with the App Client (Backend or Back channels)
+
+AWS WAF with Web ACLs for Rate Limiting, Allow/Deny List, Deny access from region and many more waf management rules similar to OWASP (marketplace).
+
+Amazon Cognito Compliance standard is what your business requires.
+
+Amazon Cognito should only be in the AWS Region that you are legally allowed to be holding user data in.
+
+Amazon Organisations SCP - to manage User Pool deletion, creation, region lock etc.
+
+AWS Cloud Trail is enabled and monitored to trigger alerts on malicious Cognito behaviour by an identity in AWS.
+
+
+
+
+
