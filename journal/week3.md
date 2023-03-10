@@ -105,6 +105,7 @@ I was able to view the additional message in the codes visible only to authentic
 
 ![Hidden authentication message](https://user-images.githubusercontent.com/78261965/223823644-53d38757-69ff-44a5-9c52-8c3d0015e7f4.png)
 
+
 ### Improving UI Contrast & Implementing CSS Variables for Theming
 
 Variables were set in Index.css page as follows:
@@ -124,5 +125,9 @@ Several pages like ProfileInfo.css and DesktopNavigation.css were amended to imp
 
 ![new screenshot](https://user-images.githubusercontent.com/78261965/224431567-74fd17bf-5fe8-48d7-9f4a-3d0e9c2dbd17.png)
 
+### Network Cache
 
+Ensure Disable cache is on when doing front-end development.
+
+![ensure disable cache is on when doing front-end development](https://user-images.githubusercontent.com/78261965/224437570-40c844fe-ec1f-4361-a0eb-57452ff5003d.png)
 
