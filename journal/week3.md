@@ -6,6 +6,8 @@
 
 I created a user group called crudder-user-pool and a user called afrolatino as seen below:
 
+![userpool](https://user-images.githubusercontent.com/78261965/224437313-55dda90b-d894-4e34-9546-843d4227ebe0.png)
+
 ![User Confirmation Status](https://user-images.githubusercontent.com/78261965/223215541-f5d605a1-48b8-4c34-8cd3-3ad13a6c33db.png).
 
 During the livestream, we were unable to confirm the user created.
