@@ -28,19 +28,19 @@ from services.show_activity import *
 
 from lib.cognito_jwt_token import CognitoJwtToken, extract_access_token, TokenVerifyError
 # X-RAY ----------
-from aws_xray_sdk.core import xray_recorder
-from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+#from aws_xray_sdk.core import xray_recorder
+#from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
 
 # CloudWatch Logs --------
-import watchtower
-import logging
-from time import strftime
+#import watchtower
+#import logging
+#from time import strftime
 
 ##Rollbar
-import os 
-import rollbar
-import rollbar.contrib.flask
-from flask import got_request_exception
+#import os 
+#import rollbar
+#import rollbar.contrib.flask
+#from flask import got_request_exception
 
 # Configuring Logger to Use CloudWatch
 #LOGGER = logging.getLogger(__name__)
@@ -53,9 +53,9 @@ from flask import got_request_exception
 
 #Honeycomb .....
 # Initialize tracing and an exporter that can send data to Honeycomb
-provider = TracerProvider()
-processor = BatchSpanProcessor(OTLPSpanExporter())
-provider.add_span_processor(processor)
+#provider = TracerProvider()
+#processor = BatchSpanProcessor(OTLPSpanExporter())
+#provider.add_span_processor(processor)
 
 # X-RAY ----------
 #xray_url = os.getenv("AWS_XRAY_URL")
@@ -66,8 +66,8 @@ provider.add_span_processor(processor)
 #simple_processor = SimpleSpanProcessor(ConsoleSpanExporter())
 #provider.add_span_processor(simple_processor)
 
-trace.set_tracer_provider(provider)
-tracer = trace.get_tracer(__name__)
+#trace.set_tracer_provider(provider)
+#tracer = trace.get_tracer(__name__)
 ##add attributes
 #with tracer.start_as_current_span("http-handler") as outer_span:
     #with tracer.start_as_current_span("my-cool-function") as inner_span:
@@ -93,8 +93,8 @@ cognito_jwt_token = CognitoJwtToken(
 
 #HoneyComb ........
 # Initialize automatic instrumentation with Flask
-FlaskInstrumentor().instrument_app(app)
-RequestsInstrumentor().instrument()
+#FlaskInstrumentor().instrument_app(app)
+#RequestsInstrumentor().instrument()
 
 frontend = os.getenv('FRONTEND_URL')
 backend = os.getenv('BACKEND_URL')
@@ -114,27 +114,27 @@ cors = CORS(
    # return response
 
 ## Rollbar ----------
-rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
-@app.before_first_request
-def init_rollbar():
-    """init rollbar module"""
-    rollbar.init(
+#rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
+#@app.before_first_request
+#def init_rollbar():
+ #   """init rollbar module"""
+ #   rollbar.init(
         # access token
-      rollbar_access_token,
+#      rollbar_access_token,
         # environment name
-      'production',
+  #    'production',
         # server root directory, makes tracebacks prettier
-      root=os.path.dirname(os.path.realpath(__file__)),
+ #     root=os.path.dirname(os.path.realpath(__file__)),
         # flask already sets up logging
-      allow_logging_basic_config=False)
+ #     allow_logging_basic_config=False)
 
     # send exceptions from `app` to rollbar, using flask's signal system.
-    got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
+  #  got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
 
-@app.route('/rollbar/test')
-def rollbar_test():
-    rollbar.report_message('Hello World!', 'warning')
-    return "Hello World!"
+#@app.route('/rollbar/test')
+#def rollbar_test():
+ #   rollbar.report_message('Hello World!', 'warning')
+ #   return "Hello World!"
 
 @app.route("/api/message_groups", methods=['GET'])
 def data_message_groups():
