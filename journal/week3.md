@@ -66,3 +66,22 @@ I was able to authenticate myself following the instructions on the video as see
 I was able to view the additional message in the codes visible only to authenticated users by Lore, **My dear brother, it is the humans that are the problem.**
 
 ![Hidden authentication message](https://user-images.githubusercontent.com/78261965/223823644-53d38757-69ff-44a5-9c52-8c3d0015e7f4.png)
+
+### Improving UI Contrast & Implementing CSS Variables for Theming
+
+Variables were set in Index.css page as follows:
+
+```sh
+:root {
+  --bg: rgb(61,13,123);
+  --fg: rgb(8,1,14);
+
+  --field-border: rgb(255,255,255,0.29);
+  --field-border-focus: rgb(149,0,255,1);
+  --field-bg: rgb(31,31,31);
+}
+```
+
+Several pages like ProfileInfo.css
+
+![new screenshot](https://user-images.githubusercontent.com/78261965/224431567-74fd17bf-5fe8-48d7-9f4a-3d0e9c2dbd17.png)
