@@ -136,7 +136,10 @@ Ensure Disable cache is on when doing front-end development.
 #### Why Use Cognito
 
 User Directory for Customers
+
 Ability to access AWS Resources for the Application being built
+
 Identity Broker for AWS Resources with Temporary Credentials
+
 Can extend users to AWS Resources easily
 
