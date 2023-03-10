@@ -2,7 +2,7 @@
 
 ## Required Homework 
 
-### Creating Cognito User in AWS
+### Create Cognito User in AWS
 
 A user can be created via AWS Cognito through various steps. I would like to discuss the creation of users via CLI.
 
@@ -124,3 +124,6 @@ Variables were set in Index.css page as follows:
 Several pages like ProfileInfo.css and DesktopNavigation.css were amended to improve the UI contrast.
 
 ![new screenshot](https://user-images.githubusercontent.com/78261965/224431567-74fd17bf-5fe8-48d7-9f4a-3d0e9c2dbd17.png)
+
+
+
