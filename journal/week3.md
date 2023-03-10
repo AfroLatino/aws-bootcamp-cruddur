@@ -82,6 +82,6 @@ Variables were set in Index.css page as follows:
 }
 ```
 
-Several pages like ProfileInfo.css
+Several pages like ProfileInfo.css and DesktopNavigation.css were amended to improve the UI contrast.
 
 ![new screenshot](https://user-images.githubusercontent.com/78261965/224431567-74fd17bf-5fe8-48d7-9f4a-3d0e9c2dbd17.png)
