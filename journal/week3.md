@@ -135,23 +135,23 @@ Ensure Disable cache is on when doing front-end development.
 
 #### Why Use Cognito
 
-User Directory for Customers
+- User Directory for Customers
 
-Ability to access AWS Resources for the Application being built
+- Ability to access AWS Resources for the Application being built
 
-Identity Broker for AWS Resources with Temporary Credentials
+- Identity Broker for AWS Resources with Temporary Credentials
 
-Can extend users to AWS Resources easily
+- Can extend users to AWS Resources easily
 
 #### AWS Cognito - Security Best Practices
 
-AWS Services - API Gateway, AWS Resources shared with the App Client (Backend or Back channels)
+- AWS Services - API Gateway, AWS Resources shared with the App Client (Backend or Back channels)
 
-AWS WAF with Web ACLs for Rate Limiting, Allow/Deny List, Deny access from region and many more waf management rules similar to OWASP (marketplace).
+- AWS WAF with Web ACLs for Rate Limiting, Allow/Deny List, Deny access from region and many more waf management rules similar to OWASP (marketplace).
 
-Amazon Cognito Compliance standard is what your business requires.
+- Amazon Cognito Compliance standard is what your business requires.
 
-Amazon Cognito should only be in the AWS Region that you are legally allowed to be holding user data in.
+- Amazon Cognito should only be in the AWS Region that you are legally allowed to be holding user data in.
 
 - Amazon Organisations SCP - to manage User Pool deletion, creation, region lock etc.
 
