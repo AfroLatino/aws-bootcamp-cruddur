@@ -2,6 +2,45 @@
 
 ## Required Homework 
 
+### Creating Cognito User in AWS
+
+A user can be created via AWS Cognito through various steps. I would like to discuss the creation of users via CLI.
+
+#### Create New Users via CLI
+
+Add a new user in AWS Cognito with aws cognito-idp sign-up command line.
+
+```sh
+aws cognito-idp sign-up \
+--client-id <client-id> \
+--username <username> \
+--password <password> \
+--user-attributes Name=email,Value=test@example.com \
+--region <region> \
+--profile default
+```
+
+#### Admin Confirmation Sign Up
+
+```sh
+aws cognito-idp admin-confirm-sign-up \
+--user-pool-id <user-pool-id> \
+--username test@example.com \
+--region <region> \
+--profile default
+```
+
+#### Admin Update User Attributes
+
+```sh
+aws cognito-idp admin-update-user-attributes \
+--user-pool-id <user-pool-id> \
+--username test@example.com \
+--user-attributes Name=email_verified,Value=true \
+--region <region> \
+--profile default
+```
+
 ### AWS Cognito Custom Pages
 
 AWS Cognito lets you easily add user sign-up and authentication to your mobile and web apps. 
