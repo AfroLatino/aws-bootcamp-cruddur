@@ -131,3 +131,12 @@ Ensure Disable cache is on when doing front-end development.
 
 ![ensure disable cache is on when doing front-end development](https://user-images.githubusercontent.com/78261965/224437570-40c844fe-ec1f-4361-a0eb-57452ff5003d.png)
 
+### Amazon Cognito Security Best Practices
+
+#### Why Use Cognito
+
+User Directory for Customers
+Ability to access AWS Resources for the Application being built
+Identity Broker for AWS Resources with Temporary Credentials
+Can extend users to AWS Resources easily
+
