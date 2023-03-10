@@ -4,6 +4,8 @@
 
 ### Create Cognito User in AWS
 
+A Cognito User Pool was created using user name and E-mail as the sign-in options.
+
 A user can be created via AWS Cognito through various steps. I would like to discuss the creation of users via CLI.
 
 #### Create New Users via CLI
