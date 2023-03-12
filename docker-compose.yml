@@ -53,16 +53,16 @@ services:
    # ports:
     #  - 4318:4318 # OTLP http receiver
 
-  xray-daemon:
-    image: "amazon/aws-xray-daemon"
-    environment:
-      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
-      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
-      AWS_REGION: "us-east-1"
-    command:
-      - "xray -o -b xray-daemon:2000"
-    ports:
-      - 2000:2000/udp
+  #xray-daemon:
+    #image: "amazon/aws-xray-daemon"
+   # environment:
+  #    AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+   #   AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+   #   AWS_REGION: "us-east-1"
+   # command:
+   #   - "xray -o -b xray-daemon:2000"
+   # ports:
+   #   - 2000:2000/udp
   #dynamodb-local:
     # https://stackoverflow.com/questions/67533058/persist-local-dynamodb-data-in-volumes-lack-permission-unable-to-open-databa
     # We needed to add user:root to get this working.
@@ -80,7 +80,7 @@ services:
     image: postgres:13-alpine
     restart: always
     environment:
-      - POSTGRES_USER=postgres
+      - POSTGRES_USER=postgres 
       - POSTGRES_PASSWORD=password
     ports:
       - '5432:5432'

@@ -32,9 +32,9 @@ ports:
   - name: backend
     port: 4567
     visibility: public
-  - name: xray-daemon
-    port: 2000
-    visibility: public
-  - name: otel-collector
-    port: 4318
-    visibility: public
+ # - name: xray-daemon
+ #   port: 2000
+ #   visibility: public
+ # - name: otel-collector
+ #   port: 4318
+ #   visibility: public
