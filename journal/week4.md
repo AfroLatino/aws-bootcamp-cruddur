@@ -2,6 +2,8 @@
 
 ## Required Homework 
 
+### Securing your Amazon RDS Postgres Database
+
 Amazon RDS currently supports the following engines:
 
 - Aurora (MySQL Compatible)
