@@ -2,6 +2,18 @@
 
 ## Required Homework 
 
+Amazon RDS currently supports the following engines:
+
+- MariaDB
+
+- Microsoft SQL Server
+
+- MySQL
+
+- Oracle
+
+- PostgreSQL
+
 ### Amazon RDS – Security Best Practices – AWS
 
 -	Use VPCs: Use Amazon Virtual Private Cloud (VPC) to create a private network for your RDS instance. This helps prevent unauthorised access to your instance from the public internet.
