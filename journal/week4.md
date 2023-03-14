@@ -4,15 +4,22 @@
 
 Amazon RDS currently supports the following engines:
 
-- MariaDB
+- Aurora (MySQL Compatible)
 
-- Microsoft SQL Server
+- Aurora (PostgreSQL Compatible)
+
+- MariaDB
 
 - MySQL
 
 - Oracle
 
 - PostgreSQL
+
+- Microsoft SQL Server
+
+![RDS Engines](https://user-images.githubusercontent.com/78261965/224863977-247ecf3e-4025-4d54-af87-5fb17f3ecb96.png)
+
 
 ### Amazon RDS – Security Best Practices – AWS
 
