@@ -1,12 +1,14 @@
 import uuid
 from datetime import datetime, timedelta, timezone
+
+#from lib.db import db
+
 class CreateActivity:
-  def validations():
-  def run(message, user_handle, ttl):
-    model = {
-      'errors': None,
-      'data': None
-    }
+   def run(message, user_handle, ttl):
+       model = {
+          'errors': None,
+          'data': None
+           }
 
       now = datetime.now(timezone.utc).astimezone()
 
@@ -64,8 +66,5 @@ class CreateActivity:
       "{expires_at}"
     )
     """
-    try:
-       with pool.connection() as conn:
-         with conn.cursor() as cur:
-           cur.execute(sql)
-           con.commit()
+    #query_commit(sql)
+    
