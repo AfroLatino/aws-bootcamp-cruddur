@@ -304,7 +304,7 @@ Lambda is an ideal compute service for many application scenarios, as long as yo
 
 ![cruddurpostconfirm](https://user-images.githubusercontent.com/78261965/226115220-adf1ed74-4b59-4637-b955-9638aeac5d1f.png)
 
-Reference
+**Reference**
 
 [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
 
