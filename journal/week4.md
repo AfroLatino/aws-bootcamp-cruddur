@@ -143,6 +143,7 @@ psql $URL cruddur < $seed_path
 
 This was used to load the seed data.
 
+
 **SQL for seed data
 
 ```sh
@@ -159,6 +160,14 @@ VALUES
     current_timestamp + interval '10 day'
   )
   ```
+  
+![seeddata](https://user-images.githubusercontent.com/78261965/226113865-6074d607-8af2-4d54-8c3d-7e7badf26265.png)
+
+![imported as seed data](https://user-images.githubusercontent.com/78261965/226113886-b946f3af-d131-4641-9c41-3c0f185d4b63.png)
+
+
+![Imported_as_seed_data](https://user-images.githubusercontent.com/78261965/226113911-7dc82985-ed05-4740-85c0-7b26f589eda8.png)
+
   
 Creating users
 
