@@ -25,6 +25,17 @@ The database can be stopped temporarily if not in use. Please note that this aut
 
 I created anew folder called bin.
 
+To give executable access to a user, type in **chmod u+x**, then the file path. See example below:
+
+```sh
+chmod u+x .bin/db-create
+```
+
+```sh
+To view records in a more ordered manner, you can put the expanded display on.
+\x on 
+```
+
 #### db-connect
 
 This is used for establising connection to the database. 
@@ -120,6 +131,35 @@ psql $URL cruddur < $schema_path
 
 This is for loading the schema.
 
+**SQL for schema
+
+```sh
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+DROP TABLE IF EXISTS public.users;
+DROP TABLE IF EXISTS public.activities;
+CREATE TABLE public.users (
+  uuid UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  display_name text NOT NULL,  
+  handle text NOT NULL,
+  email text NOT NULL,
+  cognito_user_id text NOT NULL,
+  created_at TIMESTAMP default current_timestamp NOT NULL
+);
+
+CREATE TABLE public.activities (
+  uuid UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  user_uuid UUID NOT NULL,
+  message text NOT NULL,
+  replies_count integer DEFAULT 0,
+  reposts_count integer DEFAULT 0,
+  likes_count integer DEFAULT 0,
+  reply_to_activity_uuid integer,
+  expires_at TIMESTAMP,
+  created_at TIMESTAMP default current_timestamp NOT NULL
+);
+```
+
 #### db-seed
 
 ```sh
@@ -143,8 +183,7 @@ psql $URL cruddur < $seed_path
 
 This was used to load the seed data.
 
-
-**SQL for seed data
+**SQL for seed data**
 
 ```sh
 INSERT INTO public.users (display_name, handle, cognito_user_id)
@@ -165,10 +204,66 @@ VALUES
 
 ![imported as seed data](https://user-images.githubusercontent.com/78261965/226113886-b946f3af-d131-4641-9c41-3c0f185d4b63.png)
 
+The seed data was later viewed on the front end as seen below:
 
 ![Imported_as_seed_data](https://user-images.githubusercontent.com/78261965/226113911-7dc82985-ed05-4740-85c0-7b26f589eda8.png)
 
-  
+#### db-sessions
+
+The command below was used to establish database connections.
+
+```sh
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="db-sessions"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+if [ "$1" = "prod" ]; then
+  echo "Running in production mode"
+  URL=$PROD_CONNECTION_URL
+else
+  URL=$CONNECTION_URL
+fi
+
+NO_DB_URL=$(sed 's/\/cruddur//g' <<<"$URL")
+psql $NO_DB_URL -c "select pid as process_id, \
+       usename as user,  \
+       datname as db, \
+       client_addr, \
+       application_name as app,\
+       state \
+from pg_stat_activity;"
+```
+
+#### db-setup
+
+```sh
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="db-setup"
+printf "${CYAN}==== ${LABEL}${NO_COLOR}\n"
+
+bin_path="$(realpath .)/bin"
+
+source "$bin_path/db-drop"
+source "$bin_path/db-create"
+source "$bin_path/db-schema-load"
+source "$bin_path/db-seed"
+```
+
+#### rds-update-sg-rule
+
+```sh
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="rds-update-sg-rule"
+printf "${CYAN}==== ${LABEL}${NO_COLOR}\n"
+
+aws ec2 modify-security-group-rules \
+    --group-id $DB_SG_ID \
+    --security-group-rules "SecurityGroupRuleId=$DB_SG_RULE_ID,SecurityGroupRule={Description=GITPOD,IpProtocol=tcp,FromPort=5432,ToPort=5432,CidrIpv4=$GITPOD_IP/32}"
+
+```
 Creating users
 
 ```sh
