@@ -31,6 +31,11 @@ To give executable access to a user, type in **chmod u+x**, then the file path. 
 chmod u+x ./bin/db-create
 ```
 
+The colour changes once this si applied.
+
+![db_createdropschema-load](https://user-images.githubusercontent.com/78261965/226115779-0265e6e7-1319-4b1c-920f-8ea7d21acd7e.png)
+
+
 To view records in a more ordered manner, you can put the expanded display on.
 
 ```sh
@@ -250,6 +255,10 @@ psql $NO_DB_URL -c "select pid as process_id, \
 from pg_stat_activity;"
 ```
 
+An example of a database session is seen below:
+
+![db-sessions](https://user-images.githubusercontent.com/78261965/226115727-b875cefb-fb8a-4f5f-b860-b8bdefebda4a.png)
+
 #### db-setup
 
 ```sh
@@ -277,9 +286,31 @@ printf "${CYAN}==== ${LABEL}${NO_COLOR}\n"
 aws ec2 modify-security-group-rules \
     --group-id $DB_SG_ID \
     --security-group-rules "SecurityGroupRuleId=$DB_SG_RULE_ID,SecurityGroupRule={Description=GITPOD,IpProtocol=tcp,FromPort=5432,ToPort=5432,CidrIpv4=$GITPOD_IP/32}"
-
 ```
-Creating users
+
+### Setup Cognito post confirmation lambda
+
+A lambda trigger was set up in the user pool created using Python 3.8.
+
+AWS Lambda is a compute service that lets you run code without provisioning or managing servers. Lambda runs your code on a high-availability compute infrastructure and performs all of the administration of the compute resources, including server and operating system maintenance, capacity provisioning and automatic scaling, and logging. With Lambda, you can run code for virtually any type of application or backend service.
+
+*** When to use Lambda
+
+Lambda is an ideal compute service for many application scenarios, as long as you can run your application code using the Lambda standard runtime environment and within the resources that Lambda provides. You can use Lambda for:
+
+**Web applications:** Combine Lambda with other AWS services to build powerful web applications that automatically scale up and down and run in a highly available configuration across multiple data centers.
+
+
+![cruddurpostconfirm](https://user-images.githubusercontent.com/78261965/226115220-adf1ed74-4b59-4637-b955-9638aeac5d1f.png)
+
+Reference
+
+[AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
+
+
+#### Creating Users
+
+I was able to create a user and search for this in Production.
 
 ```sh
 cruddur=> select * from users;
@@ -291,7 +322,6 @@ email           | xx@gmail.com
 cognito_user_id | e8350cca-d6bf-4451-acdd-xxxxx
 created_at      | 2023-03-14 04:35:49.565702
 ```
-
 
 ### Securing your Amazon RDS Postgres Database
 
