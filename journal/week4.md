@@ -126,7 +126,7 @@ fi
 psql $URL cruddur < $schema_path
 ```
 
-**SQL for schema
+**SQL for schema**
 
 An extension of uuid-ossp was created using IF NOT EXISTS command. This is not created if it does exist.
 
@@ -203,8 +203,20 @@ VALUES
   )
   ```
   
+ Data displayed after using the command below:
+ 
+ ```sh 
+ SELECT * from users;
+ ```
+ 
 ![seeddata](https://user-images.githubusercontent.com/78261965/226113865-6074d607-8af2-4d54-8c3d-7e7badf26265.png)
 
+Data displayed after using the command below:
+ 
+ ```sh 
+ SELECT * from activities;
+ ```
+ 
 ![imported as seed data](https://user-images.githubusercontent.com/78261965/226113886-b946f3af-d131-4641-9c41-3c0f185d4b63.png)
 
 The seed data was later viewed on the front end as seen below:
