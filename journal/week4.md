@@ -10,6 +10,17 @@ I was able to connect to PSQL via the clinet CLI tool using the command below:
 psql -Upostgres --host localhost
 ```
 
+### Setting up RDS Instance
+
+A RDS database called cruddur-db-instance was set up using PostgreSQL engine.
+
+![cruddur instance](https://user-images.githubusercontent.com/78261965/226113423-1e1165c1-43b9-4c1b-af34-f8e2d4a8e8aa.png)
+
+The Security Groups and VPC were set with backups disabled.
+
+The database can be stopped temporarily if not in use. Please note that this automatically starts back up after 7 days.
+
+
 ### BIN Folder
 
 I created anew folder called bin.
@@ -41,14 +52,114 @@ fi
 psql $URL
 ```
 
+Environment variables for $CONNECTION_URL and $URL were set.
+
 I created a database called cruddur with the command below:
 
 ```sh
 CREATE database cruddur;
 ```
 
+#### db-create
 
+```sh
 
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="db-create"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+NO_DB_CONNECTION_URL=$(sed 's/\/cruddur//g' <<< "$CONNECTION_URL")
+psql $NO_DB_CONNECTION_URL -c "create database cruddur;"
+```
+
+This was used to create the Cruddur database using the command below. Colour formatting was added using Cyan.
+
+```sh
+CREATE DATABASE Cruddur;
+```
+
+#### db-drop
+
+```sh
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="db-drop"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+NO_DB_CONNECTION_URL=$(sed 's/\/cruddur//g' <<< "$CONNECTION_URL")
+psql $NO_DB_CONNECTION_URL -c "drop database cruddur;"
+```
+
+This can be used to drop the database Cruddur if needed using the command below.  Colour formatting was added using Cyan.
+
+```sh
+DROP DATABASE Cruddur;
+```
+
+#### db-schema-load
+
+```sh
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="db-schema-load"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+schema_path="$(realpath .)/db/schema.sql"
+echo $schema_path
+
+if [ "$1" = "prod" ]; then
+  echo "Running in production mode"
+  URL=$PROD_CONNECTION_URL
+else
+  URL=$CONNECTION_URL
+fi
+
+psql $URL cruddur < $schema_path
+```
+
+This is for loading the schema.
+
+#### db-seed
+
+```sh
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="db-seed"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+seed_path="$(realpath .)/db/seed.sql"
+echo $seed_path
+
+if [ "$1" = "prod" ]; then
+  echo "Running in production mode"
+  URL=$PROD_CONNECTION_URL
+else
+  URL=$CONNECTION_URL
+fi
+
+psql $URL cruddur < $seed_path
+```
+
+This was used to load the seed data.
+
+**SQL for seed data
+
+```sh
+INSERT INTO public.users (display_name, handle, cognito_user_id)
+VALUES
+  ('Andrew Brown', 'andrewbrown' ,'MOCK'),
+  ('Andrew Bayko', 'bayko' ,'MOCK');
+
+INSERT INTO public.activities (user_uuid, message, expires_at)
+VALUES
+  (
+    (SELECT uuid from public.users WHERE users.handle = 'andrewbrown' LIMIT 1),
+    'This was imported as seed data!',
+    current_timestamp + interval '10 day'
+  )
+  ```
+  
 Creating users
 
 ```sh
