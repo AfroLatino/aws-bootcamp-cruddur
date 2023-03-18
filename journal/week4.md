@@ -2,6 +2,52 @@
 
 ## Required Homework 
 
+### Connecting to PSQL via the client CLI tool
+
+I was able to connect to PSQL via the clinet CLI tool using the command below:
+
+```sh
+psql -Upostgres --host localhost
+```
+
+### BIN Folder
+
+I created anew folder called bin.
+
+#### db-connect
+
+This is used for establising connection to the database. 
+
+To access the locsl database, use
+
+```sh
+.\bin\db-connect
+
+**For Production**
+
+```sh
+.\bin\db-connect prod
+```
+
+```sh
+if [ "$1" = "prod" ]; then
+  echo "Running in production mode"
+  URL=$PROD_CONNECTION_URL
+else
+  URL=$CONNECTION_URL
+fi
+
+psql $URL
+```
+
+I created a database called cruddur with the command below:
+
+```sh
+CREATE database cruddur;
+```
+
+
+
 Creating users
 
 ```sh
