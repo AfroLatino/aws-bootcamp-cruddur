@@ -28,7 +28,7 @@ I created anew folder called bin.
 To give executable access to a user, type in **chmod u+x**, then the file path. See example below:
 
 ```sh
-chmod u+x .bin/db-create
+chmod u+x ./bin/db-create
 ```
 
 ```sh
@@ -40,16 +40,16 @@ To view records in a more ordered manner, you can put the expanded display on.
 
 This is used for establising connection to the database. 
 
-To access the locsl database, use
+To access the local database, use the command below:
 
 ```sh
-.\bin\db-connect
+./bin/db-connect
 ```
 
 **For Production**
 
 ```sh
-.\bin\db-connect prod
+./bin/db-connect prod
 ```
 
 ```sh
@@ -65,16 +65,10 @@ psql $URL
 
 Environment variables for $CONNECTION_URL and $URL were set.
 
-I created a database called cruddur with the command below:
-
-```sh
-CREATE database cruddur;
-```
 
 #### db-create
 
 ```sh
-
 CYAN='\033[1;36m'
 NO_COLOR='\033[0m'
 LABEL="db-create"
@@ -110,6 +104,8 @@ DROP DATABASE Cruddur;
 
 #### db-schema-load
 
+This is for loading the schema.
+
 ```sh
 CYAN='\033[1;36m'
 NO_COLOR='\033[0m'
@@ -129,9 +125,11 @@ fi
 psql $URL cruddur < $schema_path
 ```
 
-This is for loading the schema.
-
 **SQL for schema
+
+An extension of uuid-ossp was created using IF NOT EXISTS command. This is not created if it does exist.
+
+It also drops tables public.users and public.activities if they do exist and re-creates them.
 
 ```sh
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -162,6 +160,10 @@ CREATE TABLE public.activities (
 
 #### db-seed
 
+This was used to load the seed data.
+
+It used $PROD_CONNECTION_URL when running in production enviroment else $CONNECTION_URL. These were set as environment variables.
+
 ```sh
 CYAN='\033[1;36m'
 NO_COLOR='\033[0m'
@@ -181,9 +183,9 @@ fi
 psql $URL cruddur < $seed_path
 ```
 
-This was used to load the seed data.
-
 **SQL for seed data**
+
+This SQL command was used to insert data into public.users and public.activities tables.
 
 ```sh
 INSERT INTO public.users (display_name, handle, cognito_user_id)
