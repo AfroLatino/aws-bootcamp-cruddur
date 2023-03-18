@@ -31,8 +31,9 @@ To give executable access to a user, type in **chmod u+x**, then the file path. 
 chmod u+x ./bin/db-create
 ```
 
-```sh
 To view records in a more ordered manner, you can put the expanded display on.
+
+```sh
 \x on 
 ```
 
