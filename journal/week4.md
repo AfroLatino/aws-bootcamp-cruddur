@@ -22,6 +22,7 @@ To access the locsl database, use
 
 ```sh
 .\bin\db-connect
+```
 
 **For Production**
 
