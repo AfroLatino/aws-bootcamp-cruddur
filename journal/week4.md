@@ -2,6 +2,20 @@
 
 ## Required Homework 
 
+Creating users
+
+```sh
+cruddur=> select * from users;
+-[ RECORD 1 ]---+-------------------------------------
+uuid            | 97aab7fc-54e4-4d24-b88a-e466a1fda5a1
+display_name    | AfroLatino
+handle          | AfroLatino
+email           | xx@gmail.com
+cognito_user_id | e8350cca-d6bf-4451-acdd-xxxxx
+created_at      | 2023-03-14 04:35:49.565702
+```
+
+
 ### Securing your Amazon RDS Postgres Database
 
 Amazon RDS currently supports the following engines:
@@ -41,4 +55,5 @@ Amazon RDS currently supports the following engines:
 -	Not have RDS be internet (publicly) accessible.
 -	Encryption in Transit for comms between App & RDS
 -	Secret Management: Master User passwords can be used with AWS Secrets Manager to automatically rotate the secrets for Amazon RDS.
+
 
