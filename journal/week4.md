@@ -21,7 +21,7 @@ The Security Groups and VPC were set with backups disabled.
 The database can be stopped temporarily if not in use. Please note that this automatically starts back up after 7 days.
 
 
-### BIN Folder
+### Bin Folder
 
 I created anew folder called bin.
 
@@ -295,7 +295,7 @@ A lambda trigger was set up in the user pool created using Python 3.8.
 
 AWS Lambda is a compute service that lets you run code without provisioning or managing servers. Lambda runs your code on a high-availability compute infrastructure and performs all of the administration of the compute resources, including server and operating system maintenance, capacity provisioning and automatic scaling, and logging. With Lambda, you can run code for virtually any type of application or backend service.
 
-*** When to use Lambda
+**When to use Lambda**
 
 Lambda is an ideal compute service for many application scenarios, as long as you can run your application code using the Lambda standard runtime environment and within the resources that Lambda provides. You can use Lambda for:
 
