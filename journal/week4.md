@@ -226,7 +226,8 @@ Data displayed after using the command below:
 
 The seed data was later viewed on the front end as seen below:
 
-![Imported_as_seed_data](https://user-images.githubusercontent.com/78261965/226113911-7dc82985-ed05-4740-85c0-7b26f589eda8.png)
+![Andrew Brown shows up](https://user-images.githubusercontent.com/78261965/226115881-c029cb98-507c-431b-a36b-581b23b330e2.png)
+
 
 #### db-sessions
 
