@@ -2,18 +2,18 @@ from flask import Flask
 from flask import request
 from flask_cors import CORS, cross_origin
 import os
-import sys
+#import sys
 
 
 #Honeycomb ---------
 # app.py updates
-from opentelemetry import trace
-from opentelemetry.instrumentation.flask import FlaskInstrumentor
-from opentelemetry.instrumentation.requests import RequestsInstrumentor
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
+#from opentelemetry import trace
+#from opentelemetry.instrumentation.flask import FlaskInstrumentor
+#from opentelemetry.instrumentation.requests import RequestsInstrumentor
+#from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+#from opentelemetry.sdk.trace import TracerProvider
+#from opentelemetry.sdk.trace.export import BatchSpanProcessor
+#from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
 
 from services.home_activities import *
 from services.notifications_activities import *
@@ -102,9 +102,9 @@ origins = [frontend, backend]
 cors = CORS(
   app, 
   resources={r"/api/*": {"origins": origins}},
-  headers=['Content-Type', 'Authorization'], 
-  expose_headers='Authorization',
-  methods="OPTIONS,GET,HEAD,POST"
+  headers=['Content-Type', 'Authorization', 'traceparent', 'if-modified-since', 'x-current-user',], 
+  expose_headers=['Authorization', 'location', 'link', 'x-current-user'],
+  methods="OPTIONS,GET,HEAD,POST",
 )
 
 #@app.after_request
@@ -174,21 +174,21 @@ def data_create_message():
 @app.route("/api/activities/home", methods=['GET'])
 #@xray_recorder.capture('activities_home')
 def data_home():
- access_token = extract_access_token(request.headers)
- try:
-  claims = cognito_jwt_token.verify(access_token)
+    access_token = extract_access_token(request.headers)
+    try:
+      claims = cognito_jwt_token.verify(access_token)
         #authenticated request
-  app.logger.debug("authenticated")
-  app.logger.debug(claims)
-  app.logger.debug(claims['username'])
-  data = HomeActivities.run(cognito_user_id=claims['username'])
- except TokenVerifyError as e:
+      app.logger.debug("authenticated")
+      #app.logger.debug(claims)
+      #app.logger.debug(claims['username'])
+      data = HomeActivities.run(cognito_user_id=claims['username'])
+    except TokenVerifyError as e:
       #unauthenticated request
-  app.logger.debug(e)
-  app.logger.debug("unauthenticated")
-  data = HomeActivities.run()  
+      #app.logger.debug(e)
+      app.logger.debug("unauthenticated")
+      data = HomeActivities.run()  
       
-  return data, 200
+      return data, 200
 
 @app.route("/api/activities/notifications", methods=['GET'])
 def data_notifications():
@@ -216,7 +216,7 @@ def data_search():
 @app.route("/api/activities", methods=['POST','OPTIONS'])
 @cross_origin()
 def data_activities():
-  user_handle  = 'andrewbrown'
+  user_handle  = request.json["user_handle"]
   message = request.json['message']
   ttl = request.json['ttl']
   model = CreateActivity.run(message, user_handle, ttl)

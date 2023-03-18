@@ -14,9 +14,9 @@ import ReplyForm from '../components/ReplyForm';
 
 // Honeycomb-----
 //import { trace } from "@opentelemetry/api";
-import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
-import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
-import { registerInstrumentations } from '@opentelemetry/instrumentation';
+//import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
+//import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
+// import { registerInstrumentations } from '@opentelemetry/instrumentation';
 
 
 export default function HomeFeedPage() {
@@ -37,20 +37,20 @@ export default function HomeFeedPage() {
   //  };
   //});
 
-  registerInstrumentations({
-    instrumentations: [
-      new XMLHttpRequestInstrumentation({
-        propagateTraceHeaderCorsUrls: [
-           /.+/g, /^http:\/\/localhost:4567\/.*$/
-        ]
-      }),
-      new FetchInstrumentation({
-        propagateTraceHeaderCorsUrls: [
-           /.+/g, /^http:\/\/localhost:4567\/.*$/
-        ]
-      }),
-    ],
-  });
+//  registerInstrumentations({
+ //   instrumentations: [
+ //     new XMLHttpRequestInstrumentation({
+ //       propagateTraceHeaderCorsUrls: [
+  //         /.+/g, /^http:\/\/localhost:4567\/.*$/
+ //       ]
+ //     }),
+  //    new FetchInstrumentation({
+ //       propagateTraceHeaderCorsUrls: [
+//           /.+/g, /^http:\/\/localhost:4567\/.*$/
+//        ]
+//      }),
+//    ],
+//  });
 
   const loadData = async () => {
     try {
@@ -106,7 +106,8 @@ export default function HomeFeedPage() {
     <article>
       <DesktopNavigation user={user} active={'home'} setPopped={setPopped} />
       <div className='content'>
-        <ActivityForm  
+        <ActivityForm 
+          user_handle={user} 
           popped={popped}
           setPopped={setPopped} 
           setActivities={setActivities} 
