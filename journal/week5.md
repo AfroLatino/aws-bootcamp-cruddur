@@ -24,13 +24,13 @@ Customers rely on DynamoDB to support their mission-critical workloads. Amazon D
 
 ### Types of Access to DynamoDB
 
-Internet Gateway
+- Internet Gateway
 
-VPC/Gateway Endpoints
+- VPC/Gateway Endpoints
 
-DynamoDB Accelerator (DAX)
+- DynamoDB Accelerator (DAX)
 
-Cross Account
+- Cross Account
 
 ### Creating a DynamoDB table
 
