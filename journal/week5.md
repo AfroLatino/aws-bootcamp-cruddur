@@ -38,13 +38,7 @@ DynamoDB is a key value pair. Keys are usually partition or sort keys and are un
 
 Regional endpoints are used to make requests. The general syntax of a regional endpoint is as follows:
 
-$\color{red}{protocol://service-code.region-code}$.awazonaws.com
-
-&nbsp;$\color{red}{protocol://}$
-
-$\color{red}{service-code}$
-
-$\color{red}&nbsp;{protocol://Girl}$
+*Protocol://service-code.region-code*.awazonaws.com
 
 
 
