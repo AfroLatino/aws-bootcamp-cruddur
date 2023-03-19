@@ -44,9 +44,7 @@ $\color{red}{protocol://}$
 
 $\color{red}{service-code}$
 
-1. First item
-    * subitem
-2. Second item
+<code>&nbsp;</code>
 
 
 
