@@ -44,7 +44,7 @@ $\color{red}{protocol://service-code.region-code}$.awazonaws.com
 
 $\color{red}{service-code}$
 
-&nbsp;protocol://Girl
+&nbsp;$\color{red}protocol://Girl}$
 
 
 
