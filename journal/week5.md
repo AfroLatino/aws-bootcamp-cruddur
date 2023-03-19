@@ -42,7 +42,9 @@ $\color{red}{protocol://service-code.region-code}$.awazonaws.com
 
 $\color{red}{MBurntOrange}$ $\color{red}{Hello}$
 
-&nbsp;$\color{red}{service-code}$
+$\color{red}{service-code}$
+
+"    &nbsp"
 
 
 
