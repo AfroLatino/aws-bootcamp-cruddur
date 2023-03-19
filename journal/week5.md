@@ -44,7 +44,7 @@ $\color{red}{&nbsp;protocol://}$
 
 $\color{red}{service-code}$
 
-<code>&nbsp;protocol://Girl</code>
+&nbsp;protocol://Girl
 
 
 
