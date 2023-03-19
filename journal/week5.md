@@ -41,5 +41,4 @@ Regional endpoints are used to make requests. The general syntax of a regional e
 ```diff
 !Protocol://service-code.region-code!-awazonaws.com
 ```
-
  $$\color{orange}{Orange}$$ 
