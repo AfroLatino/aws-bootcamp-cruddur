@@ -19,19 +19,24 @@ def lambda_handler(event, context):
             email,
             handle, 
             cognito_user_id
-            ) 
-         VALUES(%s,%s,%s,%s)
-        """
+         ) 
+         VALUES(
+              %(display_name)s,
+              %(email)s,
+              %(handle)s,
+              %(cognito_id)s
+         )
+         """
         print('SQL Statement ----')
         print(sql)
         conn = psycopg2.connect(os.getenv('CONNECTION_URL'))           
         cur = conn.cursor()
-        params = [
-            user_display_name, 
-            user_email, 
-            user_handle,
-            user_cognito_id
-        ]           
+        params = {
+            'display_name': user_display_name, 
+            'email': user_email, 
+            'handle' : user_handle,
+            'cognito_id' : user_cognito_id
+        }           
         cur.execute(sql,*params)
         conn.commit() 
 

@@ -102,8 +102,8 @@ origins = [frontend, backend]
 cors = CORS(
   app, 
   resources={r"/api/*": {"origins": origins}},
-  headers=['Content-Type', 'Authorization', 'traceparent', 'if-modified-since', 'x-current-user',], 
-  expose_headers=['Authorization', 'location', 'link', 'x-current-user'],
+  headers=['Content-Type', 'Authorization', 'traceparent'], 
+  expose_headers='Authorization',
   methods="OPTIONS,GET,HEAD,POST",
 )
 
@@ -188,7 +188,7 @@ def data_home():
       app.logger.debug("unauthenticated")
       data = HomeActivities.run()  
       
-      return data, 200
+    return data, 200
 
 @app.route("/api/activities/notifications", methods=['GET'])
 def data_notifications():

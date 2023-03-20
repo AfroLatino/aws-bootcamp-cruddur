@@ -4,10 +4,7 @@ from lib.db import db
 
 class CreateActivity:
    def run(message, user_handle, ttl):
-       model = {
-          'errors': None,
-          'data': None
-       }
+       model = {'errors': None,'data': None}
 
        now = datetime.now(timezone.utc).astimezone()
 
@@ -37,10 +34,7 @@ class CreateActivity:
         model['errors'] = ['message_exceed_max_chars'] 
 
        if model['errors']:
-         model['data'] = {
-        'handle':  user_handle,
-        'message': message
-        }   
+         model['data'] = {'handle': user_handle,'message': message}   
        else:
         expires_at = (now + ttl_offset)
         uuid = CreateActivity.create_activity(user_handle,message,expires_at)
@@ -51,14 +45,8 @@ class CreateActivity:
 
    def create_activity(handle, message, expires_at):
      sql = db.template('activities','create')
-     uuid = db.query_commit(sql,{
-     'handle': handle,
-     'message': message,
-     'expires_at': expires_at
-      })
+     uuid = db.query_commit(sql,{'handle': handle,'message': message,'expires_at': expires_at})
      return uuid
    def query_object_activity(uuid):
      sql = db.template('activities','object')
-     return db.query_object_json(sql,{
-      'uuid': uuid,
-      })  
+     return db.query_object_json(sql,{'uuid': uuid,})  
