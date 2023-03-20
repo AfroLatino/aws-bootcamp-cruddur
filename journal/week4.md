@@ -324,6 +324,13 @@ cognito_user_id | e8350cca-d6bf-4451-acdd-xxxxx
 created_at      | 2023-03-14 04:35:49.565702
 ```
 
+#### Updating Crud
+
+I was able to update Crud with my posts.
+
+![Crudscreenshot](https://user-images.githubusercontent.com/78261965/226364943-0472a911-e1ad-4c0b-988f-dc94bc9e0e70.png)
+
+
 ### Securing your Amazon RDS Postgres Database
 
 Amazon RDS currently supports the following engines:
