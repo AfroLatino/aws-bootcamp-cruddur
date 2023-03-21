@@ -13,7 +13,7 @@ tasks:
     command: |
      cd frontend-react-js
      npm i
-  - name: backend-flask
+  - name: flask
     command: |
      cd backend-flask
      pip install -r requirements.txt
