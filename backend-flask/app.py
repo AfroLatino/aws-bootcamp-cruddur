@@ -4,6 +4,7 @@ from flask_cors import CORS, cross_origin
 import os
 import sys
 
+
 #Honeycomb ---------
 # app.py updates
 #from opentelemetry import trace
@@ -13,7 +14,7 @@ import sys
 #from opentelemetry.sdk.trace import TracerProvider
 #from opentelemetry.sdk.trace.export import BatchSpanProcessor
 #from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
-
+from services.users_short import *
 from services.home_activities import *
 from services.notifications_activities import *
 from services.user_activities import *
@@ -235,5 +236,10 @@ def data_activities_reply(activity_uuid):
     return model['data'], 200
   return
 
+@app.route("/api/users/@<string:handle>/short", methods=['GET'])
+def data_users_short(handle):
+  data = UsersShort.run(handle)
+  return data, 200
+  
 if __name__ == "__main__":
   app.run(debug=True)
