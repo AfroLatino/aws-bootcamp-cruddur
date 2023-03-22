@@ -107,51 +107,24 @@ cors = CORS(
   methods="OPTIONS,GET,HEAD,POST",
 )
 
-#@app.after_request
-#def after_request(response):
-   # timestamp = strftime('[%Y-%b-%d %H:%M]')
-   # LOGGER.error('%s %s %s %s %s %s', timestamp, request.remote_addr, request.method, request.scheme, request.full_path, response.status)
-   # return response
-
-## Rollbar ----------
-#rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
-#@app.before_first_request
-#def init_rollbar():
- #   """init rollbar module"""
- #   rollbar.init(
-        # access token
-#      rollbar_access_token,
-        # environment name
-  #    'production',
-        # server root directory, makes tracebacks prettier
- #     root=os.path.dirname(os.path.realpath(__file__)),
-        # flask already sets up logging
- #     allow_logging_basic_config=False)
-
-    # send exceptions from `app` to rollbar, using flask's signal system.
-  #  got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
-
-#@app.route('/rollbar/test')
-#def rollbar_test():
- #   rollbar.report_message('Hello World!', 'warning')
- #   return "Hello World!"
-
 @app.route("/api/message_groups", methods=['GET'])
 def data_message_groups():
-    access_token = extract_access_token(request.headers)
-    try:
-      claims = cognito_jwt_token.verify(access_token)
-      print("claims: ",claims)
-    except TokenVerifyError as e:
-      app.logger.debug(e)
-      return {}, 401
-
-    user_handle  = 'andrewbrown'
-    model = MessageGroups.run(user_handle=user_handle)
+  access_token = extract_access_token(request.headers)
+  try:
+    claims = cognito_jwt_token.verify(access_token)
+    # authenicatied request
+    app.logger.debug("authenicated")
+    app.logger.debug(claims)
+    cognito_user_id = claims['sub']
+    model = MessageGroups.run(cognito_user_id=cognito_user_id)
     if model['errors'] is not None:
       return model['errors'], 422
     else:
       return model['data'], 200
+  except TokenVerifyError as e:
+    # unauthenicatied request
+    app.logger.debug(e)
+    return {}, 401
 
 @app.route("/api/messages/@<string:handle>", methods=['GET'])
 def data_messages(handle):
