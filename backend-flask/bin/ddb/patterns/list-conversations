@@ -40,7 +40,7 @@ my_user_uuid = get_my_user_uuid()
 print(f"my-uuid: {my_user_uuid}")
 
 # define the query parameters
-current_year = datetime.datetime.now().year
+year = str(datetime.now().year)
 query_params = {
   'TableName': table_name,
   'KeyConditionExpression': 'pk = :pk AND begins_with(sk,:year)',
