@@ -100,6 +100,7 @@ class Ddb:
     )
     # print the response
     print(response)
+
     return {
       'message_group_uuid': message_group_uuid,
       'uuid': my_user_uuid,
