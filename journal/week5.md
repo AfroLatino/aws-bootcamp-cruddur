@@ -10,7 +10,7 @@ To install boto3, **run pip install -r requirements.txt**.
 
 ### Creating Users
 
-I created an extra user on Cognito to replace existing users of Andrew and Bayko in order to view the messages.
+I created an extra user on Cognito called londo in addition to AfroLatino to replace existing users of Andrew and Bayko in order to view the messages.
 
 ![2users](https://user-images.githubusercontent.com/128761840/227457939-7d043426-fe38-4985-971c-4f8bd9e17ad3.png)
 
@@ -27,100 +27,88 @@ aws cognito-idp list-users --user-pool-id <value> --output table
 ```
 aws cognito-idp list-users --user-pool-id <value> --query Users[].Attributes
 ```  
-  
-![2users](https://user-images.githubusercontent.com/128761840/227457939-7d043426-fe38-4985-971c-4f8bd9e17ad3.png)
-
-  
-### Setting up RDS Instance
-
-A RDS database called cruddur-db-instance was set up using PostgreSQL engine.
-
-![cruddur instance](https://user-images.githubusercontent.com/78261965/226113423-1e1165c1-43b9-4c1b-af34-f8e2d4a8e8aa.png)
-
-The Security Groups and VPC were set with backups disabled.
-
-The database can be stopped temporarily if not in use. Please note that this automatically starts back up after 7 days.
-
 
 ### Ddb Folder
 
-I created anew folder called ddb.
+I created a new folder called ddb.
 
 To give executable access to a user, type in **chmod u+x**, then the file path. See example below:
 
 ```sh
 chmod u+x ./bin/db-create
-  
-  
+```  
 
+#### Drop
 
-![db_createdropschema-load](https://user-images.githubusercontent.com/78261965/226115779-0265e6e7-1319-4b1c-920f-8ea7d21acd7e.png)
+This is used for dropping an existing table if needed.
 
-
-To view records in a more ordered manner, you can put the expanded display on.
-
-```sh
-\x on 
-```
-
-#### db-connect
-
-This is used for establising connection to the database. 
-
-To access the local database, use the command below:
+The sql has a command of DROP TABLE IF EXISTS.
 
 ```sh
-./bin/db-connect
-```
+#! /usr/bin/bash
 
-**For Production**
+set -e # stop if it fails at any point
 
-```sh
-./bin/db-connect prod
-```
+if [ -z "$1" ]; then
+  echo "No TABLE_NAME argument supplied eg ./bin/ddb/drop cruddur-messages prod "
+  exit 1
+fi
+TABLE_NAME=$1
 
-```sh
-if [ "$1" = "prod" ]; then
-  echo "Running in production mode"
-  URL=$PROD_CONNECTION_URL
+if [ "$2" = "prod" ]; then
+  ENDPOINT_URL=""
 else
-  URL=$CONNECTION_URL
+  ENDPOINT_URL="--endpoint-url=http://localhost:8000"
 fi
 
-psql $URL
+echo "deleting table: $TABLE_NAME"
+
+aws dynamodb delete-table $ENDPOINT_URL \
+  --table-name $TABLE_NAME
 ```
 
-Environment variables for $CONNECTION_URL and $URL were set.
+#### List-tables
 
+This was for listing out the tables and very helpful to check if the table is existent.
 
-#### db-create
+The table used is cruddur-messages.
 
 ```sh
-CYAN='\033[1;36m'
-NO_COLOR='\033[0m'
-LABEL="db-create"
-printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+#! /usr/bin/bash
+set -e # stop if it fails at any point
 
-NO_DB_CONNECTION_URL=$(sed 's/\/cruddur//g' <<< "$CONNECTION_URL")
-psql $NO_DB_CONNECTION_URL -c "create database cruddur;"
+if [ "$1" = "prod" ]; then
+  ENDPOINT_URL=""
+else
+  ENDPOINT_URL="--endpoint-url=http://localhost:8000"
+fi
+
+aws dynamodb list-tables $ENDPOINT_URL \
+--query TableNames \
+--output table
 ```
 
-This was used to create the Cruddur database using the command below. Colour formatting was added using Cyan.
+An environment variable called AWS_ENDPOINT_URL was set and added to the docker-compose file.
+
+#### Scan
 
 ```sh
-CREATE DATABASE Cruddur;
-```
+#!/usr/bin/env python3
 
-#### db-drop
+import boto3
 
-```sh
-CYAN='\033[1;36m'
-NO_COLOR='\033[0m'
-LABEL="db-drop"
-printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+attrs = {
+  'endpoint_url': 'http://localhost:8000'
+}
+ddb = boto3.resource('dynamodb',**attrs)
+table_name = 'cruddur-messages'
 
-NO_DB_CONNECTION_URL=$(sed 's/\/cruddur//g' <<< "$CONNECTION_URL")
-psql $NO_DB_CONNECTION_URL -c "drop database cruddur;"
+table = ddb.Table(table_name)
+response = table.scan()
+
+items = response['Items']
+for item in items:
+  print(item)
 ```
 
 This can be used to drop the database Cruddur if needed using the command below.  Colour formatting was added using Cyan.
@@ -129,85 +117,154 @@ This can be used to drop the database Cruddur if needed using the command below.
 DROP DATABASE Cruddur;
 ```
 
-#### db-schema-load
+#### Schema-load
 
-This is for loading the schema.
+This was for loading the schema.
+
+The Global Secondary Indexes were added to the schema-load. 
+
+The attribute name was also added to the attribute definitions of the main table.
 
 ```sh
-CYAN='\033[1;36m'
-NO_COLOR='\033[0m'
-LABEL="db-schema-load"
-printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+#!/usr/bin/env python3
 
-schema_path="$(realpath .)/db/schema.sql"
-echo $schema_path
+import boto3
+import sys
 
-if [ "$1" = "prod" ]; then
-  echo "Running in production mode"
-  URL=$PROD_CONNECTION_URL
-else
-  URL=$CONNECTION_URL
-fi
+attrs = {
+  'endpoint_url': 'http://localhost:8000'
+}
 
-psql $URL cruddur < $schema_path
+if len(sys.argv) == 2:
+  if "prod" in sys.argv[1]:
+    attrs = {}
+
+ddb = boto3.client('dynamodb',**attrs)
+
+table_name = 'cruddur-messages'
+
+response = ddb.create_table(
+  TableName=table_name,
+  AttributeDefinitions=[
+    {
+      'AttributeName': 'message_group_uuid',
+      'AttributeType': 'S'
+    },
+    {
+      'AttributeName': 'pk',
+      'AttributeType': 'S'
+    },
+    {
+      'AttributeName': 'sk',
+      'AttributeType': 'S'
+    },
+  ],
+  KeySchema=[
+    {
+      'AttributeName': 'pk',
+      'KeyType': 'HASH'
+    },
+    {
+      'AttributeName': 'sk',
+      'KeyType': 'RANGE'
+    },
+  ],
+  GlobalSecondaryIndexes= [{
+    'IndexName':'message-group-sk-index',
+    'KeySchema':[{
+      'AttributeName': 'message_group_uuid',
+      'KeyType': 'HASH'
+    },{
+      'AttributeName': 'sk',
+      'KeyType': 'RANGE'
+    }],
+    'Projection': {
+      'ProjectionType': 'ALL'
+    },
+    'ProvisionedThroughput': {
+      'ReadCapacityUnits': 5,
+      'WriteCapacityUnits': 5
+    },
+  }],
+  BillingMode='PROVISIONED',
+  ProvisionedThroughput={
+      'ReadCapacityUnits': 5,
+      'WriteCapacityUnits': 5
+  }
+)
+
+print(response)
 ```
 
-**SQL for schema**
+**Seed
 
-An extension of uuid-ossp was created using IF NOT EXISTS command. This is not created if it does exist.
+The seed data was restricted to a limit of 20 characters.
 
-It also drops tables public.users and public.activities if they do exist and re-creates them.
-
-```sh
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
-DROP TABLE IF EXISTS public.users;
-DROP TABLE IF EXISTS public.activities;
-CREATE TABLE public.users (
-  uuid UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  display_name text NOT NULL,  
-  handle text NOT NULL,
-  email text NOT NULL,
-  cognito_user_id text NOT NULL,
-  created_at TIMESTAMP default current_timestamp NOT NULL
-);
-
-CREATE TABLE public.activities (
-  uuid UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  user_uuid UUID NOT NULL,
-  message text NOT NULL,
-  replies_count integer DEFAULT 0,
-  reposts_count integer DEFAULT 0,
-  likes_count integer DEFAULT 0,
-  reply_to_activity_uuid integer,
-  expires_at TIMESTAMP,
-  created_at TIMESTAMP default current_timestamp NOT NULL
-);
-```
-
-#### db-seed
-
-This was used to load the seed data.
-
-It used $PROD_CONNECTION_URL when running in production enviroment else $CONNECTION_URL. These were set as environment variables.
+Messages and message groups were created onto the seed.
 
 ```sh
-CYAN='\033[1;36m'
-NO_COLOR='\033[0m'
-LABEL="db-seed"
-printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+def create_message_group(client,message_group_uuid, my_user_uuid, last_message_at=None, message=None, other_user_uuid=None, other_user_display_name=None, other_user_handle=None):
+  table_name = 'cruddur-messages'
+  record = {
+    'pk':   {'S': f"GRP#{my_user_uuid}"},
+    'sk':   {'S': last_message_at},
+    'message_group_uuid': {'S': message_group_uuid},
+    'message':  {'S': message},
+    'user_uuid': {'S': other_user_uuid},
+    'user_display_name': {'S': other_user_display_name},
+    'user_handle': {'S': other_user_handle}
+  }
 
-seed_path="$(realpath .)/db/seed.sql"
-echo $seed_path
+  response = client.put_item(
+    TableName=table_name,
+    Item=record
+  )
+  print(response)
 
-if [ "$1" = "prod" ]; then
-  echo "Running in production mode"
-  URL=$PROD_CONNECTION_URL
-else
-  URL=$CONNECTION_URL
-fi
+def create_message(client,message_group_uuid, created_at, message, my_user_uuid, my_user_display_name, my_user_handle):
+  table_name = 'cruddur-messages'
+  record = {
+    'pk':   {'S': f"MSG#{message_group_uuid}"},
+    'sk':   {'S': created_at },
+    'message_uuid': { 'S': str(uuid.uuid4()) },
+    'message': {'S': message},
+    'user_uuid': {'S': my_user_uuid},
+    'user_display_name': {'S': my_user_display_name},
+    'user_handle': {'S': my_user_handle}
+  }
+  # insert the record into the table
+  response = client.put_item(
+    TableName=table_name,
+    Item=record
+  )
+  # print the response
+  print(response)
 
-psql $URL cruddur < $seed_path
+message_group_uuid = "5ae290ed-55d1-47a0-bc6d-fe2bc2700399" 
+now = datetime.now(timezone.utc).astimezone()
+users = get_user_uuids()
+
+create_message_group(
+  client=ddb,
+  message_group_uuid=message_group_uuid,
+  my_user_uuid=users['my_user']['uuid'],
+  other_user_uuid=users['other_user']['uuid'],
+  other_user_handle=users['other_user']['handle'],
+  other_user_display_name=users['other_user']['display_name'],
+  last_message_at=now.isoformat(),
+  message="this is a filler message"
+)
+
+create_message_group(
+  client=ddb,
+  message_group_uuid=message_group_uuid,
+  my_user_uuid=users['other_user']['uuid'],
+  other_user_uuid=users['my_user']['uuid'],
+  other_user_handle=users['my_user']['handle'],
+  other_user_display_name=users['my_user']['display_name'],
+  last_message_at=now.isoformat(),
+  message="this is a filler message"
+)
 ```
 
 **SQL for seed data**
@@ -215,71 +272,31 @@ psql $URL cruddur < $seed_path
 This SQL command was used to insert data into public.users and public.activities tables.
 
 ```sh
-INSERT INTO public.users (display_name, handle, cognito_user_id)
+INSERT INTO public.users (display_name, email, handle, cognito_user_id)
 VALUES
-  ('Andrew Brown', 'andrewbrown' ,'MOCK'),
-  ('Andrew Bayko', 'bayko' ,'MOCK');
-
+  ('AfroLatino','aafrolatino@test.com' , 'AfroLatino' ,'MOCK'),
+  ('londo','bayko@exampro.co' , 'londo' ,'MOCK');
+  
 INSERT INTO public.activities (user_uuid, message, expires_at)
 VALUES
   (
-    (SELECT uuid from public.users WHERE users.handle = 'andrewbrown' LIMIT 1),
+    (SELECT uuid from public.users WHERE users.handle = 'afrolatino' LIMIT 1),
     'This was imported as seed data!',
     current_timestamp + interval '10 day'
   )
   ```
   
- Data displayed after using the command below:
- 
- ```sh 
- SELECT * from users;
- ```
- 
-![seeddata](https://user-images.githubusercontent.com/78261965/226113865-6074d607-8af2-4d54-8c3d-7e7badf26265.png)
+ Schema-load was run to load the schema, then .bin/ddb/seed was run in order to view the seed data on the front-end application
+  
+![seeded mesage now showing](https://user-images.githubusercontent.com/128761840/227462257-51139951-69b7-4507-b4d1-f79240ca57cf.png)
 
-Data displayed after using the command below:
- 
- ```sh 
- SELECT * from activities;
- ```
- 
-![imported as seed data](https://user-images.githubusercontent.com/78261965/226113886-b946f3af-d131-4641-9c41-3c0f185d4b63.png)
+#### Patterns
 
-The seed data was later viewed on the front end as seen below:
+2 queries for get-onversation and list-conversations were created to view the conversations.
 
-![Andrew Brown shows up](https://user-images.githubusercontent.com/78261965/226115881-c029cb98-507c-431b-a36b-581b23b330e2.png)
+This was run by using ./bin/ddb/patterns/get-conversations
 
 
-#### db-sessions
-
-The command below was used to establish database connections.
-
-```sh
-CYAN='\033[1;36m'
-NO_COLOR='\033[0m'
-LABEL="db-sessions"
-printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
-
-if [ "$1" = "prod" ]; then
-  echo "Running in production mode"
-  URL=$PROD_CONNECTION_URL
-else
-  URL=$CONNECTION_URL
-fi
-
-NO_DB_URL=$(sed 's/\/cruddur//g' <<<"$URL")
-psql $NO_DB_URL -c "select pid as process_id, \
-       usename as user,  \
-       datname as db, \
-       client_addr, \
-       application_name as app,\
-       state \
-from pg_stat_activity;"
-```
-
-An example of a database session is seen below:
-
-![db-sessions](https://user-images.githubusercontent.com/78261965/226115727-b875cefb-fb8a-4f5f-b860-b8bdefebda4a.png)
 
 #### db-setup
 
