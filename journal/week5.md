@@ -393,27 +393,6 @@ This was added to the aws folder, in addition to the policy that was created.
 }
 ```
 
-### Securing your Amazon RDS Postgres Database
-
-Amazon RDS currently supports the following engines:
-
-- Aurora (MySQL Compatible)
-
-- Aurora (PostgreSQL Compatible)
-
-- MariaDB
-
-- MySQL
-
-- Oracle
-
-- PostgreSQL
-
-- Microsoft SQL Server
-
-![RDS Engines](https://user-images.githubusercontent.com/78261965/224863977-247ecf3e-4025-4d54-af87-5fb17f3ecb96.png)
-
-
 ### Amazon DynamoDB Security Best Practices
 
 DynamoDB is a non-relational database (NoSQL). 
@@ -485,8 +464,5 @@ There are 2 sides to Security Best Practices for Amazon managed services. These 
 -	Site to Site VPN or Direct Connect for OnPremise and DynamoDB access.
 
 -	Client side encryption is recommended by Amazon for DynamoDB.
-
-
-
 
 
