@@ -274,8 +274,8 @@ This SQL command was used to insert data into public.users and public.activities
 ```sh
 INSERT INTO public.users (display_name, email, handle, cognito_user_id)
 VALUES
-  ('AfroLatino','aafrolatino@test.com' , 'AfroLatino' ,'MOCK'),
-  ('londo','bayko@exampro.co' , 'londo' ,'MOCK');
+  ('AfroLatino','afrolatino@xxxxx' , 'AfroLatino' ,'MOCK'),
+  ('londo','londo@xxxx' , 'londo' ,'MOCK');
   
 INSERT INTO public.activities (user_uuid, message, expires_at)
 VALUES
@@ -377,7 +377,7 @@ This was added to the aws folder, in addition to the policy that was created.
   "Version": "2012-10-17",
   "Statement": [
       {
-          "Sid": "VisualEditor0",
+          "Sid": "VisualEditor",
           "Effect": "Allow",
           "Action": [
               "dynamodb:PutItem",
