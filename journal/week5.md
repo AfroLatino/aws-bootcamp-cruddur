@@ -286,19 +286,57 @@ VALUES
   )
   ```
   
- Schema-load was run to load the schema, then .bin/ddb/seed was run in order to view the seed data on the front-end application
+Schema-load was run to load the schema, then .bin/ddb/seed was run in order to view the seed data on the front-end application.
+ 
+A Patterns folder was also created to get-conversation and list-conversations as seen on the screenshot below.
+
+This was run by using ./bin/ddb/patterns/get-conversations
   
 ![seeded mesage now showing](https://user-images.githubusercontent.com/128761840/227462257-51139951-69b7-4507-b4d1-f79240ca57cf.png)
 
-#### Patterns
 
-2 queries for get-onversation and list-conversations were created to view the conversations.
+#### Cognito folder
 
-This was run by using ./bin/ddb/patterns/get-conversations
+A cognito folder was created to list users to ensure we have the right users.
 
+```sh
+#!/usr/bin/env python3
 
+import boto3
+import os
+import json
 
-#### db-setup
+userpool_id = os.getenv("AWS_COGNITO_USER_POOL_ID")
+client = boto3.client('cognito-idp')
+params = {
+  'UserPoolId': userpool_id,
+  'AttributesToGet': [
+      'preferred_username',
+      'sub'
+  ]
+}
+response = client.list_users(**params)
+users = response['Users']
+
+print(json.dumps(users, sort_keys=True, indent=2, default=str))
+
+dict_users = {}
+for user in users:
+  attrs = user['Attributes']
+  sub    = next((a for a in attrs if a["Name"] == 'sub'), None)
+  handle = next((a for a in attrs if a["Name"] == 'preferred_username'), None)
+  dict_users[handle['Value']] = sub['Value']
+
+print(json.dumps(dict_users, sort_keys=True, indent=2, default=str))
+```
+
+See the users output below:
+
+![ListUsers output table](https://user-images.githubusercontent.com/128761840/227465574-35db8edc-3c91-418a-9812-aa1d070d109e.png)
+
+![queryUsers Attributes](https://user-images.githubusercontent.com/128761840/227465580-c412b256-1b36-43cb-9fc4-2cedeb59cf8b.png)
+
+An update cognito user ids was also added to the db/setup file
 
 ```sh
 CYAN='\033[1;36m'
@@ -312,72 +350,48 @@ source "$bin_path/db-drop"
 source "$bin_path/db-create"
 source "$bin_path/db-schema-load"
 source "$bin_path/db-seed"
+python "$bin_path/db/update_cognito_user_ids"
 ```
 
-#### rds-update-sg-rule
+#### Other files created
+
+Other files created were ddb.py and db.py.
+
+
+### DynamoDB Stream
+
+A VPC endpoint was created on AWS as seen below:
+
+![VPCendpoint](https://user-images.githubusercontent.com/128761840/227466813-f5771bf6-4bc2-49e6-a03d-b1b1bbe0a38e.png)
+
+Then, I created a DynamoDB table as seen below:
+
+![cruddur-messages](https://user-images.githubusercontent.com/128761840/227466854-ec943a13-bbb9-4c1a-a1c2-f945898d3dea.png)
+
+Alambda called cruddur-messaging-stream was created in addition to a trigger.
+
+This was added to the aws folder, in addition to the policy that was created.
 
 ```sh
-CYAN='\033[1;36m'
-NO_COLOR='\033[0m'
-LABEL="rds-update-sg-rule"
-printf "${CYAN}==== ${LABEL}${NO_COLOR}\n"
-
-aws ec2 modify-security-group-rules \
-    --group-id $DB_SG_ID \
-    --security-group-rules "SecurityGroupRuleId=$DB_SG_RULE_ID,SecurityGroupRule={Description=GITPOD,IpProtocol=tcp,FromPort=5432,ToPort=5432,CidrIpv4=$GITPOD_IP/32}"
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Sid": "VisualEditor0",
+          "Effect": "Allow",
+          "Action": [
+              "dynamodb:PutItem",
+              "dynamodb:DeleteItem",
+              "dynamodb:Query"
+          ],
+          "Resource": [
+              "arn:aws:dynamodb:us-east-1:xxxxx:table/cruddur-messages",
+              "arn:aws:dynamodb:us-east-1:xxxxx:table/cruddur-messages/index/message-group-sk-index"
+          ]
+      }
+  ]
+}
 ```
-
-### Setup Cognito post confirmation lambda
-
-A lambda trigger was set up in the user pool created using Python 3.8.
-
-AWS Lambda is a compute service that lets you run code without provisioning or managing servers. Lambda runs your code on a high-availability compute infrastructure and performs all of the administration of the compute resources, including server and operating system maintenance, capacity provisioning and automatic scaling, and logging. With Lambda, you can run code for virtually any type of application or backend service.
-
-**When to use Lambda**
-
-Lambda is an ideal compute service for many application scenarios, as long as you can run your application code using the Lambda standard runtime environment and within the resources that Lambda provides. You can use Lambda for:
-
-**Web applications:** Combine Lambda with other AWS services to build powerful web applications that automatically scale up and down and run in a highly available configuration across multiple data centers.
-
-
-![cruddurpostconfirm](https://user-images.githubusercontent.com/78261965/226115220-adf1ed74-4b59-4637-b955-9638aeac5d1f.png)
-
-**Reference**
-
-[AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
-
-
-#### Creating Users
-
-this can be entered into cli to extract Cognito User  and their attributes
-```sh
-aws cognito-idp list-users --user-pool-id <value>
-```
-
-aws cognito-idp list-users --user-pool-id <value> --output table
-
-aws cognito-idp list-users --user-pool-id <value> --query Users[].Attributes
-
-
-I was able to create a user and search for this in Production.
-
-```sh
-cruddur=> select * from users;
--[ RECORD 1 ]---+-------------------------------------
-uuid            | 97aab7fc-54e4-4d24-b88a-e466a1fda5a1
-display_name    | AfroLatino
-handle          | AfroLatino
-email           | xx@gmail.com
-cognito_user_id | e8350cca-d6bf-4451-acdd-xxxxx
-created_at      | 2023-03-14 04:35:49.565702
-```
-
-#### Updating Crud
-
-I was able to update Crud with my posts.
-
-![Crudscreenshot](https://user-images.githubusercontent.com/78261965/226364943-0472a911-e1ad-4c0b-988f-dc94bc9e0e70.png)
-
 
 ### Securing your Amazon RDS Postgres Database
 
