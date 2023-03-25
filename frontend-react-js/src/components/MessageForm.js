@@ -19,11 +19,11 @@ export default function ActivityForm(props) {
     try {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/messages`
       console.log('onsubmit payload', message)
-      json = { message: message }
+      let json = { 'message': message }
       if (params.handle) {
-         json.handle = params.handle
-      }  else {
-         json.message_group_uuid = params.message_group_uuid
+        json.handle = params.handle
+      } else {
+        json.message_group_uuid = params.message_group_uuid
       }
 
       const res = await fetch(backend_url, {
