@@ -294,6 +294,12 @@ This was run by using ./bin/ddb/patterns/get-conversations
   
 ![seeded mesage now showing](https://user-images.githubusercontent.com/128761840/227462257-51139951-69b7-4507-b4d1-f79240ca57cf.png)
 
+#### Message Group
+
+I was able to add messages to other message groups as seen below:
+
+![other group message2](https://user-images.githubusercontent.com/128761840/227729266-4ac63353-e636-4a54-a93f-439bb8c56053.png)
+
 
 #### Cognito folder
 
