@@ -134,7 +134,7 @@ def data_create_message():
   message = request.json['message']
   access_token = extract_access_token(request.headers)
   try:
-    claims = cognito_jwt_token.verify(access_token) 
+    claims = cognito_jwt_token.verify(access_token)
     # authenicatied request
     app.logger.debug("authenicated")
     app.logger.debug(claims)
@@ -227,7 +227,7 @@ def data_show_activity(activity_uuid):
 @app.route("/api/activities/<string:activity_uuid>/reply", methods=['POST','OPTIONS'])
 @cross_origin()
 def data_activities_reply(activity_uuid):
-  user_handle  = 'andrewbrown'
+  user_handle  = 'AfroLatino'
   message = request.json['message']
   model = CreateReply.run(message, user_handle, activity_uuid)
   if model['errors'] is not None:
