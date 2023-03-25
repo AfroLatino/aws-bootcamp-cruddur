@@ -383,7 +383,7 @@ This was added to the aws folder, in addition to the policy that was created.
   "Version": "2012-10-17",
   "Statement": [
       {
-          "Sid": "VisualEditor",
+          "Sid": "VisualEditor0",
           "Effect": "Allow",
           "Action": [
               "dynamodb:PutItem",
