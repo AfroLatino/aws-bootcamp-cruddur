@@ -6,10 +6,13 @@
 
 ### Table of contents
 - [Container Security Status in 2022](#ContainerSecurityStatusin2022)
+
 - [Container Services in AWS](#ContainerServicesinAWS)
+
 - [Types of Launch Type to AWS](#TypesofLaunchTypetoAWS)
-[Shared Risk with AWS ECS](#Shared Risk with AWS ECS)
-    1. [Sharing Responsibilities in a managed service model](#Sharing Responsibilities in a managed service model)
+
+- [Shared Risk with AWS ECS](#SharedRiskwithAWSECS)
+    1. [Sharing Responsibilities in a managed service model](#SharingResponsibilitiesinamanagedservicemodel)
 
 ### Container Security Status in 2022 <a name="ContainerSecurityStatusin2022"></a>
 
@@ -28,9 +31,9 @@
 -	Amazon ECS architecture: This includes Elastic Load Balancing (ELB), Amazon ECS cluster, Auto Scaling groups and Amazon EC2 instances.
 -	ECS Fargate: This includes Elastic Load Balancing (ELB), Amazon ECS cluster and Fargate tasks.
 
-### Shared Risk with AWS ECS
+### Shared Risk with AWS ECS <a name="SharedRiskwithAWSECS"></a>
 
-#### Sharing Responsibilities in a managed service model
+#### Sharing Responsibilities in a managed service model <a name="SharingResponsibilitiesinamanagedservicemodel"></a>
 
 **Traditional ECS instances**
 
