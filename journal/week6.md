@@ -116,8 +116,19 @@ After creating ECR, the application will be created in Amazon Elastic Container 
 - Only using Authorized Container images (hopefully some image signing in the future e.g. sigstore).
 - AWS Config Rules (as no GuardDuty (ECS) even in Mar 2023) is enabled in the account and region of ECS.
 
+## My Journey to the Cloud assessment
 
+I AM GOING TO BECOME A: ........Data Engineer.........
 
+I AM A GOOD FIT BECAUSE: .....I have many years of experience with SQL development and analysis.........
+
+| **I WILL KNOW:**     | **I WILL NOT GET DISTRACTED BY:** | 
+| :---        |    :----:   |          
+|1. Python      |1. React JS      | 
+|2. Databases (SL, NoSQL etc)  |2. Django        | 
+|3. AWS      |3. Kubernetes       | 
+|4. Docker | 4. Java        | 
+|5. Snowflake        |5. C++  |
 
 
 
