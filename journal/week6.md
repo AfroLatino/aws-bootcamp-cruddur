@@ -6,9 +6,8 @@
 
 ### Table of contents
 - [Container Security Status in 2022](#ContainerSecurityStatusin2022)
-
-[Container Services in AWS](#Container Services in AWS)
-[Types of Launch Type to AWS](#Types of Launch Type to AWS)
+- [Container Services in AWS](#ContainerServicesinAWS)
+- [Types of Launch Type to AWS](#TypesofLaunchTypetoAWS)
 [Shared Risk with AWS ECS](#Shared Risk with AWS ECS)
     1. [Sharing Responsibilities in a managed service model](#Sharing Responsibilities in a managed service model)
 
@@ -18,12 +17,12 @@
 - 50% of containers have no limits defined
 - 76% of containers run as root
 
-### Container Services in AWS
+### Container Services in AWS <a name="ContainerServicesinAWS"></a>
 
 -	Virtual Machine
 -	ECS, Fargate, EKS
 
-### Types of Launch Type to AWS
+### Types of Launch Type to AWS <a name="TypesofLaunchTypetoAWS"></a>
 
 - Amazon EC2 architecture: This includes Elastic Load Balancing (ELB), Auto Scaling groups and Amazon EC2 instances.
 -	Amazon ECS architecture: This includes Elastic Load Balancing (ELB), Amazon ECS cluster, Auto Scaling groups and Amazon EC2 instances.
