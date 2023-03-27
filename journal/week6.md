@@ -5,7 +5,8 @@
 ## Amazon ECS Security Best Practices
 
 ### Table of contents
-- [Container Security Status in 2022](#Container Security Status in 2022)
+- [ContainerSecurityStatusin2022](#ContainerSecurityStatusin2022)
+
 [Container Services in AWS](#Container Services in AWS)
 [Types of Launch Type to AWS](#Types of Launch Type to AWS)
 [Shared Risk with AWS ECS](#Shared Risk with AWS ECS)
