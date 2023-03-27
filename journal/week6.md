@@ -130,6 +130,17 @@ I AM A GOOD FIT BECAUSE: .....I have many years of experience with SQL developme
 |4. Docker | 4. Java        | 
 |5. Snowflake        |5. C++  |
 
+## What Cloud Hiring Managers Want from Your Resume
 
+### Write Fears + Dreams of Hiring Manager
 
+| **Fears**     | **Dreams** | 
+| :---        |    ----   |          
+|1. Last hire had candidates with certifications but were slow to onboard on the job      |1. Demonstration of proficiency in the tech stack used      | 
+|2. Candidate need lots of teaching  |2. Fulfilment of the needs of the organisation        | 
+|3. Candidate have certifications but no practical knowledge      |3. The candidate knows and care about costs      | 
+|4. The candidate has only worked in a particular sector, so may not fit in e.g. a public sector worker coming from a relaxed environment looking for work in the private sector that is fast-paced | 4. The candidate has a service-oriented mindset        | 
+|5. The candidate may take a position with another company after a short time with their company.        |5. The candidate knows what is going on in the cloud computing industry  |
+|6. Fear of Lawsuits or being called out for iiases | 6. The candidate automates processes and reduce manual or repetitive tasks where possible.  |
 
+  
