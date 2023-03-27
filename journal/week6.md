@@ -5,7 +5,7 @@
 ## Amazon ECS Security Best Practices
 
 ### Table of contents
-- [Container Security Status in 2022](#ContainerSecurityStatusin2022)
+- [Container Security Status in 2022](#introduction)
 
 - [Container Services in AWS](#ContainerServicesinAWS)
 
@@ -14,7 +14,7 @@
 - [Shared Risk with AWS ECS](#SharedRiskwithAWSECS)
     1. [Sharing Responsibilities in a managed service model](#SharingResponsibilitiesinamanagedservicemodel)
 
-### Container Security Status in 2022 <a name="ContainerSecurityStatusin2022"></a>
+### Container Security Status in 2022 <a name="introduction"></a>
 
 - 75% of containers run with "high" or "critical" vulnerabilities
 - 50% of containers have no limits defined
