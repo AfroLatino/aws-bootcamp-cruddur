@@ -26,3 +26,8 @@
 #### Sharing Responsibilities in a managed service model
 
 **Traditional ECS instances**
+
+| Syntax      | Description | 
+| :---        |    :----:   |          
+| Header      | Title       | 
+| Paragraph   | Text        | 
