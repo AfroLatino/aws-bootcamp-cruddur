@@ -51,4 +51,66 @@
 | | Virtual Machine        | 
 | |Physical Server        |
 
+### Security Challenges with AWS Fargate
+- No visibility of Infrastructure
+- Ephemeral Resources makes it hard to do triage or Forensics for detected threats
+- No file/network monitoring
+- Cannot run traditional Security Agents in Fargate
+- User can run unverified Container images
+- Containers can run as root and even with elevated privileges
+
+### Amazon ECS (EC2) Setup 
+If building a machine with containers, images are needed.
+
+Then navigate to Elastic Container Registry (ECR) on AWS.
+
+#### Creating a Repository
+- In creating a repository owned by a company, security best practice would be to choose private visibility settings
+- Enable tag immutability
+- Enable Scan on push
+- Enable KMS encryption
+
+After creating ECR, the application will be created in Amazon Elastic Container Service.
+
+#### Amazon Elastic Container Service
+- Create cluster
+- Create Amazon EC2 instances 
+       - You'd choose a minimum of 1 and maximum of 2 desired capacity. 
+       - Choose Amazon Linux 2 for Operating system/Architecture.
+       -  Choose t2.micro as EC2 instance type.
+       - SSH Key Pair should be none 
+- Add tags – It is always a good practice to add tags.
+- Create new task definition on ECS
+
+#### Amazon ECR Images Security
+- This is linked to Amazon Inspector
+- It is using Synk in the background to find vulnerabilities
+
+### Amazon ECS – Security Best Practices – AWS
+- Cloud Control Plane Configuration – Access Control, Container Images etc
+- Choosing the right Public or Private ECR for Images
+- Amazon ECR Scan Images to "Scan on Push" using Basic or Enhanced (Inspector + Synk)
+- Use VPC Endpoints or Security Groups with known sources only.
+- Compliance standard is what your business requires.
+- Amazon Organisations SCP – To manage ECS Task deletion, ECS creation, region lock etc.
+- AWS CloudTrail is enabled & monitored to trigger alerts on malicious ECS behaviour by an identity in AWS.
+
+### Amazon ECS – Security Best Practices – Application
+
+- Access Control – Roles or IAM Users for ECS Clusters/Services/Tasks
+- Most recent version of ECR Agent daemon on EC2
+- Container Control Plane Configuration – Root privileges, resource limitations etc.
+- No secrets/passwords in ECS Task Definitions e.g. db password etc – Consider AWS Secret Manager.
+- No secrets/passwords in Containers – Consider AWS Secret Manager.
+- Only use Trusted Containers from ECR with no HIGH/CRITICAL vulnerabilities.
+- Limit ability to ssh into EC2 container to read only file systems – Use APIs or GitOps to pull information for troubleshooting.
+- Amazon CloudWatch to monitor malicious ECS configuration changes.
+- Only using Authorized Container images (hopefully some image signing in the future e.g. sigstore).
+- AWS Config Rules (as no GuardDuty (ECS) even in Mar 2023) is enabled in the account and region of ECS.
+
+
+
+
+
+
 
