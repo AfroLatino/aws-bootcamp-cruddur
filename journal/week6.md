@@ -41,3 +41,14 @@
 |Storage, Logging, Monitoring Plugins      |        | 
 |Operating System |         | 
 
+**AWS Fargate**
+
+| **User Manages**     | **AWS Manages** | 
+| :---        |    :----:   |          
+|Containerized Applications      | Container Runtime      | 
+|  | Storage, Logging, Monitoring Plugins        | 
+|      |Operating System        | 
+| | Virtual Machine        | 
+| |Physical Server        |
+
+
