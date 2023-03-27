@@ -6,13 +6,10 @@
 
 ### Table of contents
 - [Container Security Status in 2022](#introduction)
-
-- [Container Services in AWS](#ContainerServicesinAWS)
-
-- [Types of Launch Type to AWS](#TypesofLaunchTypetoAWS)
-
-- [Shared Risk with AWS ECS](#SharedRiskwithAWSECS)
-    1. [Sharing Responsibilities in a managed service model](#SharingResponsibilitiesinamanagedservicemodel)
+- [Container Services in AWS](#paragraph1)
+- [Types of Launch Type to AWS](#paragraph2)
+- [Shared Risk with AWS ECS](#ubparagraph3)
+    1. [Sharing Responsibilities in a managed service model](#subparagraph1)
 
 ### Container Security Status in 2022 <a name="introduction"></a>
 
@@ -20,20 +17,20 @@
 - 50% of containers have no limits defined
 - 76% of containers run as root
 
-### Container Services in AWS <a name="ContainerServicesinAWS"></a>
+### Container Services in AWS <a name="paragraph1"></a>
 
 -	Virtual Machine
 -	ECS, Fargate, EKS
 
-### Types of Launch Type to AWS <a name="TypesofLaunchTypetoAWS"></a>
+### Types of Launch Type to AWS <a name="paragraph2"></a>
 
 - Amazon EC2 architecture: This includes Elastic Load Balancing (ELB), Auto Scaling groups and Amazon EC2 instances.
 -	Amazon ECS architecture: This includes Elastic Load Balancing (ELB), Amazon ECS cluster, Auto Scaling groups and Amazon EC2 instances.
 -	ECS Fargate: This includes Elastic Load Balancing (ELB), Amazon ECS cluster and Fargate tasks.
 
-### Shared Risk with AWS ECS <a name="SharedRiskwithAWSECS"></a>
+### Shared Risk with AWS ECS <a name="paragraph3"></a>
 
-#### Sharing Responsibilities in a managed service model <a name="SharingResponsibilitiesinamanagedservicemodel"></a>
+#### Sharing Responsibilities in a managed service model <a name="subparagraph1"></a>
 
 **Traditional ECS instances**
 
