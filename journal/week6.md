@@ -27,7 +27,10 @@
 
 **Traditional ECS instances**
 
-| Syntax      | Description | 
+| **User Manages**     | **AWS Manages** | 
 | :---        |    :----:   |          
-| Header      | Title       | 
-| Paragraph   | Text        | 
+|Containerized Applications      | Virtual Machine       | 
+|Container Runtime  | Physical Server        | 
+|Storage, Logging, Monitoring Plugins      |        | 
+|Operating System |         | 
+
