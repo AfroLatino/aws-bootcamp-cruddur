@@ -8,8 +8,8 @@
 - [Container Security Status in 2022](#introduction)
 - [Container Services in AWS](#paragraph1)
 - [Types of Launch Type to AWS](#paragraph2)
-- [Shared Risk with AWS ECS](#ubparagraph3)
-    1. [Sharing Responsibilities in a managed service model](#subparagraph1)
+- [Shared Risk with AWS ECS](#paragraph3)
+    - [Sharing Responsibilities in a managed service model](#subparagraph1)
 
 ### Container Security Status in 2022 <a name="introduction"></a>
 
