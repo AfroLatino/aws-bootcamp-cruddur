@@ -130,6 +130,7 @@ I AM A GOOD FIT BECAUSE: .....I have many years of experience with SQL developme
 |4. Docker | 4. Java        | 
 |5. Snowflake        |5. C++  |
 
+
 ## What Cloud Hiring Managers Want from Your Resume
 
 ### Write Fears + Dreams of Hiring Manager
