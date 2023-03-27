@@ -123,7 +123,7 @@ I AM GOING TO BECOME A: ........Data Engineer.........
 I AM A GOOD FIT BECAUSE: .....I have many years of experience with SQL development and analysis.........
 
 | **I WILL KNOW:**     | **I WILL NOT GET DISTRACTED BY:** | 
-| :---        |    :----:   |          
+| :---        |    ----   |          
 |1. Python      |1. React JS      | 
 |2. Databases (SL, NoSQL etc)  |2. Django        | 
 |3. AWS      |3. Kubernetes       | 
