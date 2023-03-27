@@ -10,6 +10,14 @@
 - [Types of Launch Type to AWS](#paragraph2)
 - [Shared Risk with AWS ECS](#paragraph3)
     - [Sharing Responsibilities in a managed service model](#subparagraph1)
+- [Security Challenges with AWS Fargate](#paragraph4)
+- [Amazon ECS (EC2) Setup](#paragraph5)
+     - [Creating a Repository](#subparagraph2)
+     - [Amazon Elastic Container Service](#subparagraph3)
+     - [Amazon ECR Images Security](#subparagraph4)
+- [Amazon ECS – Security Best Practices – AWS](#paragraph6)
+- [Amazon ECS – Security Best Practices – Application](#paragraph7)
+
 
 ### Container Security Status in 2022 <a name="introduction"></a>
 
@@ -51,7 +59,7 @@
 | | Virtual Machine        | 
 | |Physical Server        |
 
-### Security Challenges with AWS Fargate
+### Security Challenges with AWS Fargate <a name="paragraph4"></a>
 - No visibility of Infrastructure
 - Ephemeral Resources makes it hard to do triage or Forensics for detected threats
 - No file/network monitoring
@@ -59,12 +67,12 @@
 - User can run unverified Container images
 - Containers can run as root and even with elevated privileges
 
-### Amazon ECS (EC2) Setup 
+### Amazon ECS (EC2) Setup  <a name="paragraph5"></a>
 If building a machine with containers, images are needed.
 
 Then navigate to Elastic Container Registry (ECR) on AWS.
 
-#### Creating a Repository
+#### Creating a Repository <a name="subparagraph2"></a>
 - In creating a repository owned by a company, security best practice would be to choose private visibility settings
 - Enable tag immutability
 - Enable Scan on push
@@ -72,7 +80,7 @@ Then navigate to Elastic Container Registry (ECR) on AWS.
 
 After creating ECR, the application will be created in Amazon Elastic Container Service.
 
-#### Amazon Elastic Container Service
+#### Amazon Elastic Container Service <a name="subparagraph3"></a>
 - Create cluster
 - Create Amazon EC2 instances 
        - You'd choose a minimum of 1 and maximum of 2 desired capacity. 
@@ -82,11 +90,11 @@ After creating ECR, the application will be created in Amazon Elastic Container 
 - Add tags – It is always a good practice to add tags.
 - Create new task definition on ECS
 
-#### Amazon ECR Images Security
+#### Amazon ECR Images Security <a name="subparagraph4"></a>
 - This is linked to Amazon Inspector
 - It is using Synk in the background to find vulnerabilities
 
-### Amazon ECS – Security Best Practices – AWS
+### Amazon ECS – Security Best Practices – AWS <a name="paragraph6"></a>
 - Cloud Control Plane Configuration – Access Control, Container Images etc
 - Choosing the right Public or Private ECR for Images
 - Amazon ECR Scan Images to "Scan on Push" using Basic or Enhanced (Inspector + Synk)
@@ -95,7 +103,7 @@ After creating ECR, the application will be created in Amazon Elastic Container 
 - Amazon Organisations SCP – To manage ECS Task deletion, ECS creation, region lock etc.
 - AWS CloudTrail is enabled & monitored to trigger alerts on malicious ECS behaviour by an identity in AWS.
 
-### Amazon ECS – Security Best Practices – Application
+### Amazon ECS – Security Best Practices – Application <a name="paragraph7"></a>
 
 - Access Control – Roles or IAM Users for ECS Clusters/Services/Tasks
 - Most recent version of ECR Agent daemon on EC2
