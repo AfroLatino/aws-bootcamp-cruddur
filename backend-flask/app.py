@@ -85,6 +85,11 @@ cors = CORS(
   methods="OPTIONS,GET,HEAD,POST",
 )
 
+#Health check added
+@app.route('/api/health-check')
+def health_check():
+  return {'success': True}, 200
+  
 @app.route("/api/message_groups", methods=['GET'])
 def data_message_groups():
   access_token = extract_access_token(request.headers)
