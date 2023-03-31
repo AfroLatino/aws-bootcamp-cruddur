@@ -6,14 +6,7 @@ import DesktopSidebar     from '../components/DesktopSidebar';
 import ActivityFeed from '../components/ActivityFeed';
 import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
-import checkAuth from '../lib/CheckAuth';
-
-// Honeycomb-----
-//import { trace } from "@opentelemetry/api";
-//import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
-//import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
-// import { registerInstrumentations } from '@opentelemetry/instrumentation';
-
+import {checkAuth, getAccessToken} from '../lib/CheckAuth';
 
 export default function HomeFeedPage() {
   const [activities, setActivities] = React.useState([]);
@@ -23,40 +16,16 @@ export default function HomeFeedPage() {
   const [user, setUser] = React.useState(null);
   const dataFetchedRef = React.useRef(false);
 
-  //const tracer = trace.getTracer();
-
-  //const rootSpan = tracer.startActiveSpan('document_load', span => {
-    //span.setAttribute('pageUrlwindow', window.location.href);
-   // window.onload = (event) => {
-      
-   //  span.end(); 
-  //  };
-  //});
-
-//  registerInstrumentations({
- //   instrumentations: [
- //     new XMLHttpRequestInstrumentation({
- //       propagateTraceHeaderCorsUrls: [
-  //         /.+/g, /^http:\/\/localhost:4567\/.*$/
- //       ]
- //     }),
-  //    new FetchInstrumentation({
- //       propagateTraceHeaderCorsUrls: [
-//           /.+/g, /^http:\/\/localhost:4567\/.*$/
-//        ]
-//      }),
-//    ],
-//  });
-
   const loadData = async () => {
     try {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/home`
-           
+      await getAccessToken()
+      const access_token = localStorage.getItem("access_token")
       const res = await fetch(backend_url, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`
+          Authorization: `Bearer ${access_token}`
         },
-         method: "GET"
+        method: "GET"
       });
       let resJson = await res.json();
       if (res.status === 200) {
@@ -69,6 +38,8 @@ export default function HomeFeedPage() {
     }
   };
 
+
+  
   React.useEffect(()=>{
     //prevents double call
     if (dataFetchedRef.current) return;
@@ -82,8 +53,7 @@ export default function HomeFeedPage() {
     <article>
       <DesktopNavigation user={user} active={'home'} setPopped={setPopped} />
       <div className='content'>
-        <ActivityForm 
-          user_handle={user} 
+        <ActivityForm  
           popped={popped}
           setPopped={setPopped} 
           setActivities={setActivities} 
