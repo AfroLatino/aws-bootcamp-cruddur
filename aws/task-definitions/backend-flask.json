@@ -29,7 +29,7 @@
         "healthCheck": {
           "command": [
             "CMD-SHELL",
-            "python /backend-flask/bin/flask/health-check"
+            "python /backend-flask/bin/health-check"
           ],
           "interval": 30,
           "timeout": 5,
@@ -55,11 +55,11 @@
         "environment": [
           {"name": "OTEL_SERVICE_NAME", "value": "backend-flask"},
           {"name": "OTEL_EXPORTER_OTLP_ENDPOINT", "value": "https://api.honeycomb.io"},
-          {"name": "AWS_COGNITO_USER_POOL_ID", "value": "${AWS_COGNITO_AWS_USER_POOL_ID}"},
-          {"name": "AWS_COGNITO_USER_POOL_CLIENT_ID", "value": "${AWS_COGNITO_AWS_USER_POOL_CLIENT_ID}"},
+          {"name": "AWS_COGNITO_USER_POOL_ID", "value": "us-east-1_bvraqo7ao"},
+          {"name": "AWS_COGNITO_USER_POOL_CLIENT_ID", "value": "1bvcdole0jhqjn4bs2dolv3o75"},
           {"name": "FRONTEND_URL", "value": "https://ocubeltd.co.uk"},
           {"name": "BACKEND_URL", "value": "https://api.ocubeltd.co.uk"},
-          {"name": "AWS_DEFAULT_REGION", "value": "${AWS_DEFAULT_REGION}"}
+          {"name": "AWS_DEFAULT_REGION", "value": "us-east-1"}
         ],
         "secrets": [
           {"name": "AWS_ACCESS_KEY_ID"    , "valueFrom": "arn:aws:ssm:us-east-1:097592373482:parameter/cruddur/backend-flask/AWS_ACCESS_KEY_ID"},
