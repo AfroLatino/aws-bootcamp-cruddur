@@ -67,7 +67,9 @@ cognito_jwt_token = CognitoJwtToken(
 ) 
 
 ## X-RAY -----------
-XRayMiddleware(app, xray_recorder)
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+
 
 #HoneyComb ........
 # Initialize automatic instrumentation with Flask
