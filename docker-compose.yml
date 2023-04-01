@@ -1,50 +1,27 @@
 version: "3.8"
 services:
   backend-flask:
-    environment:
-     # CONNECTION_URL: "${PROD_CONNECTION_URL}"
-      CONNECTION_URL: "postgresql://postgres:password@db:5432/cruddur"
-      FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
-      BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
-      #OTEL--
-      OTEL_SERVICE_NAME: 'backend-flask'
-      OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io"
-      OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-team=${HONEYCOMB_API_KEY}"
-      #AWS_XRAY_URL: "*4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}*"
-      #AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"
-      AWS_DEFAULT_REGION: "${AWS_DEFAULT_REGION}"
-      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
-      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
-      ROLLBAR_ACCESS_TOKEN: "${ROLLBAR_ACCESS_TOKEN}"
-      AWS_COGNITO_AWS_USER_POOL_ID: "${AWS_COGNITO_AWS_USER_POOL_ID}"
-      AWS_COGNITO_AWS_USER_POOL_CLIENT_ID: "${AWS_COGNITO_AWS_USER_POOL_CLIENT_ID}"
-      AWS_ENDPOINT_URL: "http://dynamodb-local:8000"
+    env_file:
+      - backend-flask.env
     build: ./backend-flask
     ports:
       - "4567:4567"
     volumes:
       - ./backend-flask:/backend-flask
+    networks:
+      - cruddur-net
   frontend-react-js:
-    environment:
-       REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
-     # REACT_APP_OTEL_COLLECTOR_URL: "https://4318-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
-       REACT_APP_AWS_PROJECT_REGION: "${AWS_DEFAULT_REGION}"
-       REACT_APP_AWS_COGNITO_REGION: "${AWS_DEFAULT_REGION}"
-       REACT_APP_AWS_USER_POOLS_ID: "${AWS_COGNITO_AWS_USER_POOL_ID}"
-       REACT_APP_CLIENT_ID: "${AWS_COGNITO_AWS_USER_POOL_CLIENT_ID}"
+    env_file:
+      - frontend-react-js.env
     build: ./frontend-react-js
     ports:
       - "3000:3000"
-    healthcheck:
-     test: curl --fail https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST} || exit 1
-     interval: 300s
-     timeout: 10s
-     start_period: 10s
-     retries: 3
+    networks:
+      - cruddur-net
     volumes:
       - ./frontend-react-js:/frontend-react-js
-
-  # OTEL Collector
+      
+   # OTEL Collector
   #otel-collector:
   #environment:
   #   HONEYCOMB_API_KEY: "${HONEYCOMB_API_KEY}"
@@ -56,16 +33,6 @@ services:
   # ports:
   #  - 4318:4318 # OTLP http receiver
 
-  #xray-daemon:
-  #image: "amazon/aws-xray-daemon"
-  # environment:
-  #    AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
-  #   AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
-  #   AWS_REGION: "us-east-1"
-  # command:
-  #   - "xray -o -b xray-daemon:2000"
-  # ports:
-  #   - 2000:2000/udp
   dynamodb-local:
     user: root
     command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
@@ -86,14 +53,26 @@ services:
       - '5432:5432'
     volumes: 
       - db:/var/lib/postgresql/data
-
+  xray-daemon:
+    hostname: xray-daemon
+    image: "amazon/aws-xray-daemon"
+    environment:
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+      AWS_REGION: "${AWS_DEFAULT_REGION}"
+    command:
+      - "xray -o -b xray-daemon:2000"
+    ports:
+      - 2000:2000/udp
+    networks:
+      - cruddur-net
 # the name flag is a hack to change the default prepend folder
 # name when outputting the image names
 networks: 
-  internal-network:
+  cruddur-net:
     driver: bridge
-    name: cruddur
+    name: cruddur-net
 
 volumes:
   db:
-   driver: local
+    driver: local
