@@ -328,8 +328,8 @@ Created a new folder called task-definitions in aws, then a new file called back
 ```sh
 {
     "family": "backend-flask",
-    "executionRoleArn": "arn:aws:iam::AWS_ACCOUNT_ID:role/CruddurServiceExecutionRole",
-    "taskRoleArn": "arn:aws:iam::AWS_ACCOUNT_ID:role/CruddurTaskRole",
+    "executionRoleArn": "arn:aws:iam::$AWS_ACCOUNT_ID:role/CruddurServiceExecutionRole",
+    "taskRoleArn": "arn:aws:iam::$AWS_ACCOUNT_ID:role/CruddurTaskRole",
     "networkMode": "awsvpc",
     "cpu": "256",
     "memory": "512",
@@ -338,13 +338,26 @@ Created a new folder called task-definitions in aws, then a new file called back
     ],
     "containerDefinitions": [
       {
+        "name": "xray",
+        "image": "public.ecr.aws/xray/aws-xray-daemon" ,
+        "essential": true,
+        "user": "1337",
+        "portMappings": [
+          {
+            "name": "xray",
+            "containerPort": 2000,
+            "protocol": "udp"
+          }
+        ]
+      },
+      {
         "name": "backend-flask",
-        "image": "AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/backend-flask",
+        "image": "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/backend-flask",
         "essential": true,
         "healthCheck": {
           "command": [
             "CMD-SHELL",
-            "python /bin/flask/health-check"
+            "python /backend-flask/bin/health-check"
           ],
           "interval": 30,
           "timeout": 5,
@@ -370,11 +383,11 @@ Created a new folder called task-definitions in aws, then a new file called back
         "environment": [
           {"name": "OTEL_SERVICE_NAME", "value": "backend-flask"},
           {"name": "OTEL_EXPORTER_OTLP_ENDPOINT", "value": "https://api.honeycomb.io"},
-          {"name": "AWS_COGNITO_USER_POOL_ID", "value": "${AWS_COGNITO_AWS_USER_POOL_ID}"},
-          {"name": "AWS_COGNITO_USER_POOL_CLIENT_ID", "value": "${AWS_COGNITO_AWS_USER_POOL_CLIENT_ID}"},
-          {"name": "FRONTEND_URL", "value": "*"},
-          {"name": "BACKEND_URL", "value": "*"},
-          {"name": "AWS_DEFAULT_REGION", "value": "${AWS_DEFAULT_REGION}"}
+          {"name": "AWS_COGNITO_USER_POOL_ID", "value": $AWS_COGNITO_USER_POOL_ID},
+          {"name": "AWS_COGNITO_USER_POOL_CLIENT_ID", "value": $AWS_COGNITO_USER_POOL_CLIENT_ID},
+          {"name": "FRONTEND_URL", "value": $FRONTEND_URL},
+          {"name": "BACKEND_URL", "value": $BACKEND_URL},
+          {"name": "AWS_DEFAULT_REGION", "value": $AWS_DEFAULT_REGION}
         ],
         "secrets": [
           {"name": "AWS_ACCESS_KEY_ID"    , "valueFrom": "arn:aws:ssm:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:parameter/cruddur/backend-flask/AWS_ACCESS_KEY_ID"},
