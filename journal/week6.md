@@ -272,7 +272,8 @@ Created a policy called CruddurServiceExecutionPolicy in AWS Management Console.
 #### Create Task Role
 
 Created Task Role using the CLI command below:
-```json
+
+```sh
 aws iam create-role \
     --role-name CruddurTaskRole \
     --assume-role-policy-document "{
@@ -291,7 +292,7 @@ aws iam create-role \
 
 I created a role policy called SSMAccessPolicy with the CLI command below:
 
-```json
+```sh
 aws iam put-role-policy \
   --policy-name SSMAccessPolicy \
   --role-name CruddurTaskRole \
