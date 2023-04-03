@@ -464,13 +464,13 @@ curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64
 sudo dpkg -i session-manager-plugin.deb
 ```
 
-#### Verify its working
+Verify its working
 
 ```sh
 session-manager-plugin
 ```
 
-#### Connect to the container
+Connect to the container
 
 ```sh
 aws ecs execute-command  \
