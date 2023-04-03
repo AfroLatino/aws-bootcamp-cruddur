@@ -205,7 +205,7 @@ Created a new file within aws -> policies called service-execution-policy.json u
         "ssm:GetParameters",
         "ssm:GetParameter"
       ],
-      "Resource": "arn:aws:ssm:us-east-1::$AWS_ACCOUNT_ID:parameter/cruddur/backend-flask/*"
+      "Resource": "arn:aws:ssm:$AWS_DEFAULT_REGION::$AWS_ACCOUNT_ID:parameter/cruddur/backend-flask/*"
     }]
   }
 ```
@@ -261,7 +261,7 @@ Created a policy called CruddurServiceExecutionPolicy in AWS Management Console.
                 "ssm:GetParameters",
                 "ssm:GetParameter"
             ],
-            "Resource": "arn:aws:ssm:us-east-1:097592373482:parameter/cruddur/backend-flask/*"
+            "Resource": "arn:aws:ssm:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:parameter/cruddur/backend-flask/*"
         }
     ]
 }
@@ -320,6 +320,74 @@ aws iam put-role-policy \
 
 aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/CloudWatchFullAccess --role-name CruddurTaskRole
 aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess --role-name CruddurTaskRole
+
+#### Create JSON file
+
+Created a new folder called task-definitions in aws, then a new file called backend-flask.json with the script below:
+
+```sh
+{
+    "family": "backend-flask",
+    "executionRoleArn": "arn:aws:iam::AWS_ACCOUNT_ID:role/CruddurServiceExecutionRole",
+    "taskRoleArn": "arn:aws:iam::AWS_ACCOUNT_ID:role/CruddurTaskRole",
+    "networkMode": "awsvpc",
+    "cpu": "256",
+    "memory": "512",
+    "requiresCompatibilities": [ 
+      "FARGATE" 
+    ],
+    "containerDefinitions": [
+      {
+        "name": "backend-flask",
+        "image": "AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/backend-flask",
+        "essential": true,
+        "healthCheck": {
+          "command": [
+            "CMD-SHELL",
+            "python /bin/flask/health-check"
+          ],
+          "interval": 30,
+          "timeout": 5,
+          "retries": 3,
+          "startPeriod": 60
+        },
+        "portMappings": [
+          {
+            "name": "backend-flask",
+            "containerPort": 4567,
+            "protocol": "tcp", 
+            "appProtocol": "http"
+          }
+        ],
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+              "awslogs-group": "cruddur",
+              "awslogs-region": "us-east-1",
+              "awslogs-stream-prefix": "backend-flask"
+          }
+        },
+        "environment": [
+          {"name": "OTEL_SERVICE_NAME", "value": "backend-flask"},
+          {"name": "OTEL_EXPORTER_OTLP_ENDPOINT", "value": "https://api.honeycomb.io"},
+          {"name": "AWS_COGNITO_USER_POOL_ID", "value": "${AWS_COGNITO_AWS_USER_POOL_ID}"},
+          {"name": "AWS_COGNITO_USER_POOL_CLIENT_ID", "value": "${AWS_COGNITO_AWS_USER_POOL_CLIENT_ID}"},
+          {"name": "FRONTEND_URL", "value": "*"},
+          {"name": "BACKEND_URL", "value": "*"},
+          {"name": "AWS_DEFAULT_REGION", "value": "${AWS_DEFAULT_REGION}"}
+        ],
+        "secrets": [
+          {"name": "AWS_ACCESS_KEY_ID"    , "valueFrom": "arn:aws:ssm:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:parameter/cruddur/backend-flask/AWS_ACCESS_KEY_ID"},
+          {"name": "AWS_SECRET_ACCESS_KEY", "valueFrom": "arn:aws:ssm:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:parameter/cruddur/backend-flask/AWS_SECRET_ACCESS_KEY"},
+          {"name": "CONNECTION_URL"       , "valueFrom": "arn:aws:ssm:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:parameter/cruddur/backend-flask/CONNECTION_URL" },
+          {"name": "ROLLBAR_ACCESS_TOKEN" , "valueFrom": "arn:aws:ssm:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:parameter/cruddur/backend-flask/ROLLBAR_ACCESS_TOKEN" },
+          {"name": "OTEL_EXPORTER_OTLP_HEADERS" , "valueFrom": "arn:aws:ssm:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:parameter/cruddur/backend-flask/OTEL_EXPORTER_OTLP_HEADERS" }
+        ]
+      }
+    ]
+  }
+ ``` 
+
 
 ## Amazon ECS Security Best Practices
 
