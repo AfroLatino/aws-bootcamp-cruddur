@@ -85,13 +85,15 @@ aws ecs create-cluster \
 
 ### Create Repository
 
-I created a repository called cruddur-python using the command below:
+I created a private repository called cruddur-python using the command below:
 
 ```sh
 aws ecr create-repository \
   --repository-name cruddur-python \
   --image-tag-mutability MUTABLE
 ```
+
+![Private_Repo created](https://user-images.githubusercontent.com/128761840/229592376-c533ac8d-c560-4f48-9b48-4f1d57d97695.png)
 
 ### Login to ECR
 
