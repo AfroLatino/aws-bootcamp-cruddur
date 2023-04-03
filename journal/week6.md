@@ -127,6 +127,9 @@ docker tag python:3.10-slim-buster $ECR_PYTHON_URL:3.10-slim-buster
 docker push $ECR_PYTHON_URL:3.10-slim-buster
 ```
 
+![Image tag created](https://user-images.githubusercontent.com/128761840/229591636-4e01d440-79a7-4e0b-b887-89b774bca0bb.png)
+
+
 ### For Flask
 
 I updated the from to within my flask dockerfile to use my own image as seen below:
@@ -162,6 +165,72 @@ docker tag backend-flask:latest $ECR_BACKEND_FLASK_URL:latest
 ```sh
 docker push $ECR_BACKEND_FLASK_URL:latest
 ``` 
+
+Then, I navigated to Amazon ECS to check for the cluster and images created.
+
+
+### Register Task Definitions
+
+You need to create a parameter first before creating a role.
+
+This can be done via the CLI in the main folder using the commands below:
+
+```sh
+aws ssm put-parameter --type "SecureString" --name "/cruddur/backend-flask/AWS_ACCESS_KEY_ID" --value $AWS_ACCESS_KEY_ID
+aws ssm put-parameter --type "SecureString" --name "/cruddur/backend-flask/AWS_SECRET_ACCESS_KEY" --value $AWS_SECRET_ACCESS_KEY
+aws ssm put-parameter --type "SecureString" --name "/cruddur/backend-flask/CONNECTION_URL" --value $PROD_CONNECTION_URL
+aws ssm put-parameter --type "SecureString" --name "/cruddur/backend-flask/ROLLBAR_ACCESS_TOKEN" --value $ROLLBAR_ACCESS_TOKEN
+aws ssm put-parameter --type "SecureString" --name "/cruddur/backend-flask/OTEL_EXPORTER_OTLP_HEADERS" --value "x-honeycomb-team=$HONEYCOMB_API_KEY"
+```
+
+After setting these, then navigate to **Systems Manager -> Parameter Store** to check that all the values have been set correctly.
+
+Difference between Service and Task is; as soon as a task finishes executing, it kills itself but a service keeps on running.
+
+### Create Task and Execution Policy and Roles for Task Definition
+
+#### Create Service Execution Policy
+
+Created a new file within aws -> policies called service-execution-policy.json using the script below:
+```json
+{
+    "Version":"2012-10-17",
+    "Statement":[{
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameters",
+        "ssm:GetParameter"
+      ],
+      "Resource": "arn:aws:ssm:us-east-1::$AWS_ACCOUNT_ID:parameter/cruddur/backend-flask/*"
+    }]
+  }
+```
+
+#### Create Execution Role
+
+Created the role called CruddurServiceExecutionRole as seen below: 
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
+```
+
+#### Create Execution Policy
+
+and policy called CruddurServiceExecutionPolicy in AWS Management Console.
+
+
 
 ## Amazon ECS Security Best Practices
 
