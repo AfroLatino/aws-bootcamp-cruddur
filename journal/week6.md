@@ -660,6 +660,11 @@ Steps needed
 ./bin/backend/deploy
 ```
 
+### Load Balancer
+
+A load called cruddur-alb was created in AWS 
+
+![LoadBalancer](https://user-images.githubusercontent.com/128761840/229615569-1014c53a-b49f-4cbc-b7b9-4af88d1b90b6.png)
 
 ## Amazon ECS Security Best Practices
 
