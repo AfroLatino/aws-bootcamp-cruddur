@@ -57,8 +57,21 @@ if response.getcode() == 200:
 else:
   print("Flask server is not running")
 ```
+I made it executable by doing chmod u+x ./backend-flask/bin/health-check.
 
-I made it executable by doing chmod  ./backend-flask/bin/health-check.
+### Create Log Group
+
+I created a new log group called cruddur.
+
+```sh
+aws logs create-log-group --log-group-name "cruddur "
+```
+
+Set retention to be 1 day as below:
+
+```sh
+aws logs put-retention-policy --log-group-name "cruddur" --retention-in-days 1
+```
 
 ## Amazon ECS Security Best Practices
 
