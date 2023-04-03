@@ -411,7 +411,76 @@ aws ecs register-task-definition --cli-input-json file://aws/task-definitions/ba
 
 ![AmazonECSBackend-flask](https://user-images.githubusercontent.com/128761840/229602672-fab59399-c7d8-42c7-b6b5-3dda7f41d255.png)
 
+#### Create Default VPC_ID
 
+We need the default VPC ID using the command below:
+```sh
+export DEFAULT_VPC_ID=$(aws ec2 describe-vpcs \
+--filters "Name=isDefault, Values=true" \
+--query "Vpcs[0].VpcId" \
+--output text)
+
+echo $DEFAULT_VPC_ID
+```
+
+#### Create Security Group
+
+```sh
+export CRUD_SERVICE_SG=$(aws ec2 create-security-group \
+  --group-name "crud-srv-sg" \
+  --description "Security group for Cruddur services on ECS" \
+  --vpc-id $DEFAULT_VPC_ID \
+  --query "GroupId" --output text)
+  
+echo $CRUD_SERVICE_SG
+```
+
+#### Authorise Security Group
+
+```sh
+aws ec2 authorize-security-group-ingress \
+  --group-id $CRUD_SERVICE_SG \
+  --protocol tcp \
+  --port 80 \
+  --cidr 0.0.0.0/0
+```
+
+### Create Services
+```sh
+aws ecs create-service --cli-input-json file://aws/json/backend-flask-serv.json
+```
+
+#### Connection via Sessions Manager (Fargate)
+
+```sh
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm" -o "session-manager-plugin.rpm"
+```
+
+Install for Ubuntu
+
+```sh
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
+
+sudo dpkg -i session-manager-plugin.deb
+```
+
+#### Verify its working
+
+```sh
+session-manager-plugin
+```
+
+#### Connect to the container
+
+```sh
+aws ecs execute-command  \
+--region $AWS_DEFAULT_REGION \
+--cluster cruddur \
+--task dceb2ebdc11c49caadd64e6521c6b0c7 \
+--container backend-flask \
+--command "/bin/bash" \
+--interactive
+```
 
 ## Amazon ECS Security Best Practices
 
