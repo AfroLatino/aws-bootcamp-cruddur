@@ -682,6 +682,13 @@ The following diagram illustrates the basic components. Notice that each listene
 
 ![LoadBalancerPic](https://user-images.githubusercontent.com/128761840/229616459-df3b1e53-d0bf-4299-8ee8-b1985b76998a.png)
 
+**Target Groups**
+
+2 Target Groups called cruddur-backend-flask-tg and cruddur-frontend-react-js were created as seen below:
+
+![TargetGroups](https://user-images.githubusercontent.com/128761840/229620560-3ec93798-3e9f-45b4-8e52-02de7757821a.png)
+
+**Listeners**
 
 2 listeners called HTTPS:443 and HTTP:80 were created.
 
@@ -696,6 +703,8 @@ Forward to cruddur-frontend-react-js.
 ![rulescreated](https://user-images.githubusercontent.com/128761840/229618908-2865f526-68f0-48a1-b739-22125fbce12b.png)
 
 ![HTTP80 rule](https://user-images.githubusercontent.com/128761840/229619453-11fd6ac9-abbf-4c7d-b37c-becac908ad8c.png)
+
+
 
 
 **Reference**
