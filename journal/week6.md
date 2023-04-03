@@ -226,6 +226,9 @@ Created the role called CruddurServiceExecutionRole as seen below:
 }
 ```
 
+![role screenshot](https://user-images.githubusercontent.com/128761840/229591914-eb4a8d6c-0db8-4629-85b2-74ba9fb11d58.png)
+
+
 #### Create Execution Policy
 
 and policy called CruddurServiceExecutionPolicy in AWS Management Console.
