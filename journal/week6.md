@@ -4,6 +4,10 @@
 
 ## Deploy an ECS Cluster using ECS Service Connect
 
+### Refactor bin directory to be top level
+
+The bin directory was previously in backend-flask. This was refactored to the top (main) level.
+
 ### Test RDS Connection
 
 I added the test script below to check the connection from my container.
@@ -28,9 +32,30 @@ finally:
   conn.close()
 ```
 
+I made it executable by doing chmod u+x ./bin/db/test, then ./bin/db/test.
 
+### Task Flask Script
 
+I added the following endpoint for my flask app:
 
+```python
+@app.route('/api/health-check')
+def health_check():
+  return {'success': True}, 200
+```
+
+This is available at ./backend-flask/bin/health-check
+We'll create a new bin script at bin/flask/health-check
+
+#!/usr/bin/env python3
+
+import urllib.request
+
+response = urllib.request.urlopen('http://localhost:4567/api/health-check')
+if response.getcode() == 200:
+  print("Flask server is running")
+else:
+  print("Flask server is not running")
 
 
 
