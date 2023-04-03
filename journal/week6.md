@@ -44,9 +44,9 @@ def health_check():
   return {'success': True}, 200
 ```
 
-This is available at ./backend-flask/bin/health-check
-We'll create a new bin script at bin/flask/health-check
+I created a new bin script at ./backend-flask/bin/health-check.
 
+```python3
 #!/usr/bin/env python3
 
 import urllib.request
@@ -56,7 +56,7 @@ if response.getcode() == 200:
   print("Flask server is running")
 else:
   print("Flask server is not running")
-
+```
 
 
 ## Amazon ECS Security Best Practices
