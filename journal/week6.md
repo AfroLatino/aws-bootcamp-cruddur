@@ -235,7 +235,39 @@ Created the role called CruddurServiceExecutionRole as seen below:
 
 #### Create Execution Policy
 
-and policy called CruddurServiceExecutionPolicy in AWS Management Console.
+Created a policy called CruddurServiceExecutionPolicy in AWS Management Console.
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "ssm:GetParameters",
+                "ssm:GetParameter"
+            ],
+            "Resource": "arn:aws:ssm:us-east-1:097592373482:parameter/cruddur/backend-flask/*"
+        }
+    ]
+}
+```
+
+![CruddurServiceExecutionPolicy](https://user-images.githubusercontent.com/128761840/229593772-6b5dc562-4ce7-45a1-af8d-ef7a2e57a7e2.png)
 
 
 
