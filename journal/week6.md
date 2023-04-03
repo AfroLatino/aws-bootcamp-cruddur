@@ -269,7 +269,54 @@ Created a policy called CruddurServiceExecutionPolicy in AWS Management Console.
 
 ![CruddurServiceExecutionPolicy](https://user-images.githubusercontent.com/128761840/229593772-6b5dc562-4ce7-45a1-af8d-ef7a2e57a7e2.png)
 
+#### Create Task Role
 
+Created Task Role using the CLI command below:
+```json
+aws iam create-role \
+    --role-name CruddurTaskRole \
+    --assume-role-policy-document "{
+  \"Version\":\"2012-10-17\",
+  \"Statement\":[{
+    \"Action\":[\"sts:AssumeRole\"],
+    \"Effect\":\"Allow\",
+    \"Principal\":{
+      \"Service\":[\"ecs-tasks.amazonaws.com\"]
+    }
+  }]
+}"
+```
+
+#### Create Role Policy
+
+I created a role policy called SSMAccessPolicy with the CLI command below:
+
+```json
+aws iam put-role-policy \
+  --policy-name SSMAccessPolicy \
+  --role-name CruddurTaskRole \
+  --policy-document "{
+  \"Version\":\"2012-10-17\",
+  \"Statement\":[{
+    \"Action\":[
+      \"ssmmessages:CreateControlChannel\",
+      \"ssmmessages:CreateDataChannel\",
+      \"ssmmessages:OpenControlChannel\",
+      \"ssmmessages:OpenDataChannel\"
+    ],
+    \"Effect\":\"Allow\",
+    \"Resource\":\"*\"
+  }]
+}
+"
+```
+
+![SSMAccessPolicy](https://user-images.githubusercontent.com/128761840/229598009-e38f72a6-1912-490c-b89f-35ca96303d46.png)
+
+#### Attach Role Policy
+
+aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/CloudWatchFullAccess --role-name CruddurTaskRole
+aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess --role-name CruddurTaskRole
 
 ## Amazon ECS Security Best Practices
 
