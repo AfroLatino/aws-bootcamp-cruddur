@@ -46,7 +46,7 @@ def health_check():
 
 I created a new bin script at ./backend-flask/bin/health-check.
 
-```python3
+```python
 #!/usr/bin/env python3
 
 import urllib.request
