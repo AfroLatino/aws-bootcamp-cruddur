@@ -83,8 +83,6 @@ aws ecs create-cluster \
 --service-connect-defaults namespace=cruddur
 ```
 
-
-
 ### Create Repository
 
 I created a private repository called cruddur-python using the command below:
@@ -465,6 +463,8 @@ export CRUD_SERVICE_SG=$(aws ec2 create-security-group \
   
 echo $CRUD_SERVICE_SG
 ```
+
+![securitygroups](https://user-images.githubusercontent.com/128761840/229622216-16c440bc-67a7-4a9c-8258-e4d7aef98bf0.png)
 
 #### Authorise Security Group
 
