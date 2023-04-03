@@ -64,13 +64,67 @@ I made it executable by doing chmod u+x ./backend-flask/bin/health-check.
 I created a new log group called cruddur.
 
 ```sh
-aws logs create-log-group --log-group-name "cruddur "
+aws logs create-log-group --log-group-name "cruddur"
 ```
 
 Set retention to be 1 day as below:
 
 ```sh
 aws logs put-retention-policy --log-group-name "cruddur" --retention-in-days 1
+```
+
+### Create ECS Cluster
+
+I created an ECS Cluster called cruddur.
+
+```sh
+aws ecs create-cluster \
+--cluster-name cruddur \
+--service-connect-defaults namespace=cruddur
+```
+
+### Create Repository
+
+I created a repository called cruddur-python using the command below:
+
+```sh
+aws ecr create-repository \
+  --repository-name cruddur-python \
+  --image-tag-mutability MUTABLE
+```
+
+### Login to ECR
+
+```sh
+aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com"
+```
+
+### For Base-Image Python
+```sh
+aws ecr create-repository \
+  --repository-name cruddur-python \
+  --image-tag-mutability MUTABLE
+ ```
+ 
+#### Set URL
+```sh
+export ECR_PYTHON_URL="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/cruddur-python"
+echo $ECR_PYTHON_URL
+```
+
+#### Pull Image
+```sh
+docker pull python:3.10-slim-buster
+```
+
+#### Tag Image
+```sh
+docker tag python:3.10-slim-buster $ECR_PYTHON_URL:3.10-slim-buster
+```
+
+#### Push Image
+```sh
+docker push $ECR_PYTHON_URL:3.10-slim-buster
 ```
 
 ## Amazon ECS Security Best Practices
