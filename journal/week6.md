@@ -83,6 +83,8 @@ aws ecs create-cluster \
 --service-connect-defaults namespace=cruddur
 ```
 
+
+
 ### Create Repository
 
 I created a private repository called cruddur-python using the command below:
@@ -630,10 +632,16 @@ Created a new folder called task-definitions in aws directory, then a new file c
 aws ecs register-task-definition --cli-input-json file://aws/task-defintions/frontend-react-js.json
 ```
 
+![task definitions](https://user-images.githubusercontent.com/128761840/229613471-81d2c5e4-02e9-423e-8c30-c16846d539a2.png)
+
+
 #### Create Services
 
 ```sh
 aws ecs create-service --cli-input-json file://aws/json/frontend-react-js-serv.json
+```
+
+![servicescreated](https://user-images.githubusercontent.com/128761840/229612984-ee78b9b5-14c7-4441-90fb-948f8ee6ec0c.png)
 
 ### Run Before Docker Compose
 
