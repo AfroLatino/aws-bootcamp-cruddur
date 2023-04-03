@@ -634,6 +634,25 @@ aws ecs register-task-definition --cli-input-json file://aws/task-defintions/fro
 
 ```sh
 aws ecs create-service --cli-input-json file://aws/json/frontend-react-js-serv.json
+
+### Run Before Docker Compose
+
+```sh
+./bin/ecr/login
+./bin/backend/generate-env
+./bin/frontend/generate-env
+```
+
+Steps needed
+
+```sh
+./bin/backend/build
+./bin/backend/push
+./bin/backend/register
+./bin/backend/deploy
+```
+
+
 ```
 
 ## Amazon ECS Security Best Practices
