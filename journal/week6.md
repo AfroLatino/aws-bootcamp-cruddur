@@ -83,6 +83,8 @@ aws ecs create-cluster \
 --service-connect-defaults namespace=cruddur
 ```
 
+![cluster](https://user-images.githubusercontent.com/128761840/229622700-560069cd-66b6-4bfa-a1f7-0c341b748ade.png)
+
 ### Create Repository
 
 I created a private repository called cruddur-python using the command below:
