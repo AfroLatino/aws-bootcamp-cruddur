@@ -661,8 +661,6 @@ Steps needed
 ```
 
 
-```
-
 ## Amazon ECS Security Best Practices
 
 ### Table of contents
