@@ -134,21 +134,35 @@ I updated the from to within my flask dockerfile to use my own image as seen bel
 ```sh
 FROM <AWS_ACCOUNT_ID>.dkr.ecr.<AWS_DEFAULT_REGION>.amazonaws.com/cruddur-python:3.10-slim-buster
 ```
-remember to put the :latest tag on the end
 
-Create Repo
+#### Create Repo
+```sh
 aws ecr create-repository \
   --repository-name backend-flask \
   --image-tag-mutability MUTABLE
-Set URL
+  ```
+  
+#### Set URL
+```sh
 export ECR_BACKEND_FLASK_URL="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/backend-flask"
 echo $ECR_BACKEND_FLASK_URL
-Build Image
+```
+
+#### Build Image
+```sh
 docker build -t backend-flask .
-Tag Image
+```
+
+#### Tag Image
+```sh
 docker tag backend-flask:latest $ECR_BACKEND_FLASK_URL:latest
-Push Image
+```
+
+#### Push Image
+```sh
 docker push $ECR_BACKEND_FLASK_URL:latest
+``` 
+
 ## Amazon ECS Security Best Practices
 
 ### Table of contents
