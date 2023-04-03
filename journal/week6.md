@@ -401,6 +401,17 @@ Created a new folder called task-definitions in aws, then a new file called back
   }
  ``` 
 
+#### Register Task Definition
+
+Created task definition for the backend-flask using the CLI command below:
+
+```sh
+aws ecs register-task-definition --cli-input-json file://aws/task-definitions/backend-flask.json
+```
+
+![AmazonECSBackend-flask](https://user-images.githubusercontent.com/128761840/229602672-fab59399-c7d8-42c7-b6b5-3dda7f41d255.png)
+
+
 
 ## Amazon ECS Security Best Practices
 
