@@ -185,6 +185,8 @@ aws ssm put-parameter --type "SecureString" --name "/cruddur/backend-flask/OTEL_
 
 After setting these, then navigate to **Systems Manager -> Parameter Store** to check that all the values have been set correctly.
 
+![AWSSystemsManagerParameters](https://user-images.githubusercontent.com/128761840/229592056-facb4196-ca2a-4ca8-a3db-70bb88d3117f.png)
+
 Difference between Service and Task is; as soon as a task finishes executing, it kills itself but a service keeps on running.
 
 ### Create Task and Execution Policy and Roles for Task Definition
