@@ -58,6 +58,7 @@ else:
   print("Flask server is not running")
 ```
 
+I made it executable by doing chmod  ./backend-flask/bin/health-check.
 
 ## Amazon ECS Security Best Practices
 
