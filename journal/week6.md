@@ -288,6 +288,8 @@ aws iam create-role \
 }"
 ```
 
+![CruddurTaskRole](https://user-images.githubusercontent.com/128761840/229598687-9e2d29d8-8140-40a1-bd66-ee55d493c929.png)
+
 #### Create Role Policy
 
 I created a role policy called SSMAccessPolicy with the CLI command below:
