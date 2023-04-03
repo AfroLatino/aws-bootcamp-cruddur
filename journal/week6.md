@@ -706,12 +706,32 @@ Forward to cruddur-frontend-react-js.
 
 ![HTTP80 rule](https://user-images.githubusercontent.com/128761840/229619453-11fd6ac9-abbf-4c7d-b37c-becac908ad8c.png)
 
+**Inbound rules set for VPCs**
 
+Inbound rules were set for the load balancer and the crud security group
 
+![Inboundrulesforsrvsg](https://user-images.githubusercontent.com/128761840/229623547-e777cbe6-c889-415f-8a91-98d73cdcb865.png)
+
+![Inboundrulesforalbsg](https://user-images.githubusercontent.com/128761840/229623561-d9a13156-af52-4a76-9caa-3fc4a734f81f.png)
 
 **Reference**
 
 [Elastic Load Balancing](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html)
+
+
+### Managing my domain using Route53 via hosted zone
+
+A domain name is required to complete this project in order for the backend to talk to the frontend via the web browser.
+
+I managed my domain using Route53 via hosted zone as seen below:
+
+![hostedzone](https://user-images.githubusercontent.com/128761840/229624328-f4b21c31-6d78-4745-ac5f-70df86312c33.png)
+
+### Create an SSL cerificate via ACM
+
+I created an SSL certificate via ACM as seen below:
+
+![AWSCertManager](https://user-images.githubusercontent.com/128761840/229624889-408e6626-c266-431d-979e-c9981ef6c732.png)
 
 
 ## Amazon ECS Security Best Practices
