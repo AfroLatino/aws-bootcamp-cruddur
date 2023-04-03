@@ -347,8 +347,10 @@ aws iam put-role-policy \
 
 #### Attach Role Policy
 
+```sh
 aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/CloudWatchFullAccess --role-name CruddurTaskRole
 aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess --role-name CruddurTaskRole
+```
 
 #### Create JSON file
 
@@ -682,7 +684,7 @@ The following diagram illustrates the basic components. Notice that each listene
 
 Reference
 
-![Elastic Load Balancing](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html)
+[Elastic Load Balancing](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html)
 
 
 ## Amazon ECS Security Best Practices
