@@ -170,6 +170,33 @@ docker push $ECR_BACKEND_FLASK_URL:latest
 
 Then, I navigated to Amazon ECS to check for the cluster and images created.
 
+If you want to run and test it, use the command below:
+
+```sh
+docker build -f Dockerfile.prod -t backend-flask-prod .
+```
+```sh
+#! /usr/bin/bash
+
+docker run --rm \
+-p 4567:4567 \
+--env AWS_ENDPOINT_URL="http://dynamodb-local:8000" \
+--env CONNECTION_URL="postgresql://postgres:password@db:5432/cruddur" \
+--env FRONTEND_URL="https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}" \
+--env BACKEND_URL="https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}" \
+--env OTEL_SERVICE_NAME='backend-flask' \
+--env OTEL_EXPORTER_OTLP_ENDPOINT="https://api.honeycomb.io" \
+--env OTEL_EXPORTER_OTLP_HEADERS="x-honeycomb-team=${HONEYCOMB_API_KEY}" \
+--env AWS_XRAY_URL="*4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}*" \
+--env AWS_XRAY_DAEMON_ADDRESS="xray-daemon:2000" \
+--env AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}" \
+--env AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
+--env AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
+--env ROLLBAR_ACCESS_TOKEN="${ROLLBAR_ACCESS_TOKEN}" \
+--env AWS_COGNITO_AWS_USER_POOL_ID="${AWS_COGNITO_AWS_USER_POOL_ID}" \
+--env AWS_COGNITO_AWS_USER_POOL_CLIENT_ID="${AWS_COGNITO_AWS_USER_POOL_CLIENT_ID}" \
+-it backend-flask-prod 
+```
 
 ### Register Task Definitions
 
@@ -323,7 +350,7 @@ aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AWSXRayDaemonWri
 
 #### Create JSON file
 
-Created a new folder called task-definitions in aws, then a new file called backend-flask.json with the script below:
+Created a new folder called task-definitions in aws directory, then a new file called backend-flask.json with the script below:
 
 ```sh
 {
@@ -480,6 +507,133 @@ aws ecs execute-command  \
 --container backend-flask \
 --command "/bin/bash" \
 --interactive
+```
+
+### For Frontend React
+
+#### Create Repo
+
+```sh
+aws ecr create-repository \
+  --repository-name frontend-react-js \
+  --image-tag-mutability MUTABLE
+```
+  
+#### Set URL
+
+```sh
+export ECR_FRONTEND_REACT_URL="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/frontend-react-js"
+echo $ECR_FRONTEND_REACT_URL
+```
+
+#### Build Image
+
+```sh
+docker build \
+--build-arg REACT_APP_BACKEND_URL="${REACT_APP_BACKEND_URL}"  \
+--build-arg REACT_APP_AWS_PROJECT_REGION="${AWS_DEFAULT_REGION}" \
+--build-arg REACT_APP_AWS_COGNITO_REGION="${AWS_DEFAULT_REGION}" \
+--build-arg REACT_APP_AWS_USER_POOLS_ID="${AWS_COGNITO_AWS_USER_POOL_ID}"  \
+--build-arg REACT_APP_CLIENT_ID="${AWS_COGNITO_AWS_USER_POOL_CLIENT_ID}"  \
+-t frontend-react-js \
+-f Dockerfile.prod \
+.
+```
+
+#### Tag Image
+
+```sh
+docker tag frontend-react-js:latest $ECR_FRONTEND_REACT_URL:latest
+```
+
+#### Push Image
+
+```sh
+docker push $ECR_FRONTEND_REACT_URL:latest
+```
+
+If you want to run and test it, use the command below:
+
+```sh
+docker run --rm -p 3000:3000 -it frontend-react-js 
+```
+
+### Create Task and Services and Roles for Task Definition - Frontend React
+
+#### Create JSON file
+
+Created a new folder called task-definitions in aws directory, then a new file called frontend-react-js.json with the script below:
+
+```sh
+{
+    "family": "frontend-react-js",
+    "executionRoleArn": "arn:aws:iam::$AWS_ACCOUNT_ID:role/CruddurServiceExecutionRole",
+    "taskRoleArn": "arn:aws:iam::$AWS_ACCOUNT_ID:role/CruddurTaskRole",
+    "networkMode": "awsvpc",
+    "cpu": "256",
+    "memory": "512",
+    "requiresCompatibilities": [ 
+      "FARGATE" 
+    ],
+    "containerDefinitions": [
+      {
+        "name": "xray",
+        "image": "public.ecr.aws/xray/aws-xray-daemon" ,
+        "essential": true,
+        "user": "1337",
+        "portMappings": [
+          {
+            "name": "xray",
+            "containerPort": 2000,
+            "protocol": "udp"
+          }
+        ]
+      },
+      {
+        "name": "frontend-react-js",
+        "image": "$AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/frontend-react-js",
+        "essential": true,
+        "healthCheck": {
+          "command": [
+            "CMD-SHELL",
+            "curl -f http://localhost:3000 || exit 1"
+          ],
+          "interval": 30,
+          "timeout": 5,
+          "retries": 3
+        },
+        "portMappings": [
+          {
+            "name": "frontend-react-js",
+            "containerPort": 3000,
+            "protocol": "tcp", 
+            "appProtocol": "http"
+          }
+        ],
+  
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+              "awslogs-group": "cruddur",
+              "awslogs-region": "us-east-1",
+              "awslogs-stream-prefix": "frontend-react-js"
+          }
+        }
+      }
+    ]
+  }
+```
+
+#### Register Task Defintion
+
+```sh
+aws ecs register-task-definition --cli-input-json file://aws/task-defintions/frontend-react-js.json
+```
+
+#### Create Services
+
+```sh
+aws ecs create-service --cli-input-json file://aws/json/frontend-react-js-serv.json
 ```
 
 ## Amazon ECS Security Best Practices
