@@ -848,6 +848,33 @@ After creating ECR, the application will be created in Amazon Elastic Container 
 - Only using Authorized Container images (hopefully some image signing in the future e.g. sigstore).
 - AWS Config Rules (as no GuardDuty (ECS) even in Mar 2023) is enabled in the account and region of ECS.
 
+
+## How to Securely Host a Website on AWS with a Custom Domain
+
+### Table of contents
+- [Amazon Route53 – Security Best Practices – AWS](#introduction)
+- [Amazon Route53 – Security Best Practices – Application](#paragraph1)
+
+### Amazon Route53 – Security Best Practices – AWS
+- Integration with ACM (Amazon Certificate Manager) for TLS
+- Compliance standard is what your business requires for a DNS provider
+- Amazon Organizations SCP – to manage Route53 actions like creation, deletion, modification of production URLs etc.
+- AWS CloudTrail is enabled & monitored to trigger alerts for malicious activities e.g. Associate VPC with Hosted Zone, Change Resource Record Sets, Register Domain etc.
+- GuardDuty is enabled for monitoring suspicious DNS comms (e.g. Crypto-mining etc) and automated for auto-remediation.
+- AWS Config Rules is enabled in the account and region of ECS
+
+### Amazon Route53 – Security Best Practices – Application
+- Access Control – Roles or IAM Users for making DNS changes in Amazon Route53.
+- Public vs Private Hosted Zones
+- All Route53 records should point to an existing DNS, ELB, ALB or AWS S3 – Watch out for Dangling DNS Domains
+- Hosted Zone Configuration Changes limited to small set of people
+- Enable Encryption in Transit using TLS/SSL certification e.g. HTTPS URLs.
+- Only use Trusted Domain Providers for requesting new DNSs.
+- Set TTLs appropriately to afford to wait for a change to take effect
+- Ensure Root Domain Alias Record Points to ELB
+- Develop process for continuously verifying if DNS (& Hosted Zone) are all current and valid.
+
+
 ## My Journey to the Cloud assessment
 
 I AM GOING TO BECOME A: ........Data Engineer.........
