@@ -852,10 +852,10 @@ After creating ECR, the application will be created in Amazon Elastic Container 
 ## How to Securely Host a Website on AWS with a Custom Domain
 
 ### Table of contents
-- [Amazon Route53 – Security Best Practices – AWS](#introduction)
-- [Amazon Route53 – Security Best Practices – Application](#paragraph1)
+- [Amazon Route53 – Security Best Practices – AWS](#introduction1)
+- [Amazon Route53 – Security Best Practices – Application](#paragraph8)
 
-### Amazon Route53 – Security Best Practices – AWS
+### Amazon Route53 – Security Best Practices – AWS <a name="introduction1"></a>
 - Integration with ACM (Amazon Certificate Manager) for TLS
 - Compliance standard is what your business requires for a DNS provider
 - Amazon Organizations SCP – to manage Route53 actions like creation, deletion, modification of production URLs etc.
@@ -863,7 +863,7 @@ After creating ECR, the application will be created in Amazon Elastic Container 
 - GuardDuty is enabled for monitoring suspicious DNS comms (e.g. Crypto-mining etc) and automated for auto-remediation.
 - AWS Config Rules is enabled in the account and region of ECS
 
-### Amazon Route53 – Security Best Practices – Application
+### Amazon Route53 – Security Best Practices – Application <a name="paragraph8"></a>
 - Access Control – Roles or IAM Users for making DNS changes in Amazon Route53.
 - Public vs Private Hosted Zones
 - All Route53 records should point to an existing DNS, ELB, ALB or AWS S3 – Watch out for Dangling DNS Domains
