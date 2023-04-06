@@ -824,7 +824,7 @@ After creating ECR, the application will be created in Amazon Elastic Container 
 
 #### Amazon ECR Images Security <a name="subparagraph4"></a>
 - This is linked to Amazon Inspector
-- It is using Synk in the background to find vulnerabilities
+- It is using Synk in the background to find vulnerabilities 
 
 ### Amazon ECS – Security Best Practices – AWS <a name="paragraph6"></a>
 - Cloud Control Plane Configuration – Access Control, Container Images etc
