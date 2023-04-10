@@ -32,7 +32,10 @@ tasks:
       pip install -r requirements.txt
   - name: cdk
     before: |
-      npm install aws-cdk-lib -g
+      npm install aws-cdk -g
+      cd thumbing-serverless-cdk
+      cp .env.example .env
+      npm i
   - name: fargate
     before: |
       curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
