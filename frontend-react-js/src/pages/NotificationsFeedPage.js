@@ -37,7 +37,7 @@ export default function NotificationsFeedPage() {
 
   const checkAuth = async () => {
     console.log('checkAuth')
-    // [TODO] Authenication
+    // [TODO] Authentication
     if (Cookies.get('user.logged_in')) {
       setUser({
         display_name: Cookies.get('user.name'),
@@ -71,12 +71,16 @@ export default function NotificationsFeedPage() {
           setActivities={setActivities} 
           activities={activities} 
         />
-        <ActivityFeed 
-          title="Notifications" 
-          setReplyActivity={setReplyActivity} 
-          setPopped={setPoppedReply} 
-          activities={activities} 
-        />
+        <div className='activity_feed'>
+          <div className='activity_feed_heading'>
+            <div className='title'>Notifications</div>
+          </div>
+          <ActivityFeed 
+            setReplyActivity={setReplyActivity} 
+            setPopped={setPoppedReply} 
+            activities={activities} 
+          />
+        </div>
       </div>
       <DesktopSidebar user={user} />
     </article>

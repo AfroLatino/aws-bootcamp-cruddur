@@ -96,8 +96,8 @@ def health_check():
 def data_message_groups():
   access_token = extract_access_token(request.headers)
   try:
-    claims = cognito_jwt_token.verify(access_token) 
-    # authenicatied request
+    claims = cognito_jwt_token.verify(access_token)
+    # authenticated request
     app.logger.debug("authenticated")
     app.logger.debug(claims)
     cognito_user_id = claims['sub']
@@ -111,28 +111,29 @@ def data_message_groups():
     app.logger.debug(e)
     return {}, 401
 
+
 @app.route("/api/messages/<string:message_group_uuid>", methods=['GET'])
 def data_messages(message_group_uuid):
   access_token = extract_access_token(request.headers)
   try:
-    claims = cognito_jwt_token.verify(access_token) 
-    # authenicatied request
+    claims = cognito_jwt_token.verify(access_token)
+    # authenticated request
     app.logger.debug("authenticated")
     app.logger.debug(claims)
     cognito_user_id = claims['sub']
     model = Messages.run(
-    cognito_user_id=cognito_user_id ,
-    message_group_uuid=message_group_uuid
-  )
+        cognito_user_id=cognito_user_id,
+        message_group_uuid=message_group_uuid
+      )
     if model['errors'] is not None:
       return model['errors'], 422
     else:
       return model['data'], 200
   except TokenVerifyError as e:
-    # unauthenicatied request
+    # unauthenticated request
     app.logger.debug(e)
     return {}, 401
-    
+
 @app.route("/api/messages", methods=['POST','OPTIONS'])
 @cross_origin()
 def data_create_message():
@@ -142,7 +143,7 @@ def data_create_message():
   access_token = extract_access_token(request.headers)
   try:
     claims = cognito_jwt_token.verify(access_token)
-    # authenicatied request
+    # authenticated request
     app.logger.debug("authenticated")
     app.logger.debug(claims)
     cognito_user_id = claims['sub']
@@ -167,28 +168,28 @@ def data_create_message():
     else:
       return model['data'], 200
   except TokenVerifyError as e:
-    # unauthenicatied request
+    # unauthenticatied request
     app.logger.debug(e)
     return {}, 401
 
+
 @app.route("/api/activities/home", methods=['GET'])
-@xray_recorder.capture('activities_home')
+#@xray_recorder.capture('activities_home')
 def data_home():
-    access_token = extract_access_token(request.headers)
-    try:
-      claims = cognito_jwt_token.verify(access_token)
-        #authenticated request
-      app.logger.debug("authenticated")
-      #app.logger.debug(claims)
-      #app.logger.debug(claims['username'])
-      data = HomeActivities.run(cognito_user_id=claims['username'])
-    except TokenVerifyError as e:
-      #unauthenticated request
-      #app.logger.debug(e)
-      app.logger.debug("unauthenticated")
-      data = HomeActivities.run()  
-      
-    return data, 200
+  access_token = extract_access_token(request.headers)
+  try:
+    claims = cognito_jwt_token.verify(access_token)
+    # authenicatied request
+    app.logger.debug("authenticated")
+    app.logger.debug(claims)
+    app.logger.debug(claims['username'])
+    data = HomeActivities.run(cognito_user_id=claims['username'])
+  except TokenVerifyError as e:
+    # unauthenicatied request
+    app.logger.debug(e)
+    app.logger.debug("unauthenticated")
+    data = HomeActivities.run()
+  return data, 200
 
 @app.route("/api/activities/notifications", methods=['GET'])
 def data_notifications():
@@ -196,6 +197,7 @@ def data_notifications():
   return data, 200
 
 @app.route("/api/activities/@<string:handle>", methods=['GET'])
+#@xray_recorder.capture('activities_users')
 def data_handle(handle):
   model = UserActivities.run(handle)
   if model['errors'] is not None:
@@ -216,7 +218,7 @@ def data_search():
 @app.route("/api/activities", methods=['POST','OPTIONS'])
 @cross_origin()
 def data_activities():
-  user_handle  = request.json["user_handle"]
+  user_handle  = 'AfroLatino'
   message = request.json['message']
   ttl = request.json['ttl']
   model = CreateActivity.run(message, user_handle, ttl)
@@ -227,6 +229,7 @@ def data_activities():
   return
 
 @app.route("/api/activities/<string:activity_uuid>", methods=['GET'])
+@xray_recorder.capture('activities_show')
 def data_show_activity(activity_uuid):
   data = ShowActivity.run(activity_uuid=activity_uuid)
   return data, 200
@@ -247,6 +250,30 @@ def data_activities_reply(activity_uuid):
 def data_users_short(handle):
   data = UsersShort.run(handle)
   return data, 200
-  
+
+@app.route("/api/profile/update", methods=['POST','OPTIONS'])
+@cross_origin()
+def data_update_profile():
+  bio          = request.json.get('bio',None)
+  display_name = request.json.get('display_name',None)
+  access_token = extract_access_token(request.headers)
+  try:
+    claims = cognito_jwt_token.verify(access_token)
+    cognito_user_id = claims['sub']
+    model = UpdateProfile.run(
+      cognito_user_id=cognito_user_id,
+      bio=bio,
+      display_name=display_name
+    )
+    if model['errors'] is not None:
+      return model['errors'], 422
+    else:
+      return model['data'], 200
+  except TokenVerifyError as e:
+    # unauthenticatied request
+    app.logger.debug(e)
+    return {}, 401
+
+
 if __name__ == "__main__":
   app.run(debug=True)
