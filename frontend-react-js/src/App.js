@@ -44,7 +44,7 @@ const router = createBrowserRouter([
     element: <NotificationsFeedPage />
   },
   {
-    path: "/@:handle",
+    path: "/@AfroLatino",
     element: <UserFeedPage />
   },
   {
@@ -76,6 +76,7 @@ const router = createBrowserRouter([
     element: <RecoverPage />
   }
 ]);
+
 
 function App() {
   return (

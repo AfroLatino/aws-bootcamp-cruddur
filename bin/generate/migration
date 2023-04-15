@@ -11,7 +11,7 @@ else:
 
 time_now = str(int(time.time()))
 
-filename = f"{timestamp}_{name}.py"
+filename = f"{time_now}_{name}.py"
 
 # covert undername name to title case eg. add_bio_column -> AddBioColumn
 klass = name.replace('_', ' ').title().replace(' ','')

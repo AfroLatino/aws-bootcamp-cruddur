@@ -47,4 +47,4 @@ for migration_file in migration_files:
       print('=== running migration: ',module_name)
       mod.migration.migrate()
       time_now = str(int(time.time()))
-      last_successful_run = set_last_successful_run(timestamp)
+      last_successful_run = set_last_successful_run(time_now)
