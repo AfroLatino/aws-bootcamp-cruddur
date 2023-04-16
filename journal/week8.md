@@ -292,6 +292,29 @@ url = obj.presigned_url(:put, expires_in: 3600)
 puts url
 ```
 
+I added gemfile below:
+
+```ruby
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+# gem "rails"
+gem "aws-sdk-s3"
+gem "ox"
+```
+
+Then, ran ```bundle install``` to get gemfile.lock file.
+
+Then, ```bundle exec ruby function.rb```
+
+
+Install ThunderClient
+
+Add URL to thunderclient and upload lore.jpg, then PUT 
+Got a 200 message
+Then go to S3 bucket to view this.
+
 
 
 
