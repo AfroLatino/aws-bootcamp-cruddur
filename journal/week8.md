@@ -120,7 +120,7 @@ The synth command is used to synthesize the AWS CloudFormation stack(s) that rep
 cdk synth
 ```
 
-To deploiy, use the command below:
+To deploy, use the command below:
 
 ```sh
 cdk deploy
@@ -139,6 +139,32 @@ cdk bootstrap "aws://$AWS_ACCOUNT_ID/$AWS_DEFAULT_REGION"
 The CDK was built on Cloud Formation. CloudFormation is an infrastructure automation platform for AWS that deploys AWS resources in a repeatable, testable and auditable manner.
 
 SAM is a specialised type of CloudFormation.
+
+
+### Process Images
+
+I created a new folder called process-images within /workspace/aws-bootcamp-cruddur-2023/aws/lambdas'
+
+```sh
+cd  aws/lambdas/process-images from main directory
+```
+
+Then,
+
+```sh
+npm init – y
+```
+
+Install npm i sharp to process-images
+
+```sh
+npm i sharp
+```
+
+
+
+
+
 
 
 
