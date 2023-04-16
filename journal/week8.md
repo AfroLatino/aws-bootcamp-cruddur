@@ -96,3 +96,10 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
   }
 }
 ```
+
+See screenshots below:
+
+![S3Bucket](https://user-images.githubusercontent.com/129978840/232314987-c76e7e6b-dc1a-431a-91f7-6d9ead480b32.png)
+
+
+![Lambdafunction](https://user-images.githubusercontent.com/129978840/232314997-e5c84afd-db8e-4a2a-9b46-b3aa72ead369.png)
