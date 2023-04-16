@@ -20,9 +20,9 @@ npm install aws-cdk -g
 The install was added to my gitpod task file using the command below:
 
 ```sh
-  - name: cdk
-    before: |
-      npm install aws-cdk -g
+- name: cdk
+  before: |
+   npm install aws-cdk -g
 ```
 
 ### Initialize a new project
