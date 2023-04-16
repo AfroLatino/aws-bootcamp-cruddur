@@ -149,7 +149,7 @@ I created a new folder called process-images within /workspace/aws-bootcamp-crud
 cd  aws/lambdas/process-images from main directory
 ```
 
-Then,
+Then, ran the following command:
 
 ```sh
 npm init – y
@@ -160,6 +160,27 @@ Install npm i sharp to process-images
 ```sh
 npm i sharp
 ```
+
+### AWS Lambda
+
+The node_modules directory of the deployment package must include binaries for the Linux x64 platform.
+
+When building deployment package on machines other than linux x64, run the following additional command after npm install:
+
+```sh
+npm install
+rm -rf node_modules/sharp
+SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install --arch=x64 --platform=linux –libc=glibc sharp
+```
+
+To remove stacks in GUI
+
+Run ```cdk destroy```
+
+
+### Manually create s3 bucket
+
+I manually created s3 bucket called assets.ocubeltd.co.uk
 
 
 
