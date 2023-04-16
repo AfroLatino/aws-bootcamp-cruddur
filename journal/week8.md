@@ -266,6 +266,31 @@ I attached the policy to the lambda role using the command below:
 lambda.addToRolePolicy(s3ReadWritePolicy);
 ```
 
+### Serving Avatars via CloudFront
+
+I created CloudFront in AWS.
+
+See the screenshot below:
+
+![CloudFront](https://user-images.githubusercontent.com/129978840/232319302-2dbf8a96-40bb-42e7-8ba3-3e809228064a.png)
+
+
+#### Implement Avatar Uploading
+
+I added function.rb script below to lambda and added this to the aws folder:
+
+```sh
+require 'aws-sdk-s3'
+require 'json'
+
+s3 = Aws::S3::Resource.new
+bucket_name = ENV["UPLOADS_BUCKET_NAME"]
+object_key = 'mock.jpg'
+
+obj = s3.bucket(bucket_name).object(object_key)
+url = obj.presigned_url(:put, expires_in: 3600)
+puts url
+```
 
 
 
