@@ -138,6 +138,7 @@ cdk bootstrap "aws://$AWS_ACCOUNT_ID/$AWS_DEFAULT_REGION"
 
 #### Create SNS Topic
 
+```sh
 import * as sns from 'aws-cdk-lib/aws-sns';
 
 const snsTopic = this.createSnsTopic(topicName)
@@ -149,9 +150,11 @@ createSnsTopic(topicName: string): sns.ITopic{
     });
     return snsTopic;
   }
+```
 
 #### Create an SNS Subscription
 
+```sh
 import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 
 this.createSnsSubscription(snsTopic,webhookUrl)
@@ -162,22 +165,26 @@ createSnsSubscription(snsTopic: sns.ITopic, webhookUrl: string): sns.Subscriptio
     )
     return snsSubscription;
   }
-  
+```
+
 #### Create S3 Event Notification to SNS
 
- this.createS3NotifyToSns(folderOutput,snsTopic,assetsBucket)
+```sh
+this.createS3NotifyToSns(folderOutput,snsTopic,assetsBucket)
 
- createS3NotifyToSns(prefix: string, snsTopic: sns.ITopic, bucket: s3.IBucket): void {
-    const destination = new s3n.SnsDestination(snsTopic)
-    bucket.addEventNotification(
+createS3NotifyToSns(prefix: string, snsTopic: sns.ITopic, bucket: s3.IBucket): void {
+   const destination = new s3n.SnsDestination(snsTopic)
+   bucket.addEventNotification(
       s3.EventType.OBJECT_CREATED_PUT, 
       destination,
       {prefix: prefix}
   );
 }
+```
 
 #### Create S3 Event Notification to Lambda
 
+```sh
 this.createS3NotifyToLambda(folderInput,lambda,uploadsBucket)
 
 createS3NotifyToLambda(prefix: string, lambda: lambda.IFunction, bucket: s3.IBucket): void {
@@ -187,6 +194,7 @@ createS3NotifyToLambda(prefix: string, lambda: lambda.IFunction, bucket: s3.IBuc
       destination
   )
 }
+```
 
 ### Cloud Formation
 
