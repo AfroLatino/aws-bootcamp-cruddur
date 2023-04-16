@@ -308,11 +308,16 @@ Then, ran ```bundle install``` to get gemfile.lock file.
 
 Then, ```bundle exec ruby function.rb```
 
+I installed ThunderClient on Github. Thunder Client is a VS Code extension for testing APIs. It is similar to Postman, but has the advantage of being able to test APIs in the same tool where code is being written.
 
-Install ThunderClient
+I added a URL to thunderclient and uploaded lore.jpg, then added PUT.
 
-Add URL to thunderclient and upload lore.jpg, then PUT 
-Got a 200 message
+I received a 200 message as seen below:
+
+
+![ThunderClientInstall](https://user-images.githubusercontent.com/129978840/232319680-e217ff99-b20a-40e7-9495-ffb1b30f04bc.png)
+
+
 Then go to S3 bucket to view this.
 
 
