@@ -364,5 +364,6 @@ I added the policy below to the role:
 }
 ```
 
-OI added the environment variable of UPLOADS_BUCKET_NAME to lambda
+I added the environment variable of UPLOADS_BUCKET_NAME to lambda as seen below:
 
+![envvariable](https://user-images.githubusercontent.com/129978840/232320225-2216be7a-2a0e-4672-98ce-57376594fc4f.png)
