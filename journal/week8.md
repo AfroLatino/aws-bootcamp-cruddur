@@ -383,7 +383,7 @@ Created a new lambda function called CruddurApiGatewayLambdaAuthorizer below:
 
 Uploaded the lambda-authorizer zip folder created.
 
-I created an API Gateway using authorization, integrations and routes below:
+I created an API Gateway using authorization, integrations & routes and also tunred on logging as seen below:
 
 ![APIAuthorization](https://user-images.githubusercontent.com/129978840/232320811-354cbfb7-8c2b-427f-9053-bed172d0bb99.png)
 
@@ -391,6 +391,7 @@ I created an API Gateway using authorization, integrations and routes below:
 
 ![APIRoutes](https://user-images.githubusercontent.com/129978840/232320818-56c70802-ef4a-42cb-a4cd-592bfcc321a5.png)
 
+![Logging for api-gateway turned on](https://user-images.githubusercontent.com/129978840/232321256-86604dcc-f623-426e-b366-41a031e186f7.png)
 
 ### Cross-origin resource sharing (CORS)
 
@@ -399,3 +400,14 @@ Cross-origin resource sharing (CORS) defines a way for client web applications t
 S3 bucket of ocubeltd-uploaded-avatars was updated with the CORS below:
 
 ![CORS](https://user-images.githubusercontent.com/129978840/232321098-61188c87-6f52-48b2-8b4b-d6bc2502878d.png)
+
+
+### Create JWT Lambda Layer
+
+I added a layer to JWT as seen below:
+
+![addedlayertojwt](https://user-images.githubusercontent.com/129978840/232321209-2072391c-8bf0-4ac2-9a4b-fde38dcb530a.png)
+
+
+
+
