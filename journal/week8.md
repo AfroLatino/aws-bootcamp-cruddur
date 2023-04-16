@@ -383,10 +383,19 @@ Created a new lambda function called CruddurApiGatewayLambdaAuthorizer below:
 
 Uploaded the lambda-authorizer zip folder created.
 
-I created an API Gateway using rge authorization, integrations and routes below:
+I created an API Gateway using authorization, integrations and routes below:
 
 ![APIAuthorization](https://user-images.githubusercontent.com/129978840/232320811-354cbfb7-8c2b-427f-9053-bed172d0bb99.png)
 
 ![APIIntegrations](https://user-images.githubusercontent.com/129978840/232320813-9b30c3ec-97de-41ff-8646-af2d8f391af1.png)
 
 ![APIRoutes](https://user-images.githubusercontent.com/129978840/232320818-56c70802-ef4a-42cb-a4cd-592bfcc321a5.png)
+
+
+### Cross-origin resource sharing (CORS)
+
+Cross-origin resource sharing (CORS) defines a way for client web applications that are loaded in one domain to interact with resources in a different domain. With CORS support, you can build rich client-side web applications with Amazon S3 and selectively allow cross-origin access to your Amazon S3 resources.
+
+S3 bucket of ocubeltd-uploaded-avatars was updated with the CORS below:
+
+![CORS](https://user-images.githubusercontent.com/129978840/232321098-61188c87-6f52-48b2-8b4b-d6bc2502878d.png)
