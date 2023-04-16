@@ -310,18 +310,58 @@ Then, ```bundle exec ruby function.rb```
 
 I installed ThunderClient on Github. Thunder Client is a VS Code extension for testing APIs. It is similar to Postman, but has the advantage of being able to test APIs in the same tool where code is being written.
 
-I added a URL to thunderclient and uploaded lore.jpg, then added PUT.
+I added a URL to thunderclient and uploaded lore.jpg, then opted for PUT.
 
 I received a 200 message as seen below:
 
-
 ![ThunderClientInstall](https://user-images.githubusercontent.com/129978840/232319680-e217ff99-b20a-40e7-9495-ffb1b30f04bc.png)
 
+This was later viewed on the S3 bucket. This loaded a mock.jpg as seen below:
 
-Then go to S3 bucket to view this.
+![mock jpg](https://user-images.githubusercontent.com/129978840/232319849-f2a38280-59bc-4910-8e03-ba6f1e821dc4.png)
+
+I then deleted mock.jpg from the s3 bucket.
 
 
+I added the code below to Lambda:
 
+```sh
+require 'aws-sdk-s3'
+require 'json'
 
+def handler(event:, context:)
+  puts event
+  s3 = Aws::S3::Resource.new
+  bucket_name = ENV["UPLOADS_BUCKET_NAME"]
+  object_key = 'mock.jpg'
+
+  obj = s3.bucket(bucket_name).object(object_key)
+  url = obj.presigned_url(:put, expires_in: 60 * 5)
+  url # this is the data that will be returned
+  body = {url: url}.to_json
+  { statusCode: 200, body: body }
+end
+
+puts handler(
+  event: {},
+  context: {}
+)
+```
+
+I, then added the policy below to the role:
+
+```sh
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Sid": "VisualEditor0",
+          "Effect": "Allow",
+          "Action": "s3:PutObject",
+          "Resource": "arn:aws:s3:::ocubeltd-uploaded-avatars/*"
+      }
+  ]
+}
+```
 
 
