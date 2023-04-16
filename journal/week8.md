@@ -173,7 +173,7 @@ rm -rf node_modules/sharp
 SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install --arch=x64 --platform=linux –libc=glibc sharp
 ```
 
-To remove stacks in GUI
+To remove stacks in GUI:
 
 Run ```cdk destroy```
 
@@ -182,6 +182,20 @@ Run ```cdk destroy```
 
 I manually created s3 bucket called assets.ocubeltd.co.uk
 
+
+### Create Policy for Bucket Access
+
+I created a policy for bucket access using the command below:
+
+```sh
+const s3ReadWritePolicy = this.createPolicyBucketAccess(bucket.bucketArn)
+```
+
+### Attach the Policies to the Lambda Role
+
+I attached the policy to the lambda role using the command below:
+
+lambda.addToRolePolicy(s3ReadWritePolicy);
 
 
 
