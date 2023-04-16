@@ -348,7 +348,7 @@ puts handler(
 )
 ```
 
-I, then added the policy below to the role:
+I added the policy below to the role:
 
 ```sh
 {
@@ -364,4 +364,5 @@ I, then added the policy below to the role:
 }
 ```
 
+OI added the environment variable of UPLOADS_BUCKET_NAME to lambda
 
