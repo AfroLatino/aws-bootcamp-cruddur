@@ -367,3 +367,26 @@ I added the policy below to the role:
 I added the environment variable of UPLOADS_BUCKET_NAME to lambda as seen below:
 
 ![envvariable](https://user-images.githubusercontent.com/129978840/232320225-2216be7a-2a0e-4672-98ce-57376594fc4f.png)
+
+
+### HTTP API Gateway with Lambda Authorizer
+
+To get package-lock.json and package json in lambda-authorizer:
+
+Do workspace/aws-bootcamp-cruddur-2023/aws/lambdas/lambda-authorizer -> npm install aws-jwt-verify –save
+
+Download all the contents of lambda-authorizer and zip into a folder
+
+Created a new lambda function called CruddurApiGatewayLambdaAuthorizer below:
+
+![cruddurauthorizer](https://user-images.githubusercontent.com/129978840/232320436-b48e48bb-2c2f-4474-80ae-5ba9cb6d843a.png)
+
+Uploaded the lambda-authorizer zip folder created.
+
+I created an API Gateway using rge authorization, integrations and routes below:
+
+![APIAuthorization](https://user-images.githubusercontent.com/129978840/232320811-354cbfb7-8c2b-427f-9053-bed172d0bb99.png)
+
+![APIIntegrations](https://user-images.githubusercontent.com/129978840/232320813-9b30c3ec-97de-41ff-8646-af2d8f391af1.png)
+
+![APIRoutes](https://user-images.githubusercontent.com/129978840/232320818-56c70802-ef4a-42cb-a4cd-592bfcc321a5.png)
