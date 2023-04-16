@@ -134,6 +134,60 @@ I needed to bootstrap for region using the command below:
 cdk bootstrap "aws://$AWS_ACCOUNT_ID/$AWS_DEFAULT_REGION"
 ```
 
+### Addition to  Thumbing Serverless CDK Stack
+
+#### Create SNS Topic
+
+import * as sns from 'aws-cdk-lib/aws-sns';
+
+const snsTopic = this.createSnsTopic(topicName)
+
+createSnsTopic(topicName: string): sns.ITopic{
+    const logicalName = "ThumbingTopic";
+    const snsTopic = new sns.Topic(this, logicalName, {
+      topicName: topicName
+    });
+    return snsTopic;
+  }
+
+#### Create an SNS Subscription
+
+import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
+
+this.createSnsSubscription(snsTopic,webhookUrl)
+
+createSnsSubscription(snsTopic: sns.ITopic, webhookUrl: string): sns.Subscription {
+    const snsSubscription = snsTopic.addSubscription(
+      new subscriptions.UrlSubscription(webhookUrl)
+    )
+    return snsSubscription;
+  }
+  
+#### Create S3 Event Notification to SNS
+
+ this.createS3NotifyToSns(folderOutput,snsTopic,assetsBucket)
+
+ createS3NotifyToSns(prefix: string, snsTopic: sns.ITopic, bucket: s3.IBucket): void {
+    const destination = new s3n.SnsDestination(snsTopic)
+    bucket.addEventNotification(
+      s3.EventType.OBJECT_CREATED_PUT, 
+      destination,
+      {prefix: prefix}
+  );
+}
+
+#### Create S3 Event Notification to Lambda
+
+this.createS3NotifyToLambda(folderInput,lambda,uploadsBucket)
+
+createS3NotifyToLambda(prefix: string, lambda: lambda.IFunction, bucket: s3.IBucket): void {
+    const destination = new s3n.LambdaDestination(lambda);
+    bucket.addEventNotification(
+      s3.EventType.OBJECT_CREATED_PUT,
+      destination
+  )
+}
+
 ### Cloud Formation
 
 The CDK was built on Cloud Formation. CloudFormation is an infrastructure automation platform for AWS that deploys AWS resources in a repeatable, testable and auditable manner.
@@ -183,6 +237,11 @@ Run ```cdk destroy```
 I manually created s3 bucket called assets.ocubeltd.co.uk
 
 
+![s3bucketaddition](https://user-images.githubusercontent.com/129978840/232316688-85673ae6-8358-47ca-bfde-b481671dad42.png)
+
+2 objects called avatars and banners were later added to this.
+
+
 ### Create Policy for Bucket Access
 
 I created a policy for bucket access using the command below:
@@ -195,7 +254,9 @@ const s3ReadWritePolicy = this.createPolicyBucketAccess(bucket.bucketArn)
 
 I attached the policy to the lambda role using the command below:
 
+```sh
 lambda.addToRolePolicy(s3ReadWritePolicy);
+```
 
 
 
