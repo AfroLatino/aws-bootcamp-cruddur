@@ -103,3 +103,42 @@ See screenshots below:
 
 
 ![Lambdafunction](https://user-images.githubusercontent.com/129978840/232314997-e5c84afd-db8e-4a2a-9b46-b3aa72ead369.png)
+
+### Synth
+
+To run environment variable, use the command below:
+
+```sh
+npm i dotenv
+```
+
+Then cdk synth
+
+The synth command is used to synthesize the AWS CloudFormation stack(s) that represent your infrastructure as code.
+
+```sh
+cdk synth
+```
+
+To deploiy, use the command below:
+
+```sh
+cdk deploy
+```
+
+### Bootstrapping
+
+I needed to bootstrap for region using the command below:
+
+```sh
+cdk bootstrap "aws://$AWS_ACCOUNT_ID/$AWS_DEFAULT_REGION"
+```
+
+### Cloud Formation
+
+The CDK was built on Cloud Formation. CloudFormation is an infrastructure automation platform for AWS that deploys AWS resources in a repeatable, testable and auditable manner.
+
+SAM is a specialised type of CloudFormation.
+
+
+
