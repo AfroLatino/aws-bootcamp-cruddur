@@ -408,6 +408,19 @@ I added a layer to JWT as seen below:
 
 ![addedlayertojwt](https://user-images.githubusercontent.com/129978840/232321209-2072391c-8bf0-4ac2-9a4b-fde38dcb530a.png)
 
+Created a custom domain to API gateway .
+
+Run ruby-jwt command 
+
+```ruby
+./bin/lambda-layers/ruby-jwt
+```
+
+Then ```ls /tmp/```
+
+```cd  /tmp/lambda-layers/ruby-jwt```
+
+
 
 
 
