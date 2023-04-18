@@ -736,7 +736,7 @@ I created an SSL certificate via ACM as seen below:
 
 ## Stretch Homework 
 
-I expanded on Configuring Container Insights here: ![Configuring Container Insights blog](https://afrolatino.hashnode.dev/aws-cloud-project-bootcamp)
+I expanded on Configuring Container Insights here: [Configuring Container Insights blog](https://afrolatino.hashnode.dev/aws-cloud-project-bootcamp)
 
 
 ## Amazon ECS Security Best Practices
