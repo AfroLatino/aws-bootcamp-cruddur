@@ -500,5 +500,4 @@ The screenshot and share link are as follows:
 
 [Recreation of Conceptual Architectural Diagram By Andrew Brown](https://lucid.app/lucidchart/5dba407d-3c11-4eb6-83fb-877c530ebbf5/edit?viewport_loc=-301%2C207%2C2550%2C1152%2C0_0&invitationId=inv_a22c61ab-b1e5-4a07-a383-33508a66cb6a)
 
-- [x] Week0md
 
