@@ -10,7 +10,7 @@
 - [Amazon CI/CD Pipeline – Security Best Practices – AWS](#paragraph2)
 - [Amazon CI/CD Pipeline – Security Best Practices – Application](#paragraph3)
 
-### Introduction
+### Introduction <a name="introduction"></a>
 
 CI/CD stands for Continuous Integration/Continuous Deployment or Delivery depending on who you talk to.
 
@@ -22,7 +22,9 @@ AWS Services that can help to deploy a CI/CD pipeline are as follows:
 - CodeDeploy
 - CodePipeline
 
-### Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks are as follows:
+### Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks <a name="paragraph1"></a>
+
+Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks are as follows: 
 
 - Insufficient Flow Control Mechanisms
 - Inadequate Identity and Access Management
@@ -35,7 +37,7 @@ AWS Services that can help to deploy a CI/CD pipeline are as follows:
 - Improper Artifact Integrity Validation
 - Insufficient Logging and Visibility
 
-### Amazon CI/CD Pipeline – Security Best Practices – AWS
+### Amazon CI/CD Pipeline – Security Best Practices – AWS <a name="paragraph2"></a>
 
 -	Compliance standard is what your business requires from a CI/CD service and it is available in the region you need to operate in.
 -	Amazon Organisations SCP – to restrict actions like creation, deletion, modification of production CI/CD pipeline services etc.
@@ -43,7 +45,7 @@ AWS Services that can help to deploy a CI/CD pipeline are as follows:
 -	GuardDuty is enabled for monitoring suspicious DNS comms (e.g. Crypto-mining etc) and automated for auto-remediation.
 -	AWS Config Rules is enabled in the account and region of CodeBuild – conformance pack for any other CI/CD service.
 
-### Amazon CI/CD Pipeline – Security Best Practices – Application
+### Amazon CI/CD Pipeline – Security Best Practices – Application <a name="paragraph3"></a>
 
 -	Access Control – Roles or IAM Users for making changes in Amazon CICD services especially production related repositories, pipeline, build services etc.
 -	Security of the CI/CD Pipeline – Source control, Secret Management, Container Registry, CI/CD Service (if not the AWS Service), IAM etc.
