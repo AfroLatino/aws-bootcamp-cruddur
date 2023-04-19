@@ -4,15 +4,15 @@
 
 ## Building Pipeline
 
-Step 1: Create new pipeline
-Step 2: Choose pipeline settings
-Step 3: Name pipeline. I called this cruddur-backend-fargate
-Step 4: Leave the default settings of New service role and Allow AWS CodePipeline to create a service role so that it can be used with this new pipeline
-Step 5: In advanced settings, leave the Default location and Default AWS Managed Key
-Step 6: Add Source Stage: Choose GitHub (Version 2)
-Step 7: Create a GitHub Connection by clicking on Connect to GitHub
-Step 8: Choose Connection name as cruddur, then connect to GitHub
-Step 9: Install a new app
+- Step 1: Create new pipeline
+- Step 2: Choose pipeline settings
+- Step 3: Name pipeline. I called this cruddur-backend-fargate
+- Step 4: Leave the default settings of New service role and Allow AWS CodePipeline to create a service role so that it can be used with this new pipeline
+- Step 5: In advanced settings, leave the Default location and Default AWS Managed Key
+- Step 6: Add Source Stage: Choose GitHub (Version 2)
+- Step 7: Create a GitHub Connection by clicking on Connect to GitHub
+- Step 8: Choose Connection name as cruddur, then connect to GitHub
+- Step 9: Install a new app
 
 
 
