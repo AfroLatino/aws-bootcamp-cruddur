@@ -18,8 +18,8 @@
 - Step 12: Then save. If the connection is successful, this would show a number on the GitHub Apps search
 - Step 13: Then click on Connect
 - Step 14: Choose the repo name from the drop-down options
-- Step 15: Create a new branch from Main called prod on GitHub and choose this as the branch name
-- Step 16:  
+- Step 15: Create a new branch from Main called **prod** on GitHub and choose this as the branch name
+- Step 16: Change detection options. Leave the default settings of **Start the pipeline on source code changes** & **CopePipeline Default*
 
 
 
