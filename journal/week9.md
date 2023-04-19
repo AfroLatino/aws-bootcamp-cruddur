@@ -13,6 +13,13 @@
 - Step 7: Create a GitHub Connection by clicking on Connect to GitHub
 - Step 8: Choose Connection name as cruddur, then connect to GitHub
 - Step 9: Install a new app
+- Step 10: Enter your GitHub password
+- Step 11: Select the Repo needed. In this case, this would be the aws-bootcamp-cruddur-2023 repository.
+- Step 12: Then save. If the connection is successful, this would show a number on the GitHub Apps search
+- Step 13: Then click on Connect
+- Step 14: Choose the repo name from the drop-down options
+- Step 15: Create a new branch from Main called prod on GitHub and choose this as the branch name
+- Step 16:  
 
 
 
