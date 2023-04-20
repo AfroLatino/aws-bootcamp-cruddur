@@ -24,7 +24,14 @@
 - Step 18: Skip build stage for now
 - Step 19: Add Deploy Stage - Choose Amazon ECS
 - Step 20: For Deploy - Amazon ECS is the Deploy provider, Choose your Region, Select **cruddur** as the **Cluster Name** and **backend-flask** as the **Service name**
-
+- Step 21: Create Pipeline
+- Step 22: Primary source webhook events - Choose Rebuild every time a code change is pushed to this repository
+- Step 23: Choose Single build
+- Step 24: Choose PULL_REQUEST_MERGED event type
+- Step 25: Environment - Leave defualt setting of **Managed image**
+- Step 26: Choose **Amazon Linux 2** as the **Operating system**
+- Step 27: Choose **Standard** as **Runtime*
+- Step 28: 
 
 
 
