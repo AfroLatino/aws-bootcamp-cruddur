@@ -23,7 +23,7 @@
 - Step 17: Then Next
 - Step 18: Skip build stage for now
 - Step 19: Add Deploy Stage - Choose Amazon ECS
-- Step 20: For Deploy - Amazon ECS is the Deploy provider, Choose your Region, Select cruddur as the Cluster Name and backend-flask as 
+- Step 20: For Deploy - Amazon ECS is the Deploy provider, Choose your Region, Select **cruddur** as the **Cluster Name** and **backend-flask** as the **Service name**
 
 
 
