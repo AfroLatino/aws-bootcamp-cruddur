@@ -41,7 +41,9 @@
 - Step 35: Do not choose any VPC
 - Step 36: Leave the default settings for **Compute** as **3 GB memory, 2 vCPUs**
 
-### Create buildspec.yml file
+### Buildspec
+
+Create buildspec.yml file
 
 Add the buildspec.yml file below to the backend-flask directory
 
@@ -83,10 +85,15 @@ artifacts:
     - imagedefinitions.json
 ```
 
+- For Build specifications, choose **Use a buildspec file**
+- Buildspec name is **backend-flask/buildspec.yml**
+- Choose the Default settings of **No artificants** Type
+- For Additional Configuration, Leave the default settings of **CloudWatch logs**
+- Enter **/cruddur/build/backend-flask** as the **Group name**
+- 
 
 
 ![create_pipeline](https://user-images.githubusercontent.com/129978840/233218233-039c89a2-cbb5-4a21-9dde-7955fb1f2e20.png)
-
 
 ## Amazon CI/CD Pipeline Security on AWS
 
