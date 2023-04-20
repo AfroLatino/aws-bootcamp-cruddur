@@ -35,7 +35,12 @@
 - Step 29: Select **Linux 2** as the Environment type
 - Step 30: For **Privilege**, ensure you tick the checkbox for **Enable this flag if you want to build Docker images or want your builds to get elevated privileges**.   If this box is not checked, you will be unable to build any docker image.
 - Step 31: Leave the default settings for **New service role**
-- Step 32: Under additional configuration, enter 20mins for Timeout
+- Step 32: Under additional configuration, enter **20mins** for **Timeout**7
+- Step 33: Leave the Queued timeout as 8 hours
+- Step 34: Leave the default settings of **Do npt install any certificate**
+- Step 35: Do not choose any VPC
+- Step 36: Leave the default settings for **Compute** as **3 GB memory, 2 vCPUs**
+- Step 37:
 
 
 
