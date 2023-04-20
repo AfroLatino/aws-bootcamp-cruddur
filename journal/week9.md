@@ -34,7 +34,7 @@
 - Step 28: Primary source webhook events - Choose Rebuild every time a code change is pushed to this repository
 - Step 29: Select Single build
 - Step 30: Select PULL_REQUEST_MERGED event type
-- Step 31: Environment - Leave defualt setting of **Managed image**
+- Step 31: Environment - Leave default setting of **Managed image**
 - Step 32: Select **Amazon Linux 2** as the **Operating system**
 - Step 33: Select **Standard** as **Runtime**
 - Step 34: Select the latest version for **Image**. As of 20th April, 2023, this is **aws/codebuild/amazonlinux2-x86_64-standard:4.0**
