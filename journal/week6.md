@@ -1,4 +1,4 @@
-# Week 6 — Deploying Containers
+# Week 6 & 7 — Deploying Containers & Solving CORS with a Load Balancer and Custom Domain
 
 ## Required Homework 
 
@@ -732,6 +732,11 @@ I managed my domain using Route53 via hosted zone as seen below:
 I created an SSL certificate via ACM as seen below:
 
 ![AWSCertManager](https://user-images.githubusercontent.com/128761840/229624889-408e6626-c266-431d-979e-c9981ef6c732.png)
+
+
+## Stretch Homework 
+
+I expanded on Configuring Container Insights here: [Configuring Container Insights blog](https://afrolatino.hashnode.dev/aws-cloud-project-bootcamp)
 
 
 ## Amazon ECS Security Best Practices
