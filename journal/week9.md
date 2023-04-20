@@ -43,7 +43,9 @@
 
 ### Create buildspec.yml file
 
-```sh
+Add the buildspec.yml file below to the backend-flask directory
+
+```yaml
 # Buildspec runs in the build stage of your pipeline.
 version: 0.2
 phases:
@@ -71,10 +73,10 @@ phases:
 
 env:
   variables:
-    AWS_ACCOUNT_ID: 097592373482
-    AWS_DEFAULT_REGION: us-east-1
+    AWS_ACCOUNT_ID: $ACCOUNT_ID
+    AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
     CONTAINER_NAME: backend-flask
-    IMAGE_URL: 097592373482.dkr.ecr.us-east-1.amazonaws.com
+    IMAGE_URL: $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
     REPO_NAME: backend-flask:latest
 artifacts:
   files:
