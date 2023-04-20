@@ -6,7 +6,7 @@
 
 - Step 1: Create new pipeline
 - Step 2: Choose pipeline settings
-- Step 3: Name pipeline. I called this cruddur-backend-fargate
+- Step 3: Name pipeline. I called this **cruddur-backend-fargate**
 - Step 4: Leave the default settings of New service role and Allow AWS CodePipeline to create a service role so that it can be used with this new pipeline
 - Step 5: In advanced settings, leave the Default location and Default AWS Managed Key
 - Step 6: Add Source Stage: Choose **GitHub (Version 2)**
@@ -93,8 +93,11 @@ artifacts:
 - Enter **backend-flask** as the **Stream name**
 - Then **Create build project**
 
-
 ![create_pipeline](https://user-images.githubusercontent.com/129978840/233218233-039c89a2-cbb5-4a21-9dde-7955fb1f2e20.png)
+
+### CodeBuild
+
+The build project is called **cruddur-backend-flask-bake-image**
 
 ## Amazon CI/CD Pipeline Security on AWS
 
