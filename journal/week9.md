@@ -90,7 +90,8 @@ artifacts:
 - Choose the Default settings of **No artificants** Type
 - For Additional Configuration, Leave the default settings of **CloudWatch logs**
 - Enter **/cruddur/build/backend-flask** as the **Group name**
-- 
+- Enter **backend-flask** as the **Stream name**
+- Then **Create build project**
 
 
 ![create_pipeline](https://user-images.githubusercontent.com/129978840/233218233-039c89a2-cbb5-4a21-9dde-7955fb1f2e20.png)
