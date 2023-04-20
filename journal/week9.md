@@ -26,7 +26,7 @@
 - Step 20: For Deploy - Amazon ECS is the Deploy provider, Choose your Region, Select **cruddur** as the **Cluster Name** and **backend-flask** as the **Service name**
 - Step 21: **Create build project** called **cruddur-backend-flask-bake-image
 - Step 22: Click on **Enable build badge**
-- Step 23: **Project name** is **cruddur-backend-flask-bake-image
+- Step 23: **Project name** is **cruddur-backend-flask-bake-image**
 - Step 24: For Source, **Source provider** is **GitHub**
 - Step 25: Select **Connect using OAuth**
 - Step 26: Connect to GitHub, then authorize
