@@ -24,7 +24,7 @@
 - Step 18: Skip build stage for now
 - Step 19: Add Deploy Stage - Choose Amazon ECS
 - Step 20: For Deploy - Amazon ECS is the Deploy provider, Choose your Region, Select **cruddur** as the **Cluster Name** and **backend-flask** as the **Service name**
-- Step 21: **Create build project** called **cruddur-backend-flask-bake-image
+- Step 21: **Create build project** called **cruddur-backend-flask-bake-image**
 - Step 22: Click on **Enable build badge**
 - Step 23: **Project name** is **cruddur-backend-flask-bake-image**
 - Step 24: For Source, **Source provider** is **GitHub**
@@ -41,7 +41,7 @@
 - Step 35: Select **Linux 2** as the Environment type
 - Step 36: For **Privilege**, ensure you tick the checkbox for **Enable this flag if you want to build Docker images or want your builds to get elevated privileges**.   If this box is not checked, you will be unable to build any docker image.
 - Step 37: Leave the default settings for **New service role**
-- Step 38: Under additional configuration, enter **20mins** for **Timeout**7
+- Step 38: Under additional configuration, enter **20mins** for **Timeout**
 - Step 39: Leave the Queued timeout as 8 hours
 - Step 40: Leave the default settings of **Do not install any certificate**
 - Step 41: Do not choose any VPC
@@ -171,7 +171,7 @@ The build stage was earlier skipped during the code pipeline creation.
 - Select Action provider as **AWS CodeBuild**
 - Choose **SourceArtifact** as **Input artifacts**
 - Leave the default settings of **Single build** as the **Build type**
-- Added **Imagedefinition ** as **Output artifacts**
+- Added **ImageDefinition** as **Output artifacts**
 - Then, save pipeline changes
 - Run this by clicking on **Release change**
 - I amended app.py with the code below:
