@@ -167,8 +167,8 @@ The build stage was earlier skipped during the code pipeline creation.
 - **Project name** is **cruddur-backend-flask-bake-image
 - Leave the default settings of **Single build** as the **Build type**
 - Added **Imagedefinition ** as **Output artifacts**
-- 
-
+- Then, save pipeline changes
+- Run this by clicking on **Release change**
 
 ## Amazon CI/CD Pipeline Security on AWS
 
