@@ -169,16 +169,19 @@ The build stage was earlier skipped during the code pipeline creation.
 - Added **Imagedefinition ** as **Output artifacts**
 - Then, save pipeline changes
 - Run this by clicking on **Release change**
-
-### Amendment of app.py
-
-I amended app.py with the code below:
-
+- I amended app.py with the code below:
 ```sh
 @app.route('/api/health-check')
 def health_check():
   return {'success': True, 'ver': 1}, 200
-```
+```  
+- Created a pull request from **prod** to **Main**
+
+Please find below screenshots of the code, build and deploy screens of **Successful**
+
+![sourceandbuildcompleted](https://user-images.githubusercontent.com/129978840/233253714-89363ea0-a353-4e93-be8f-2a6bfe5f35b0.png)
+
+![deploysucceeded](https://user-images.githubusercontent.com/129978840/233253729-ffadf26b-abfc-4240-b5e0-fdd16cfe376f.png)
 
 ## Amazon CI/CD Pipeline Security on AWS
 
