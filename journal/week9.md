@@ -149,6 +149,27 @@ Please see the screenshot below for the IAM permissions:
 
 ![codebuildIAMrole](https://user-images.githubusercontent.com/129978840/233247785-8d656795-4780-45e6-9201-24756ec26d26.png)
 
+### Deploy
+
+Go to CodeBuild and **Start build with overrides**
+
+### Creating the Build Stage of CodePipeline
+
+The build stage was earlier skipped during the code pipeline creation.
+
+- Choose existing code pipeline of **cruddur-backend-fargate**
+- Click on **Edit**
+- Add **Stage** after **Edit: Source**
+- Name this as **build**
+- Add **action group** and add action name of **bake**
+- Select Action provider as **AWS CodeBuild**
+- Choose **SourceArtifact** as **Input artifacts**
+- **Project name** is **cruddur-backend-flask-bake-image
+- Leave the default settings of **Single build** as the **Build type**
+- Added **Imagedefinition ** as **Output artifacts**
+- 
+
+
 ## Amazon CI/CD Pipeline Security on AWS
 
 ### Table of contents
