@@ -170,6 +170,16 @@ The build stage was earlier skipped during the code pipeline creation.
 - Then, save pipeline changes
 - Run this by clicking on **Release change**
 
+### Amendment of app.py
+
+I amended app.py with the code below:
+
+```sh
+@app.route('/api/health-check')
+def health_check():
+  return {'success': True, 'ver': 1}, 200
+```
+
 ## Amazon CI/CD Pipeline Security on AWS
 
 ### Table of contents
