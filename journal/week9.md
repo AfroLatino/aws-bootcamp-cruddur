@@ -24,22 +24,28 @@
 - Step 18: Skip build stage for now
 - Step 19: Add Deploy Stage - Choose Amazon ECS
 - Step 20: For Deploy - Amazon ECS is the Deploy provider, Choose your Region, Select **cruddur** as the **Cluster Name** and **backend-flask** as the **Service name**
-- Step 21: Create Pipeline
-- Step 22: Primary source webhook events - Choose Rebuild every time a code change is pushed to this repository
-- Step 23: Select Single build
-- Step 24: Select PULL_REQUEST_MERGED event type
-- Step 25: Environment - Leave defualt setting of **Managed image**
-- Step 26: Select **Amazon Linux 2** as the **Operating system**
-- Step 27: Select **Standard** as **Runtime**
-- Step 28: Select the latest version for **Image**. As of 20th April, 2023, this is **aws/codebuild/amazonlinux2-x86_64-standard:4.0**
-- Step 29: Select **Linux 2** as the Environment type
-- Step 30: For **Privilege**, ensure you tick the checkbox for **Enable this flag if you want to build Docker images or want your builds to get elevated privileges**.   If this box is not checked, you will be unable to build any docker image.
-- Step 31: Leave the default settings for **New service role**
-- Step 32: Under additional configuration, enter **20mins** for **Timeout**7
-- Step 33: Leave the Queued timeout as 8 hours
-- Step 34: Leave the default settings of **Do npt install any certificate**
-- Step 35: Do not choose any VPC
-- Step 36: Leave the default settings for **Compute** as **3 GB memory, 2 vCPUs**
+- Step 21: **Create build project** called **cruddur-backend-flask-bake-image
+- Step 22: Click on **Enable build badge**
+- Step 23: **Project name** is **cruddur-backend-flask-bake-image
+- Step 24: For Source, **Source provider** is **GitHub**
+- Step 25: Select **Connect using OAuth**
+- Step 26: Connect to GitHub, then authorize
+- Step 27: Create Pipeline
+- Step 28: Primary source webhook events - Choose Rebuild every time a code change is pushed to this repository
+- Step 29: Select Single build
+- Step 30: Select PULL_REQUEST_MERGED event type
+- Step 31: Environment - Leave defualt setting of **Managed image**
+- Step 32: Select **Amazon Linux 2** as the **Operating system**
+- Step 33: Select **Standard** as **Runtime**
+- Step 34: Select the latest version for **Image**. As of 20th April, 2023, this is **aws/codebuild/amazonlinux2-x86_64-standard:4.0**
+- Step 35: Select **Linux 2** as the Environment type
+- Step 36: For **Privilege**, ensure you tick the checkbox for **Enable this flag if you want to build Docker images or want your builds to get elevated privileges**.   If this box is not checked, you will be unable to build any docker image.
+- Step 37: Leave the default settings for **New service role**
+- Step 38: Under additional configuration, enter **20mins** for **Timeout**7
+- Step 39: Leave the Queued timeout as 8 hours
+- Step 40: Leave the default settings of **Do not install any certificate**
+- Step 41: Do not choose any VPC
+- Step 42: Leave the default settings for **Compute** as **3 GB memory, 2 vCPUs**
 
 ### Buildspec
 
@@ -87,7 +93,7 @@ artifacts:
 
 - For Build specifications, choose **Use a buildspec file**
 - Buildspec name is **backend-flask/buildspec.yml**
-- Choose the Default settings of **No artificants** Type
+- Choose the Default settings of **No artifacts** Type
 - For Additional Configuration, Leave the default settings of **CloudWatch logs**
 - Enter **/cruddur/build/backend-flask** as the **Group name**
 - Enter **backend-flask** as the **Stream name**
@@ -164,7 +170,6 @@ The build stage was earlier skipped during the code pipeline creation.
 - Add **action group** and add action name of **bake**
 - Select Action provider as **AWS CodeBuild**
 - Choose **SourceArtifact** as **Input artifacts**
-- **Project name** is **cruddur-backend-flask-bake-image
 - Leave the default settings of **Single build** as the **Build type**
 - Added **Imagedefinition ** as **Output artifacts**
 - Then, save pipeline changes
