@@ -99,9 +99,16 @@ artifacts:
 
 The build project is called **cruddur-backend-flask-bake-image**
 
-Copy the **Copy badge URL** onto a URL. This was added to my GitHiub repo as seen below:
+Copy the **Copy badge URL** onto a URL. This was added to my GitHiub main repo as seen below:
 
 ![Codebuildimage](https://user-images.githubusercontent.com/129978840/233244126-fa36a435-eff7-4567-9106-f7da828f4a3f.png)
+
+Create a pull request from GitHub and merge main into prod
+
+Please see below of the codebuild project.
+
+![codebuild built](https://user-images.githubusercontent.com/129978840/233245850-8f0be418-6f34-428a-9f14-15a60fccc4b8.png)
+
 
 
 ## Amazon CI/CD Pipeline Security on AWS
