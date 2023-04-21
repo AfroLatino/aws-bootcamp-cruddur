@@ -258,6 +258,70 @@ Please find below screenshots of the code, build and deploy screens of **Success
 ![deploysucceeded](https://user-images.githubusercontent.com/129978840/233253729-ffadf26b-abfc-4240-b5e0-fdd16cfe376f.png)
 
 
+## Stretch Challenges
+
+### CodePipeline for Frontend React JS <a name="paragraph7"></a>
+
+Below are the steps needed for creating a CodePipeline:
+
+- Search for CodePipeline amongst AWS Services. Then, navigate to the screen and click on **Create pipeline**.
+- **Step 1: Choose Pipeline Settings**
+  - This opens up pipeline settings -> Choose pipeline settings
+  - Name pipeline. I called this **cruddur-backend-fargate**
+  - Leave the default setting of **New service role**. This automatically creates the **Role name**
+  - Leave the default setting of **Allow AWS CodePipeline to create a service role so that it can be used with this new pipeline**
+  - Under **Advanced settings**, select **Default location** and leave the default setting of **Default AWS Managed Key**
+  - Click on **Next**  
+- **Step 2: Add source stage**
+   - Select **GitHub (Version 2)** as the **Source provider**
+   - Create a GitHub Connection by clicking on **Connect to GitHub**
+   - Type **cruddur* as **Connection name**, then **Connect to GitHub**
+   - Click on **Install a new app**
+   - Enter your GitHub password
+   - Select the Repository needed. In this case, this would be the **aws-bootcamp-cruddur-2023 repository**.
+   - Then, save. If the connection is successful, this would show a number on the GitHub Apps search
+   - Then, click on **Connect**
+   - Select the repo name from the drop-down options
+   - Create a new branch from Main called **prod** on GitHub and choose this as the branch name
+   - Change detection options. Leave the default settings of **Start the pipeline on source code change** & **CopePipeline Default**
+   - Select **CodePipeline default** as the **Output artifact format**
+   - Click on **Next**
+   - Click on **Skip build stage** for now as this is *optional*
+   - Click on **Skip**
+- **Step 4: Add deploy stage**
+   - Select **Amazon ECS** as the **Deploy provider**
+   - Region should be automatically loaded but if not, select your **Region**
+   - Select **cruddur** as the **Cluster Name** and **backend-flask** as the **Service name**
+   - Click on **Next**
+   - Then **Create pipeline**
+   - Click on **Next**
+
+In order to create the build stage, navigate to **Build projects** on the **Developer Tools**
+   - Click on **Create build project**. The **Project name** is **cruddur-backend-flask-bake-image**
+   - Click on the tickbox for **Enable build badge**
+   - For Source, **Source provider** is **GitHub**
+   - Select **Connect using OAuth**
+   - Connect to GitHub, then authorize
+   - Create Pipeline
+   - **Primary source webhook events**. Click on the tickbox for **Choose Rebuild every time a code change is pushed to this repository**
+   - Select **Build type** of **Single build**
+   - Select **Event type** of **PULL_REQUEST_MERGED**
+   - Under **Environment**, leave default setting of **Managed image**
+   - Select **Amazon Linux 2** as the **Operating system**
+   - Select **Runtime** as **Standard** 
+   - Select the **Image** of **aws/codebuild/amazonlinux2-x86_64-standard:4.0**. This is the latest version for Image as of 20th April, 2023.
+   - The **Image Version** of **Always use the latest image for this runtime version** will be automatically selected.
+   - Select **Environment type** of **Linux 2**
+   - For **Privilege**, ensure you tick the checkbox for **Enable this flag if you want to build Docker images or want your builds to get elevated privileges**. If 
+     this box is not checked, you will be unable to build any docker image.
+   - Leave the default setting of **New service role**
+   - Under **Additional configuration**, enter **20mins** for **Timeout**
+   - Leave the default setting for **Queued timeout** as 8 hours
+   - Leave the default setting of **Do not install any certificate**
+   - Do not choose any VPC
+   - Leave the default setting for **Compute** as **3 GB memory, 2 vCPUs**
+   
+
 ## Amazon CI/CD Pipeline Security on AWS
 
 ### Table of contents
