@@ -21,6 +21,8 @@ Reference
 
 **AWS CodeDeploy** is a deployment service that automates application deployments to Amazon EC2 instances, on-premises instances, serverless Lambda functions, or Amazon ECS services.
 
+**References**
+
 [Amazon Docs - CI-CD](https://aws.amazon.com/solutions/app-development/ci-cd/)
 
 [Amazon Docs - CodePipeline](https://aws.amazon.com/codepipeline/)
