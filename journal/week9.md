@@ -32,19 +32,16 @@ Reference
 [Amazon Docs - CodeDeploy](https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html)
 
 
-### Creating a new pipeline <a name="paragraph1"></a>
-
-AWS CodePipeline is a continuous delivery service you can use to model, visualize, and automate the steps required to release your software. 
-
-CodePipeline automates the steps required to release your software changes continuously.
+### CodePipeline <a name="paragraph1"></a>
 
 Below are the steps needed for creating a CodePipeline:
 
-- Step 1: Search for CodePipeline amongst AWS Services. Then, navigate to the screen and click on **Create pipeline**.
-- Step 2: Choose pipeline settings
-- Step 3: Name pipeline. I called this **cruddur-backend-fargate**
-- Step 4: Leave the default settings of New service role and Allow AWS CodePipeline to create a service role so that it can be used with this new pipeline
-- Step 5: In advanced settings, leave the Default location and Default AWS Managed Key
+- Search for CodePipeline amongst AWS Services. Then, navigate to the screen and click on **Create pipeline**.
+- Step 1: Choose Pipeline Settings
+  - This opens up pipeline settings -> Choose pipeline settings
+  - Name pipeline. I called this **cruddur-backend-fargate**
+  - Leave the default settings of **New service role** and **Allow AWS CodePipeline to create a service role so that it can be used with this new pipeline**
+  - In advanced settings, leave the default settings of **Default location** and **Default AWS Managed Key**
 - Step 6: Add Source Stage: Choose **GitHub (Version 2)**
 - Step 7: Create a GitHub Connection by clicking on Connect to GitHub
 - Step 8: Select **Connection name** as **cruddur**, then connect to GitHub
