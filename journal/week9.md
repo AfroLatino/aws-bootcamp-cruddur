@@ -374,7 +374,7 @@ artifacts:
 
 Please find below the screen shot for the created CodePipeline.
 
-![create_pipeline](https://user-images.githubusercontent.com/129978840/233218233-039c89a2-cbb5-4a21-9dde-7955fb1f2e20.png)
+![frontend-fargate-pipeline](https://user-images.githubusercontent.com/129978840/233684189-f9152eeb-8919-44dc-83f9-8a620d01756a.png)
 
 
 ### IAM Service Role Permissions <a name="paragraph3"></a>
