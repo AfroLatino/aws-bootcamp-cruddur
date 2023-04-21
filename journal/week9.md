@@ -12,7 +12,7 @@
 - [CodeBuild](#paragraph6)
 - [CodeDeploy](#paragraph7)
 
-## Homework Challenges
+## Stretch Homework Challenges
 
 ## Table of contents
 
@@ -45,7 +45,7 @@ Reference
 
 ### CodePipeline for Backend Flask <a name="paragraph1"></a>
 
-Below are the steps needed for creating a CodePipeline:
+Below are the steps needed for creating a CodePipeline for Backend Flask:
 
 - Search for CodePipeline amongst AWS Services. Then, navigate to the screen and click on **Create pipeline**.
 - **Step 1: Choose Pipeline Settings**
@@ -258,11 +258,11 @@ Please find below screenshots of the code, build and deploy screens of **Success
 ![deploysucceeded](https://user-images.githubusercontent.com/129978840/233253729-ffadf26b-abfc-4240-b5e0-fdd16cfe376f.png)
 
 
-## Stretch Challenges
+## Stretch Homework Challenges
 
-### CodePipeline for Frontend React JS <a name="paragraph7"></a>
+### CodePipeline for Frontend React JS <a name="paragraph8"></a>
 
-Below are the steps needed for creating a CodePipeline:
+Below are the steps needed for creating a CodePipeline for Frontend Teact JS:
 
 - Search for CodePipeline amongst AWS Services. Then, navigate to the screen and click on **Create pipeline**.
 - **Step 1: Choose Pipeline Settings**
