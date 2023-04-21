@@ -24,7 +24,7 @@
 - [CodeDeploy](#paragraph13)
 - [AWS CodeStar](#paragraph14)
 - [Provisioning in CloudFormation](#paragraph15)
-- 
+
 
 ### Introduction <a name="introduction"></a>
 
