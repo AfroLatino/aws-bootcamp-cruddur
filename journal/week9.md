@@ -37,38 +37,49 @@ Reference
 Below are the steps needed for creating a CodePipeline:
 
 - Search for CodePipeline amongst AWS Services. Then, navigate to the screen and click on **Create pipeline**.
-- Step 1: Choose Pipeline Settings
+- **Step 1: Choose Pipeline Settings**
   - This opens up pipeline settings -> Choose pipeline settings
   - Name pipeline. I called this **cruddur-backend-fargate**
-  - Leave the default settings of **New service role** and **Allow AWS CodePipeline to create a service role so that it can be used with this new pipeline**
-  - In advanced settings, leave the default settings of **Default location** and **Default AWS Managed Key**
-- Step 6: Add Source Stage: Choose **GitHub (Version 2)**
-- Step 7: Create a GitHub Connection by clicking on Connect to GitHub
-- Step 8: Select **Connection name** as **cruddur**, then connect to GitHub
-- Step 9: Install a new app
-- Step 10: Enter your GitHub password
-- Step 11: Select the Repo needed. In this case, this would be the aws-bootcamp-cruddur-2023 repository.
-- Step 12: Then save. If the connection is successful, this would show a number on the GitHub Apps search
-- Step 13: Then click on Connect
-- Step 14: Select the repo name from the drop-down options
-- Step 15: Create a new branch from Main called **prod** on GitHub and choose this as the branch name
-- Step 16: Change detection options. Leave the default settings of **Start the pipeline on source code changes** & **CopePipeline Default**
-- Step 17: Then Next
-- Step 18: Skip build stage for now
-- Step 19: Add Deploy Stage - Choose Amazon ECS
-- Step 20: For Deploy - Amazon ECS is the Deploy provider, Choose your Region, Select **cruddur** as the **Cluster Name** and **backend-flask** as the **Service name**
-- Step 21: **Create build project** called **cruddur-backend-flask-bake-image**
-- Step 22: Click on **Enable build badge**
-- Step 23: **Project name** is **cruddur-backend-flask-bake-image**
-- Step 24: For Source, **Source provider** is **GitHub**
-- Step 25: Select **Connect using OAuth**
-- Step 26: Connect to GitHub, then authorize
-- Step 27: Create Pipeline
-- Step 28: Primary source webhook events - Choose Rebuild every time a code change is pushed to this repository
-- Step 29: Select Single build
-- Step 30: Select PULL_REQUEST_MERGED event type
-- Step 31: Environment - Leave default setting of **Managed image**
-- Step 32: Select **Amazon Linux 2** as the **Operating system**
+  - Leave the default setting of **New service role**. This automatically creates the **Role name**
+  - Leave the default setting of **Allow AWS CodePipeline to create a service role so that it can be used with this new pipeline**
+  - Under **Advanced settings**, select **Default location** and leave the default setting of **Default AWS Managed Key**
+  - Click on **Next**  
+- **Step 2: Add source stage**
+   - Select **GitHub (Version 2)** as the **Source provider**
+   - Create a GitHub Connection by clicking on **Connect to GitHub**
+   - Type **cruddur* as **Connection name**, then **Connect to GitHub**
+   - Click on **Install a new app**
+   - Enter your GitHub password
+   - Select the Repository needed. In this case, this would be the **aws-bootcamp-cruddur-2023 repository**.
+   - Then, save. If the connection is successful, this would show a number on the GitHub Apps search
+   - Then, click on **Connect**
+   - Select the repo name from the drop-down options
+   - Create a new branch from Main called **prod** on GitHub and choose this as the branch name
+   - Change detection options. Leave the default settings of **Start the pipeline on source code change** & **CopePipeline Default**
+   - Select **CodePipeline default** as the **Output artifact format**
+   - Click on **Next**
+   - Click on **Skip build stage** for now as this is *optional*
+   - Click on **Skip**
+- **Step 4: Add deploy stage**
+   - Select **Amazon ECS** as the **Deploy provider**
+   - Region should be automatically loaded but if not, select your **Region**
+   - Select **cruddur** as the **Cluster Name** and **backend-flask** as the **Service name**
+   - Click on **Next**
+   - Then **Create pipeline**
+   -   - Click on **Next**
+
+In order to create the build stage, navigate to **Build projects** on the **Developer Tools**
+   - Click on **Create build project**. The **Project name** is **cruddur-backend-flask-bake-image**
+   - Click on the tickbox for **Enable build badge**
+   - For Source, **Source provider** is **GitHub**
+   - Select **Connect using OAuth**
+   - Connect to GitHub, then authorize
+   - Create Pipeline
+   - **Primary source webhook events**. Click on the tickbox for **Choose Rebuild every time a code change is pushed to this repository**
+   - Select **Build type** of **Single build**
+   - Select **Event type** of **PULL_REQUEST_MERGED**
+   - Under **Environment**, leave default setting of **Managed image**
+   - Select **Amazon Linux 2** as the **Operating system**
 - Step 33: Select **Standard** as **Runtime**
 - Step 34: Select the latest version for **Image**. As of 20th April, 2023, this is **aws/codebuild/amazonlinux2-x86_64-standard:4.0**
 - Step 35: Select **Linux 2** as the Environment type
