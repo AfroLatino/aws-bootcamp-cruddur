@@ -5,8 +5,13 @@
 ## Table of contents
 - [Introduction](#introduction)
 - [CodePipeline](#paragraph1)
-- [Addition of Buildspec.yml file](#paragraph2)
-- [CodeBuild](#paragraph3)
+- [Create Build Project](#paragraph2)
+- [IAM Service Role Permissions](#paragraph3)
+- [Creating the Build Stage of CodePipeline](#paragraph4)
+- [Amendment of app.py file](#paragraph5)
+- [CodeBuild](#paragraph6)
+- [CodeDeploy](#paragraph7)
+
 
 ### Introduction <a name="introduction"></a>
 
@@ -92,6 +97,7 @@ In order to create the build stage, navigate to **Build projects** on the **Deve
    - Leave the default setting of **Do not install any certificate**
    - Do not choose any VPC
    - Leave the default setting for **Compute** as **3 GB memory, 2 vCPUs**
+   
 
 ### Create Build Project <a name="paragraph2"></a>
 
@@ -148,7 +154,7 @@ Please find below the screen shot for the created CodePipeline.
 ![create_pipeline](https://user-images.githubusercontent.com/129978840/233218233-039c89a2-cbb5-4a21-9dde-7955fb1f2e20.png)
 
 
-### IAM Service Role Permissions
+### IAM Service Role Permissions <a name="paragraph3"></a>
 
 I added the JSON permissions below to the IAM service role created called **codebuild-cruddur-backend-flask-bake-image-service-role** 
 
@@ -188,7 +194,8 @@ Please see the screenshot below for the IAM permissions:
 
 ![codebuildIAMrole](https://user-images.githubusercontent.com/129978840/233247785-8d656795-4780-45e6-9201-24756ec26d26.png)
 
-### Creating the Build Stage of CodePipeline
+
+### Creating the Build Stage of CodePipeline <a name="paragraph4"></a>
 
 The build stage was earlier skipped during the code pipeline creation.
 
@@ -206,7 +213,8 @@ The build stage was earlier skipped during the code pipeline creation.
 - Then, click on **Done**
 - Run this by clicking on **Release change**
 
-### Amendment of app.py file
+
+### Amendment of app.py file <a name="paragraph5"></a>
 
 I amended app.py with the code below:
 
@@ -217,7 +225,8 @@ def health_check():
 ```  
 - Created a pull request from **prod** to **Main**
 
-### CodeBuild <a name="paragraph3"></a>
+
+### CodeBuild <a name="paragraph6"></a>
 
 The build project is called **cruddur-backend-flask-bake-image**
 
@@ -231,7 +240,8 @@ Please see below a screen shot of the Codebuild project.
 
 ![codebuild built](https://user-images.githubusercontent.com/129978840/233245850-8f0be418-6f34-428a-9f14-15a60fccc4b8.png)
 
-### CodeDeploy
+
+### CodeDeploy  <a name="paragraph7"></a>
 
 Go to CodeBuild and **Start build with overrides**
 
