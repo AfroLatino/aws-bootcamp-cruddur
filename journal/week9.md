@@ -297,7 +297,7 @@ Below are the steps needed for creating a CodePipeline for Frontend Teact JS:
    - Click on **Next**
 
 In order to create the build stage, navigate to **Build projects** on the **Developer Tools**
-   - Click on **Create build project**. The **Project name** is **cruddur-backend-flask-bake-image**
+   - Click on **Create build project**. The **Project name** is **cruddur-frontend-react-js-bake-image**
    - Click on the tickbox for **Enable build badge**
    - For Source, **Source provider** is **GitHub**
    - Select **Connect using OAuth**
@@ -379,7 +379,7 @@ Please find below the screen shot for the created CodePipeline.
 
 ### IAM Service Role Permissions <a name="paragraph3"></a>
 
-I added the JSON permissions below to the IAM service role created called **codebuild-cruddur-backend-flask-bake-image-service-role** 
+I added the JSON permissions below to the IAM service role created called **codebuild-cruddur-frontend-react-js-bake-image-service-role** 
 
 ```json
 {
