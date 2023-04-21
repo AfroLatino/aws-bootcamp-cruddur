@@ -66,7 +66,7 @@ Below are the steps needed for creating a CodePipeline:
    - Select **cruddur** as the **Cluster Name** and **backend-flask** as the **Service name**
    - Click on **Next**
    - Then **Create pipeline**
-   -   - Click on **Next**
+   - Click on **Next**
 
 In order to create the build stage, navigate to **Build projects** on the **Developer Tools**
    - Click on **Create build project**. The **Project name** is **cruddur-backend-flask-bake-image**
