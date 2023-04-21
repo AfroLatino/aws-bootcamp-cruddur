@@ -22,6 +22,7 @@
 - [Creating the Build Stage of CodePipeline](#paragraph11)
 - [CodeBuild](#paragraph12)
 - [CodeDeploy](#paragraph13)
+- [AWS CodeStar]
 
 
 ### Introduction <a name="introduction"></a>
@@ -460,6 +461,34 @@ Navigate to CodeBuild and click on **Start build with overrides**
 Please find screenshots of successfully deployed prod below:
 
 ![frontend-build-history](https://user-images.githubusercontent.com/129978840/233690090-61ee8045-ddc8-43eb-a9a2-0626a2759d77.png)
+
+
+## AWS CodeStar
+
+AWS CodeStar enables you to quickly develop, build, and deploy applications on AWS. AWS CodeStar provides a unified user interface, enabling you to easily manage your software development activities in one place. With AWS CodeStar, you can set up your entire continuous delivery toolchain in minutes, allowing you to start releasing code faster. AWS CodeStar makes it easy for your whole team to work together securely, allowing you to easily manage access and add owners, contributors, and viewers to your projects. Each AWS CodeStar project comes with a project management dashboard, including an integrated issue tracking capability powered by Atlassian JIRA Software.
+
+Below are the steps needed for creating a codestar:
+
+- Search for Codestar amongst AWS Services. Then, navigate to the screen and click on **Create pipeline**.
+- **Step 1: Choose a project template**
+  - From the dropdown, I chose **AWS EC2** under **AWS service**
+  - Opted for **Application type** of **Python (Flask)**
+  - Clcik on **Next**
+- **Step 2: Set up your project**
+  - Enter **Project name** of **cruddur-backend-codestar**
+  - Enter **Project ID** of **codestar**
+  - Select **GitHub** as **repository provider**
+  - Select **cruddur** as **Connection**
+  - Select **Instance type** of **t3.micro**
+  - Select default **VPC**
+  - Select from the dropdown a Subnet
+  - Tick the box for **I acknowledge that I have access to the private key file**
+  - Click on **Next**
+  - Leave the default setting of **Allow AWS CodePipeline to create a service role so that it can be used with this new pipeline**
+  - Under **Advanced settings**, select **Default location** and leave the default setting of **Default AWS Managed Key**
+  - Click on **Next** 
+
+
 
 
 ## Amazon CI/CD Pipeline Security on AWS
