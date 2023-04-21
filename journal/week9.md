@@ -86,16 +86,14 @@ In order to create the build stage, navigate to **Build projects** on the **Deve
    - Select **Environment type** of **Linux 2**
    - For **Privilege**, ensure you tick the checkbox for **Enable this flag if you want to build Docker images or want your builds to get elevated privileges**. If 
      this box is not checked, you will be unable to build any docker image.
-- Step 37: Leave the default settings for **New service role**
-- Step 38: Under additional configuration, enter **20mins** for **Timeout**
-- Step 39: Leave the Queued timeout as 8 hours
-- Step 40: Leave the default settings of **Do not install any certificate**
-- Step 41: Do not choose any VPC
-- Step 42: Leave the default settings for **Compute** as **3 GB memory, 2 vCPUs**
+   - Leave the default setting of **New service role**
+   - Under **Additional configuration**, enter **20mins** for **Timeout**
+   - Leave the default setting for **Queued timeout** as 8 hours
+   - Leave the default setting of **Do not install any certificate**
+   - Do not choose any VPC
+   - Leave the default setting for **Compute** as **3 GB memory, 2 vCPUs**
 
 ### Addition of Buildspec.yml file <a name="paragraph2"></a>
-
-Create buildspec.yml file
 
 Add the buildspec.yml file below to the backend-flask directory
 
@@ -137,15 +135,18 @@ artifacts:
     - imagedefinitions.json
 ```
 
-- For Build specifications, choose **Use a buildspec file**
-- Buildspec name is **backend-flask/buildspec.yml**
-- Choose the Default settings of **No artifacts** Type
-- For Additional Configuration, Leave the default settings of **CloudWatch logs**
+- Under **Buildspec**, for Build specifications, choose **Use a buildspec file**
+- **Buildspec name** is **backend-flask/buildspec.yml**
+- Choose the Default setting of **No artifacts** Type
+- Under **Logs**, leave the default setting of **CloudWatch logs**
 - Enter **/cruddur/build/backend-flask** as the **Group name**
 - Enter **backend-flask** as the **Stream name**
-- Then **Create build project**
+- Then click on **Create build project**
+
+Please find below the screen shot for the created CodePipeline.
 
 ![create_pipeline](https://user-images.githubusercontent.com/129978840/233218233-039c89a2-cbb5-4a21-9dde-7955fb1f2e20.png)
+
 
 ### CodeBuild <a name="paragraph3"></a>
 
@@ -157,9 +158,10 @@ Copy the **Copy badge URL** onto a URL. This was added to my GitHiub main repo a
 
 Create a pull request from GitHub and merge main into prod
 
-Please see below of the codebuild project.
+Please see below a screen shot of the Codebuild project.
 
 ![codebuild built](https://user-images.githubusercontent.com/129978840/233245850-8f0be418-6f34-428a-9f14-15a60fccc4b8.png)
+
 
 ### IAM Service Role Permissions
 
@@ -201,7 +203,8 @@ Please see the screenshot below for the IAM permissions:
 
 ![codebuildIAMrole](https://user-images.githubusercontent.com/129978840/233247785-8d656795-4780-45e6-9201-24756ec26d26.png)
 
-### Deploy
+
+### CodeDeploy
 
 Go to CodeBuild and **Start build with overrides**
 
