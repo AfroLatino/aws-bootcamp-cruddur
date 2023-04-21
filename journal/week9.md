@@ -2,9 +2,15 @@
 
 ## Required Homework 
 
-### Creating a Pipeline
+### Creating a new pipeline
 
-- Step 1: Create new pipeline
+AWS CodePipeline is a continuous delivery service you can use to model, visualize, and automate the steps required to release your software. 
+
+CodePipeline automates the steps required to release your software changes continuously.
+
+Below are the steps needed for creating a CodePipeline:
+
+- Step 1: Search for CodePipeline amongst AWS Services. Then, navigate to the screen and click on **Create pipeline**.
 - Step 2: Choose pipeline settings
 - Step 3: Name pipeline. I called this **cruddur-backend-fargate**
 - Step 4: Leave the default settings of New service role and Allow AWS CodePipeline to create a service role so that it can be used with this new pipeline
