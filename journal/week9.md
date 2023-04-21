@@ -93,7 +93,7 @@ In order to create the build stage, navigate to **Build projects** on the **Deve
    - Do not choose any VPC
    - Leave the default setting for **Compute** as **3 GB memory, 2 vCPUs**
 
-### Addition of Buildspec.yml file <a name="paragraph2"></a>
+### Create Build Project <a name="paragraph2"></a>
 
 Add the buildspec.yml file below to the backend-flask directory
 
@@ -148,21 +148,6 @@ Please find below the screen shot for the created CodePipeline.
 ![create_pipeline](https://user-images.githubusercontent.com/129978840/233218233-039c89a2-cbb5-4a21-9dde-7955fb1f2e20.png)
 
 
-### CodeBuild <a name="paragraph3"></a>
-
-The build project is called **cruddur-backend-flask-bake-image**
-
-Copy the **Copy badge URL** onto a URL. This was added to my GitHiub main repo as seen below:
-
-![Codebuildimage](https://user-images.githubusercontent.com/129978840/233244126-fa36a435-eff7-4567-9106-f7da828f4a3f.png)
-
-Create a pull request from GitHub and merge main into prod
-
-Please see below a screen shot of the Codebuild project.
-
-![codebuild built](https://user-images.githubusercontent.com/129978840/233245850-8f0be418-6f34-428a-9f14-15a60fccc4b8.png)
-
-
 ### IAM Service Role Permissions
 
 I added the JSON permissions below to the IAM service role created called **codebuild-cruddur-backend-flask-bake-image-service-role** 
@@ -203,27 +188,28 @@ Please see the screenshot below for the IAM permissions:
 
 ![codebuildIAMrole](https://user-images.githubusercontent.com/129978840/233247785-8d656795-4780-45e6-9201-24756ec26d26.png)
 
-
-### CodeDeploy
-
-Go to CodeBuild and **Start build with overrides**
-
 ### Creating the Build Stage of CodePipeline
 
 The build stage was earlier skipped during the code pipeline creation.
 
 - Choose existing code pipeline of **cruddur-backend-fargate**
 - Click on **Edit**
-- Add **Stage** after **Edit: Source**
-- Name this as **build**
-- Add **action group** and add action name of **bake**
-- Select Action provider as **AWS CodeBuild**
+- Click on **Add Stage** after **Edit: Source**
+- Name the **Stage name** as **build**
+- Click on **Add stage**
+- Cloick on **Add action group** and add **Action name** of **bake**
+- Select **Action provider** of **AWS CodeBuild**
 - Choose **SourceArtifact** as **Input artifacts**
-- Leave the default settings of **Single build** as the **Build type**
+- Select **cruddur-backend-flask-bake-image** as the **Project name** which was earlier created. 
+- Leave the default setting of **Single build** as the **Build type**
 - Added **ImageDefinition** as **Output artifacts**
-- Then, save pipeline changes
+- Then, click on **Done**
 - Run this by clicking on **Release change**
-- I amended app.py with the code below:
+
+### Amendment of app.py file
+
+I amended app.py with the code below:
+
 ```sh
 @app.route('/api/health-check')
 def health_check():
@@ -231,11 +217,30 @@ def health_check():
 ```  
 - Created a pull request from **prod** to **Main**
 
+### CodeBuild <a name="paragraph3"></a>
+
+The build project is called **cruddur-backend-flask-bake-image**
+
+Copy the **Copy badge URL** onto a URL. This was added to my GitHiub main repo as seen below:
+
+![Codebuildimage](https://user-images.githubusercontent.com/129978840/233244126-fa36a435-eff7-4567-9106-f7da828f4a3f.png)
+
+Create a pull request from GitHub and merge main into prod
+
+Please see below a screen shot of the Codebuild project.
+
+![codebuild built](https://user-images.githubusercontent.com/129978840/233245850-8f0be418-6f34-428a-9f14-15a60fccc4b8.png)
+
+### CodeDeploy
+
+Go to CodeBuild and **Start build with overrides**
+
 Please find below screenshots of the code, build and deploy screens of **Successful**
 
 ![sourceandbuildcompleted](https://user-images.githubusercontent.com/129978840/233253714-89363ea0-a353-4e93-be8f-2a6bfe5f35b0.png)
 
 ![deploysucceeded](https://user-images.githubusercontent.com/129978840/233253729-ffadf26b-abfc-4240-b5e0-fdd16cfe376f.png)
+
 
 ## Amazon CI/CD Pipeline Security on AWS
 
