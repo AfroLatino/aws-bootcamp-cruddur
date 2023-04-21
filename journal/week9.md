@@ -22,8 +22,9 @@
 - [Creating the Build Stage of CodePipeline](#paragraph11)
 - [CodeBuild](#paragraph12)
 - [CodeDeploy](#paragraph13)
-- [AWS CodeStar]
-
+- [AWS CodeStar](#paragraph14)
+- [Provisioning in CloudFormation](#paragraph15)
+- 
 
 ### Introduction <a name="introduction"></a>
 
@@ -463,13 +464,15 @@ Please find screenshots of successfully deployed prod below:
 ![frontend-build-history](https://user-images.githubusercontent.com/129978840/233690090-61ee8045-ddc8-43eb-a9a2-0626a2759d77.png)
 
 
-## AWS CodeStar
+### AWS CodeStar <a name="paragraph14"></a>
 
-AWS CodeStar enables you to quickly develop, build, and deploy applications on AWS. AWS CodeStar provides a unified user interface, enabling you to easily manage your software development activities in one place. With AWS CodeStar, you can set up your entire continuous delivery toolchain in minutes, allowing you to start releasing code faster. AWS CodeStar makes it easy for your whole team to work together securely, allowing you to easily manage access and add owners, contributors, and viewers to your projects. Each AWS CodeStar project comes with a project management dashboard, including an integrated issue tracking capability powered by Atlassian JIRA Software.
+AWS CodeStar enables you to quickly develop, build, and deploy applications on AWS. AWS CodeStar provides a unified user interface, enabling you to easily manage your software development activities in one place. With AWS CodeStar, you can set up your entire continuous delivery toolchain in minutes, allowing you to start releasing code faster. AWS CodeStar makes it easy for your whole team to work together securely, allowing you to easily manage access and add owners, contributors, and viewers to your projects. 
 
-Below are the steps needed for creating a codestar:
+There is no additional charge for using AWS CodeStar. You only pay for the AWS resources that you provision for developing and running your application (for example, Amazon EC2 instances).
 
-- Search for Codestar amongst AWS Services. Then, navigate to the screen and click on **Create pipeline**.
+Below are the steps needed for creating a CodeStar:
+
+- Search for Codestar amongst AWS Services. Then, navigate to the screen and click on **Create project**.
 - **Step 1: Choose a project template**
   - From the dropdown, I chose **AWS EC2** under **AWS service**
   - Opted for **Application type** of **Python (Flask)**
@@ -488,22 +491,27 @@ Below are the steps needed for creating a codestar:
   - Under **Advanced settings**, select **Default location** and leave the default setting of **Default AWS Managed Key**
   - Click on **Next** 
   - Click on **Create project** 
+  
+Reference
 
-## Provisioned in CloudFormation
+[AWS CodeStar](https://aws.amazon.com/codestar/)
 
-This project is provisioned in CloudFormation and stacks successfully created as seen below:
 
+### Provisioning in CloudFormation <a name="paragraph15"></a>
+
+This project was provisioned in CloudFormation and stacks successfully created as seen below:
 
 ![CloudFormationCodeStar](https://user-images.githubusercontent.com/129978840/233698873-65afd7ff-2c03-4111-99aa-64ea164eccef.png)
+
 
 
 ## Amazon CI/CD Pipeline Security on AWS
 
 ### Table of contents
 - [Introduction](#introduction1)
-- [Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks](#paragraph14)
-- [Amazon CI/CD Pipeline – Security Best Practices – AWS](#paragraph15)
-- [Amazon CI/CD Pipeline – Security Best Practices – Application](#paragraph16)
+- [Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks](#paragraph20)
+- [Amazon CI/CD Pipeline – Security Best Practices – AWS](#paragraph21)
+- [Amazon CI/CD Pipeline – Security Best Practices – Application](#paragraph22)
 
 ### Introduction <a name="introduction1"></a>
 
@@ -517,7 +525,7 @@ AWS Services that can help to deploy a CI/CD pipeline are as follows:
 - CodeDeploy
 - CodePipeline
 
-### Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks <a name="paragraph14"></a>
+### Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks <a name="paragraph20"></a>
 
 Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks are as follows: 
 
@@ -532,7 +540,7 @@ Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks a
 - Improper Artifact Integrity Validation
 - Insufficient Logging and Visibility
 
-### Amazon CI/CD Pipeline – Security Best Practices – AWS <a name="paragraph15"></a>
+### Amazon CI/CD Pipeline – Security Best Practices – AWS <a name="paragraph21"></a>
 
 -	Compliance standard is what your business requires from a CI/CD service and it is available in the region you need to operate in.
 -	Amazon Organisations SCP – to restrict actions like creation, deletion, modification of production CI/CD pipeline services etc.
@@ -540,7 +548,7 @@ Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks a
 -	GuardDuty is enabled for monitoring suspicious DNS comms (e.g. Crypto-mining etc) and automated for auto-remediation.
 -	AWS Config Rules is enabled in the account and region of CodeBuild – conformance pack for any other CI/CD service.
 
-### Amazon CI/CD Pipeline – Security Best Practices – Application <a name="paragraph16"></a>
+### Amazon CI/CD Pipeline – Security Best Practices – Application <a name="paragraph22"></a>
 
 -	Access Control – Roles or IAM Users for making changes in Amazon CICD services especially production related repositories, pipeline, build services etc.
 -	Security of the CI/CD Pipeline – Source control, Secret Management, Container Registry, CI/CD Service (if not the AWS Service), IAM etc.
