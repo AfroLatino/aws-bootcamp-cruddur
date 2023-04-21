@@ -415,7 +415,8 @@ I added the JSON permissions below to the IAM service role created called **code
 
 Please see the screenshot below for the IAM permissions:
 
-![codebuildIAMrole](https://user-images.githubusercontent.com/129978840/233247785-8d656795-4780-45e6-9201-24756ec26d26.png)
+![IAMfrontendperm](https://user-images.githubusercontent.com/129978840/233689189-37107aa2-a4f5-4841-8e59-262aa2b9c34c.png)
+
 
 
 ### Creating the Build Stage of CodePipeline <a name="paragraph4"></a>
