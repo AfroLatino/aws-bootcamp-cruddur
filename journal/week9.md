@@ -4,13 +4,17 @@
 
 ## Table of contents
 - [Introduction](#introduction)
-- [CodePipeline](#paragraph1)
+- [CodePipeline for Backend Fargate](#paragraph1)
 - [Create Build Project](#paragraph2)
 - [IAM Service Role Permissions](#paragraph3)
 - [Creating the Build Stage of CodePipeline](#paragraph4)
 - [Amendment of app.py file](#paragraph5)
 - [CodeBuild](#paragraph6)
 - [CodeDeploy](#paragraph7)
+
+## Homework Challenges
+
+- [CodePipeline for Frontend Fargate](#paragraph8)
 
 
 ### Introduction <a name="introduction"></a>
