@@ -14,6 +14,8 @@
 
 ## Homework Challenges
 
+## Table of contents
+
 - [CodePipeline for Frontend React JS](#paragraph8)
 
 
