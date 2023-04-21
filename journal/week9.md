@@ -377,7 +377,7 @@ Please find below the screen shot for the created CodePipeline.
 ![frontend-fargate-pipeline](https://user-images.githubusercontent.com/129978840/233684189-f9152eeb-8919-44dc-83f9-8a620d01756a.png)
 
 
-### IAM Service Role Permissions <a name="paragraph3"></a>
+### IAM Service Role Permissions <a name="paragraph10"></a>
 
 I added the JSON permissions below to the IAM service role created called **codebuild-cruddur-frontend-react-js-bake-image-service-role** 
 
@@ -418,12 +418,11 @@ Please see the screenshot below for the IAM permissions:
 ![IAMfrontendperm](https://user-images.githubusercontent.com/129978840/233689189-37107aa2-a4f5-4841-8e59-262aa2b9c34c.png)
 
 
-
-### Creating the Build Stage of CodePipeline <a name="paragraph4"></a>
+### Creating the Build Stage of CodePipeline <a name="paragraph11"></a>
 
 The build stage was earlier skipped during the code pipeline creation.
 
-- Choose existing code pipeline of **cruddur-backend-fargate**
+- Choose existing code pipeline of **cruddur-frontend-fargate**
 - Click on **Edit**
 - Click on **Add Stage** after **Edit: Source**
 - Name the **Stage name** as **build**
@@ -436,6 +435,26 @@ The build stage was earlier skipped during the code pipeline creation.
 - Added **ImageDefinition** as **Output artifacts**
 - Then, click on **Done**
 - Run this by clicking on **Release change**
+- 
+
+### CodeBuild <a name="paragraph12"></a>
+
+The build project is called **cruddur-frontend-react-js-bake-image**
+
+Create a pull request from GitHub and merge main into prod
+
+Please see below a screen shot of the Codebuild project.
+
+![frontend-bake-image](https://user-images.githubusercontent.com/129978840/233689859-adb3b44c-d65d-4529-ac9c-55afd0f61697.png)
+
+
+### CodeDeploy  <a name="paragraph13"></a>
+
+Go to CodeBuild and **Start build with overrides**
+
+Please find screenshots of successfully deployed prod below:
+
+![frontend-build-history](https://user-images.githubusercontent.com/129978840/233690090-61ee8045-ddc8-43eb-a9a2-0626a2759d77.png)
 
 
 ## Amazon CI/CD Pipeline Security on AWS
