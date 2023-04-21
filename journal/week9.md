@@ -2,7 +2,13 @@
 
 ## Required Homework 
 
-### Creating a new pipeline
+### Table of contents
+- [Introduction](#introduction)
+- [CodePipeline](#paragraph1)
+- [Addition of Buildspec.yml file](#paragraph2)
+- [CodeBuild](#paragraph3)
+
+### Creating a new pipeline <a name="paragraph1"></a>
 
 AWS CodePipeline is a continuous delivery service you can use to model, visualize, and automate the steps required to release your software. 
 
@@ -53,7 +59,7 @@ Below are the steps needed for creating a CodePipeline:
 - Step 41: Do not choose any VPC
 - Step 42: Leave the default settings for **Compute** as **3 GB memory, 2 vCPUs**
 
-### Buildspec
+### Addition of Buildspec.yml file <a name="paragraph2"></a>
 
 Create buildspec.yml file
 
@@ -107,7 +113,7 @@ artifacts:
 
 ![create_pipeline](https://user-images.githubusercontent.com/129978840/233218233-039c89a2-cbb5-4a21-9dde-7955fb1f2e20.png)
 
-### CodeBuild
+### CodeBuild <a name="paragraph3"></a>
 
 The build project is called **cruddur-backend-flask-bake-image**
 
