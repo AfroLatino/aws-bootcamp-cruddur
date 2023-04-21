@@ -4,7 +4,7 @@
 
 ## Table of contents
 - [Introduction](#introduction)
-- [CodePipeline for Backend Fargate](#paragraph1)
+- [CodePipeline for Backend Flask](#paragraph1)
 - [Create Build Project](#paragraph2)
 - [IAM Service Role Permissions](#paragraph3)
 - [Creating the Build Stage of CodePipeline](#paragraph4)
@@ -14,7 +14,7 @@
 
 ## Homework Challenges
 
-- [CodePipeline for Frontend Fargate](#paragraph8)
+- [CodePipeline for Frontend React JS](#paragraph8)
 
 
 ### Introduction <a name="introduction"></a>
@@ -41,7 +41,7 @@ Reference
 [Amazon Docs - CodeDeploy](https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html)
 
 
-### CodePipeline <a name="paragraph1"></a>
+### CodePipeline for Backend Flask <a name="paragraph1"></a>
 
 Below are the steps needed for creating a CodePipeline:
 
