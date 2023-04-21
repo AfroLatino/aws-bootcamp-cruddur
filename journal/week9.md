@@ -435,7 +435,7 @@ The build stage was earlier skipped during the code pipeline creation.
 - Added **ImageDefinition** as **Output artifacts**
 - Then, click on **Done**
 - Run this by clicking on **Release change**
-- 
+ 
 
 ### CodeBuild <a name="paragraph12"></a>
 
