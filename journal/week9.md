@@ -466,9 +466,9 @@ Please find screenshots of successfully deployed prod below:
 
 ### Table of contents
 - [Introduction](#introduction1)
-- [Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks](#paragraph11)
-- [Amazon CI/CD Pipeline – Security Best Practices – AWS](#paragraph12)
-- [Amazon CI/CD Pipeline – Security Best Practices – Application](#paragraph13)
+- [Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks](#paragraph14)
+- [Amazon CI/CD Pipeline – Security Best Practices – AWS](#paragraph15)
+- [Amazon CI/CD Pipeline – Security Best Practices – Application](#paragraph16)
 
 ### Introduction <a name="introduction1"></a>
 
@@ -482,7 +482,7 @@ AWS Services that can help to deploy a CI/CD pipeline are as follows:
 - CodeDeploy
 - CodePipeline
 
-### Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks <a name="paragraph11"></a>
+### Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks <a name="paragraph14"></a>
 
 Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks are as follows: 
 
@@ -497,7 +497,7 @@ Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks a
 - Improper Artifact Integrity Validation
 - Insufficient Logging and Visibility
 
-### Amazon CI/CD Pipeline – Security Best Practices – AWS <a name="paragraph12"></a>
+### Amazon CI/CD Pipeline – Security Best Practices – AWS <a name="paragraph15"></a>
 
 -	Compliance standard is what your business requires from a CI/CD service and it is available in the region you need to operate in.
 -	Amazon Organisations SCP – to restrict actions like creation, deletion, modification of production CI/CD pipeline services etc.
@@ -505,7 +505,7 @@ Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks a
 -	GuardDuty is enabled for monitoring suspicious DNS comms (e.g. Crypto-mining etc) and automated for auto-remediation.
 -	AWS Config Rules is enabled in the account and region of CodeBuild – conformance pack for any other CI/CD service.
 
-### Amazon CI/CD Pipeline – Security Best Practices – Application <a name="paragraph13"></a>
+### Amazon CI/CD Pipeline – Security Best Practices – Application <a name="paragraph16"></a>
 
 -	Access Control – Roles or IAM Users for making changes in Amazon CICD services especially production related repositories, pipeline, build services etc.
 -	Security of the CI/CD Pipeline – Source control, Secret Management, Container Registry, CI/CD Service (if not the AWS Service), IAM etc.
