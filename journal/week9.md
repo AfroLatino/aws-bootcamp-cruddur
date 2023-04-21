@@ -10,6 +10,13 @@
 
 ### Introduction <a name="introduction"></a>
 
+An integral part of development operations (DevOps) is adopting the culture of continuous integration and continuous delivery/deployment (CI/CD). Level up with tools to compile, build, and install features and fixes with collaborative and automated processes. These processes allow you to control versioning of your applications through a low-risk mechanism that enables agile, secure deployment and updates. CI/CD helps you keep up the pace of innovation while maintaining maximum uptime for your users.
+
+
+Reference
+
+[Amazon Docs](https://aws.amazon.com/solutions/app-development/ci-cd/)
+
 ### Creating a new pipeline <a name="paragraph1"></a>
 
 AWS CodePipeline is a continuous delivery service you can use to model, visualize, and automate the steps required to release your software. 
