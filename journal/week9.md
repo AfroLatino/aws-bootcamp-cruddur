@@ -267,7 +267,7 @@ Below are the steps needed for creating a CodePipeline for Frontend Teact JS:
 - Search for CodePipeline amongst AWS Services. Then, navigate to the screen and click on **Create pipeline**.
 - **Step 1: Choose Pipeline Settings**
   - This opens up pipeline settings -> Choose pipeline settings
-  - Name pipeline. I called this **cruddur-backend-fargate**
+  - Name pipeline. I called this **cruddur-frontend-fargate**
   - Leave the default setting of **New service role**. This automatically creates the **Role name**
   - Leave the default setting of **Allow AWS CodePipeline to create a service role so that it can be used with this new pipeline**
   - Under **Advanced settings**, select **Default location** and leave the default setting of **Default AWS Managed Key**
@@ -321,6 +321,121 @@ In order to create the build stage, navigate to **Build projects** on the **Deve
    - Do not choose any VPC
    - Leave the default setting for **Compute** as **3 GB memory, 2 vCPUs**
    
+
+### Create Build Project <a name="paragraph9"></a>
+
+Add the buildspec.yml file below to the frontend-react-js directory:
+
+```yaml
+# Buildspec runs in the build stage of your pipeline.
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      docker: 20
+    commands:
+      - echo "cd into $CODEBUILD_SRC_DIR/frontend"
+      - cd $CODEBUILD_SRC_DIR/frontend-react-js
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $IMAGE_URL
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...          
+      - docker build -t frontend-react-js .
+      - "docker tag $REPO_NAME $IMAGE_URL/$REPO_NAME"
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image..
+      - docker push $IMAGE_URL/$REPO_NAME
+      - cd $CODEBUILD_SRC_DIR
+      - echo "imagedefinitions.json > [{\"name\":\"$CONTAINER_NAME\",\"imageUri\":\"$IMAGE_URL/$REPO_NAME\"}]" > imagedefinitions.json
+      - printf "[{\"name\":\"$CONTAINER_NAME\",\"imageUri\":\"$IMAGE_URL/$REPO_NAME\"}]" > imagedefinitions.json
+
+env:
+  variables:
+    AWS_ACCOUNT_ID: 097592373482
+    AWS_DEFAULT_REGION: us-east-1
+    CONTAINER_NAME: frontend-react-js
+    IMAGE_URL: 097592373482.dkr.ecr.us-east-1.amazonaws.com
+    REPO_NAME: frontend-react-js:latest
+artifacts:
+  files:
+    - imagedefinitions.json
+```
+
+- Under **Buildspec**, for Build specifications, choose **Use a buildspec file**
+- **Buildspec name** is **frontend-react-js/buildspec.yml**
+- Choose the Default setting of **No artifacts** Type
+- Under **Logs**, leave the default setting of **CloudWatch logs**
+- Enter **/cruddur/build/frontend-react-js** as the **Group name**
+- Enter **frontend-react-js** as the **Stream name**
+- Then click on **Create build project**
+
+Please find below the screen shot for the created CodePipeline.
+
+![create_pipeline](https://user-images.githubusercontent.com/129978840/233218233-039c89a2-cbb5-4a21-9dde-7955fb1f2e20.png)
+
+
+### IAM Service Role Permissions <a name="paragraph3"></a>
+
+I added the JSON permissions below to the IAM service role created called **codebuild-cruddur-backend-flask-bake-image-service-role** 
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:BatchGetImage",
+                "ecr:CompleteLayerUpload",
+                "ecr:GetAuthorizationToken",
+                "ecr:DescribeImages",
+                "ecr:DescribeRepositories",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetLifecyclePolicy",
+                "ecr:GetLifecyclePolicyPreview",
+                "ecr:GetRepositoryPolicy",
+                "ecr:InitiateLayerUpload",
+                "ecr:ListImages",
+                "ecr:PutImage",
+                "ecr:PutLifecyclePolicy",
+                "ecr:SetRepositoryPolicy",
+                "ecr:StartLifecyclePolicyPreview",
+                "ecr:UploadLayerPart"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+Please see the screenshot below for the IAM permissions:
+
+![codebuildIAMrole](https://user-images.githubusercontent.com/129978840/233247785-8d656795-4780-45e6-9201-24756ec26d26.png)
+
+
+### Creating the Build Stage of CodePipeline <a name="paragraph4"></a>
+
+The build stage was earlier skipped during the code pipeline creation.
+
+- Choose existing code pipeline of **cruddur-backend-fargate**
+- Click on **Edit**
+- Click on **Add Stage** after **Edit: Source**
+- Name the **Stage name** as **build**
+- Click on **Add stage**
+- Cloick on **Add action group** and add **Action name** of **bake**
+- Select **Action provider** of **AWS CodeBuild**
+- Choose **SourceArtifact** as **Input artifacts**
+- Select **cruddur-backend-flask-bake-image** as the **Project name** which was earlier created. 
+- Leave the default setting of **Single build** as the **Build type**
+- Added **ImageDefinition** as **Output artifacts**
+- Then, click on **Done**
+- Run this by clicking on **Release change**
+
 
 ## Amazon CI/CD Pipeline Security on AWS
 
