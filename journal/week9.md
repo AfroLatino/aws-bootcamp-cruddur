@@ -2,7 +2,7 @@
 
 ## Required Homework 
 
-### Table of contents
+## Table of contents
 - [Introduction](#introduction)
 - [CodePipeline](#paragraph1)
 - [Addition of Buildspec.yml file](#paragraph2)
