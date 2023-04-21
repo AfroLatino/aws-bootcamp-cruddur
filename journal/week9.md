@@ -514,6 +514,7 @@ Open Worldwide Application Security Project (OWASP) Top 10 C/CD Security Risks a
 -	Enable Encryption in Transit using TLS/SSL certification e.g. HTTPS
 -	Only use Trusted Source Control for sending changes to CI/CD Pipeline
 -	Develop process for continuously verifying if there is a change that may compromise the known state of a CI/CD Pipeline.   
+-	
 
 
 
