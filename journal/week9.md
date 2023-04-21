@@ -17,6 +17,11 @@
 ## Table of contents
 
 - [CodePipeline for Frontend React JS](#paragraph8)
+- [Create Build Project](#paragraph9)
+- [IAM Service Role Permissions](#paragraph10)
+- [Creating the Build Stage of CodePipeline](#paragraph11)
+- [CodeBuild](#paragraph12)
+- [CodeDeploy](#paragraph13)
 
 
 ### Introduction <a name="introduction"></a>
@@ -249,7 +254,7 @@ Please see below a screen shot of the Codebuild project.
 
 ### CodeDeploy  <a name="paragraph7"></a>
 
-Go to CodeBuild and **Start build with overrides**
+Navigate to CodeBuild and click on **Start build with overrides**
 
 Please find below screenshots of the code, build and deploy screens of **Successful**
 
@@ -450,7 +455,7 @@ Please see below a screen shot of the Codebuild project.
 
 ### CodeDeploy  <a name="paragraph13"></a>
 
-Go to CodeBuild and **Start build with overrides**
+Navigate to CodeBuild and click on **Start build with overrides**
 
 Please find screenshots of successfully deployed prod below:
 
