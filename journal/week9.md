@@ -107,7 +107,7 @@ In order to create the build stage, navigate to **Build projects** on the **Deve
 
 ### Create Build Project <a name="paragraph2"></a>
 
-Add the buildspec.yml file below to the backend-flask directory
+Add the buildspec.yml file below to the backend-flask directory:
 
 ```yaml
 # Buildspec runs in the build stage of your pipeline.
