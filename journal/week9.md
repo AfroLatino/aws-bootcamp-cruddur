@@ -20,6 +20,7 @@ AWS CodePipeline is a fully managed continuous delivery service that helps you a
 Reference
 
 [Amazon Docs - CI-CD](https://aws.amazon.com/solutions/app-development/ci-cd/)
+
 [Amazon Docs - CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/welcome.html)
 
 ### Creating a new pipeline <a name="paragraph1"></a>
