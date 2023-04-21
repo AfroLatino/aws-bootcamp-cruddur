@@ -80,8 +80,8 @@ In order to create the build stage, navigate to **Build projects** on the **Deve
    - Select **Event type** of **PULL_REQUEST_MERGED**
    - Under **Environment**, leave default setting of **Managed image**
    - Select **Amazon Linux 2** as the **Operating system**
-- Step 33: Select **Standard** as **Runtime**
-- Step 34: Select the latest version for **Image**. As of 20th April, 2023, this is **aws/codebuild/amazonlinux2-x86_64-standard:4.0**
+   - Select **Runtime** as **Standard** 
+   - Select the latest version for **Image**. As of 20th April, 2023, this is **aws/codebuild/amazonlinux2-x86_64-standard:4.0**
 - Step 35: Select **Linux 2** as the Environment type
 - Step 36: For **Privilege**, ensure you tick the checkbox for **Enable this flag if you want to build Docker images or want your builds to get elevated privileges**.   If this box is not checked, you will be unable to build any docker image.
 - Step 37: Leave the default settings for **New service role**
