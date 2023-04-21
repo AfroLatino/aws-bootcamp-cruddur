@@ -487,8 +487,14 @@ Below are the steps needed for creating a codestar:
   - Leave the default setting of **Allow AWS CodePipeline to create a service role so that it can be used with this new pipeline**
   - Under **Advanced settings**, select **Default location** and leave the default setting of **Default AWS Managed Key**
   - Click on **Next** 
+  - Click on **Create project** 
+
+## Provisioned in CloudFormation
+
+This project is provisioned in CloudFormation and stacks successfully created as seen below:
 
 
+![CloudFormationCodeStar](https://user-images.githubusercontent.com/129978840/233698873-65afd7ff-2c03-4111-99aa-64ea164eccef.png)
 
 
 ## Amazon CI/CD Pipeline Security on AWS
