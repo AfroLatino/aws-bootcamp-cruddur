@@ -44,7 +44,7 @@ The install was added to my gitpod task file using the command below:
    npm install aws-cdk -g
 ```
 
-### Initialize a new project
+#### Initialize a new project
 
 A new cdk project was initialised within the folder I created using the command below:
 
@@ -116,15 +116,16 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
 }
 ```
 
-See screenshots below:
+The environment variables were loaded in the ```.env.example``` file as seen below:
 
-![S3Bucket](https://user-images.githubusercontent.com/129978840/232314987-c76e7e6b-dc1a-431a-91f7-6d9ead480b32.png)
-
-
-![Lambdafunction](https://user-images.githubusercontent.com/129978840/232314997-e5c84afd-db8e-4a2a-9b46-b3aa72ead369.png)
-
-
-### Synth
+```sh
+THUMBING_BUCKET_NAME="ocubeltd-uploaded-avatars"
+THUMBING_S3_FOLDER_INPUT="avatars/original/"
+THUMBING_S3_FOLDER_OUTPUT="avatars/processed"
+THUMBING_WEBHOOK_URL="https://api.ocubeltd.co.uk/webhooks/avatar"
+THUMBING_TOPIC_NAME="cruddur-assets"
+THUMBING_FUNCTION_PATH="/workspace/aws-bootcamp-cruddur-2023/aws/lambdas/process-images"
+```
 
 To run environment variable, use the command below:
 
@@ -132,7 +133,7 @@ To run environment variable, use the command below:
 npm i dotenv
 ```
 
-Then cdk synth
+#### Synth
 
 The synth command is used to synthesize the AWS CloudFormation stack(s) that represent your infrastructure as code.
 
@@ -140,19 +141,65 @@ The synth command is used to synthesize the AWS CloudFormation stack(s) that rep
 cdk synth
 ```
 
+#### Deploy
+
 To deploy, use the command below:
 
 ```sh
 cdk deploy
 ```
 
-### Bootstrapping
+See screenshots below:
+
+![S3Bucket](https://user-images.githubusercontent.com/129978840/232314987-c76e7e6b-dc1a-431a-91f7-6d9ead480b32.png)
+
+
+#### Bootstrapping
 
 I needed to bootstrap for region using the command below:
 
 ```sh
 cdk bootstrap "aws://$AWS_ACCOUNT_ID/$AWS_DEFAULT_REGION"
 ```
+
+#### Lambda code for Processing Images
+
+```sh
+const process = require('process');
+const {getClient, getOriginalImage, processImage, uploadProcessedImage} = require('./s3-image-processing.js')
+const path = require('path');
+
+const bucketName = process.env.DEST_BUCKET_NAME
+const folderInput = process.env.FOLDER_INPUT
+const folderOutput = process.env.FOLDER_OUTPUT
+const width = parseInt(process.env.PROCESS_WIDTH)
+const height = parseInt(process.env.PROCESS_HEIGHT)
+
+client = getClient();
+
+exports.handler = async (event) => {
+  const srcBucket = event.Records[0].s3.bucket.name;
+  const srcKey = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, ' '));
+  console.log('srcBucket',srcBucket)
+  console.log('srcKey',srcKey)
+
+  const dstBucket = bucketName;
+
+  filename = path.parse(srcKey).name
+  const dstKey = `${folderOutput}/${filename}.jpg`
+  console.log('dstBucket',dstBucket)
+  console.log('dstKey',dstKey)
+
+  const originalImage = await getOriginalImage(client,srcBucket,srcKey)
+  const processedImage = await processImage(originalImage,width,height)
+  await uploadProcessedImage(client,dstBucket,dstKey,processedImage)
+};
+```
+
+See the screenshot below of the lambda function:
+
+![Lambdafunction](https://user-images.githubusercontent.com/129978840/232314997-e5c84afd-db8e-4a2a-9b46-b3aa72ead369.png)
+
 
 ### Addition to  Thumbing Serverless CDK Stack
 
@@ -215,6 +262,8 @@ createS3NotifyToLambda(prefix: string, lambda: lambda.IFunction, bucket: s3.IBuc
   )
 }
 ```
+
+
 
 ### Cloud Formation
 
