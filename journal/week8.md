@@ -428,6 +428,12 @@ createS3NotifyToLambda(prefix: string, lambda: lambda.IFunction, bucket: s3.IBuc
 - For **Origin domain**, choose the name with a prefix of *assets* under *Amazon S3*. This automatically populates the **Origin Name**
 - Select **Origin access control settings (recommended)** as **Origin access**
 - Select **Create control setting**. This automatically populates **Origin access control**
+- Leave the default settings for **Enable Origin Shield** and **Default cache behavior**
+- Under **Viewer protocol policy**, choose **Redirect HTTP to HTTPS** and default setting for **Allowed HTTP methods*
+- Under **Cache key and origin requests**, leave the default setting of **Cache policy and origin request policy (recommended)** and **Cache policy** of **CacheOptimized** recommended for S3.
+- Select **CORS-CustomOrigin** as the **Origin request policy**
+- For **Settings**, leave the default setting of **Price class**
+- Enter **Alternate domain name (CNAME)** as **assets.<domain name>**
 
 CloudFront was used to create a distribution using the steps below:
 
