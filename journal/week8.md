@@ -2,6 +2,25 @@
 
 ## Required Homework 
 
+## Table of contents
+
+- [Introduction](#introduction)
+- [CodePipeline for Backend Flask](#paragraph1)
+- [Create Build Project](#paragraph2)
+- [IAM Service Role Permissions](#paragraph3)
+- [Creating the Build Stage of CodePipeline](#paragraph4)
+- [Amendment of app.py file](#paragraph5)
+- [CodeBuild](#paragraph6)
+- [CodeDeploy](#paragraph7)
+
+
+## Introduction
+
+AWS CDK lets you build reliable, scalable, cost-effective applications in the cloud with the considerable expressive power of a programming language. 
+
+It uses the power of AWS CloudFormation to perform infrastructure deployments predictably and repeatedly, with rollback on error.
+
+
 ### Implement CDK Stack
 
 The cdk pipeline called thumbing-serverless-cdk was added to the top level directory using the command below:
@@ -103,6 +122,7 @@ See screenshots below:
 
 
 ![Lambdafunction](https://user-images.githubusercontent.com/129978840/232314997-e5c84afd-db8e-4a2a-9b46-b3aa72ead369.png)
+
 
 ### Synth
 
