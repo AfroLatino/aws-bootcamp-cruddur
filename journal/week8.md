@@ -422,6 +422,14 @@ createS3NotifyToLambda(prefix: string, lambda: lambda.IFunction, bucket: s3.IBuc
 }
 ```
 
+### Serve Avatars via CloudFront
+
+- Search for CloudFront amongst AWS Services. Then, navigate to the screen and click on **Create distribution**
+- For **Origin domain**, choose the name with a prefix of *assets* under *Amazon S3*. This automatically populates the **Origin Name**
+- Select **Origin access control settings (recommended)** as **Origin access**
+- Select **Create control setting**. This automatically populates **Origin access control**
+
+CloudFront was used to create a distribution using the steps below:
 
 
 ### Cloud Formation
