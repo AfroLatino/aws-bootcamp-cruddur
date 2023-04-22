@@ -21,6 +21,7 @@
    - [Create an SNS Subscription](#subparagraph11)
    - [Create S3 Event Notification to SNS](#subparagraph12)
    - [Create S3 Event Notification to Lambda](#subparagraph13)
+- [Served Avatars via CloudFront](#paragraph4)
  
 
 ### Introduction <a name="introduction"></a>
@@ -170,6 +171,7 @@ I needed to bootstrap for region using the command below:
 ```sh
 cdk bootstrap "aws://$AWS_ACCOUNT_ID/$AWS_DEFAULT_REGION"
 ```
+
 
 ### Lambda codes <a name="paragraph2"></a>
 
@@ -422,7 +424,7 @@ createS3NotifyToLambda(prefix: string, lambda: lambda.IFunction, bucket: s3.IBuc
 }
 ```
 
-### Serve Avatars via CloudFront
+### Served Avatars via CloudFront <a name="paragraph4"></a>
 
 Amazon CloudFront is a web service that gives businesses and web application developers an easy and cost effective way to distribute content with low latency and high data transfer speeds.
 
@@ -443,6 +445,46 @@ Find below the steps for creating a distribution in CloiudFront:
 - I added a description to **Description - optional** section
 - Then, click on **Create distribution**
 
+See the screenshot below of the distribution created in CloudFront:
+
+![CloudFront](https://user-images.githubusercontent.com/129978840/232319302-2dbf8a96-40bb-42e7-8ba3-3e809228064a.png)
+
+
+### Updating Thumbing Serverless CDK Stack
+
+THUMBING_BUCKET_NAME & THUMBING_S3_FOLDER_INPUT environment variables created within ```thumbing-serverless-cdk/.env.example``` file were updated to UPLOADS_BUCKET_NAME & ASSETS_BUCKET_NAME as seen below:
+
+```sh
+UPLOADS_BUCKET_NAME="ocubeltd-uploaded-avatars"
+ASSETS_BUCKET_NAME="assets.ocubeltd.co.uk"
+```
+
+Then, ```thumbing-serverless-cdk-stack.ts``` was updated as follows:
+
+```sh
+export class ThumbingServerlessCdkStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    // The code that defines your stack goes here
+    const uploadsBucketName: string = process.env.UPLOADS_BUCKET_NAME as string;
+    const assetsBucketName: string = process.env.ASSETS_BUCKET_NAME as string;
+    const folderInput: string = process.env.THUMBING_S3_FOLDER_INPUT as string;
+    const folderOutput: string = process.env.THUMBING_S3_FOLDER_OUTPUT as string;
+    const webhookUrl: string = process.env.THUMBING_WEBHOOK_URL as string;
+    const topicName: string = process.env.THUMBING_TOPIC_NAME as string;
+    const functionPath: string = process.env.THUMBING_FUNCTION_PATH as string;
+    console.log('uploadsBucketName',)
+    console.log('assetsBucketName',assetsBucketName)
+    console.log('folderInput',folderInput)
+    console.log('folderOutput',folderOutput)
+    console.log('webhookUrl',webhookUrl)
+    console.log('topicName',topicName)
+    console.log('functionPath',functionPath)
+
+    const uploadsBucket = this.createBucket(uploadsBucketName);
+    const assetsBucket = this.importBucket(assetsBucketName);
+```
 
 ### Cloud Formation
 
@@ -513,15 +555,6 @@ I attached the policy to the lambda role using the command below:
 ```sh
 lambda.addToRolePolicy(s3ReadWritePolicy);
 ```
-
-### Serving Avatars via CloudFront
-
-I created CloudFront in AWS.
-
-See the screenshot below:
-
-![CloudFront](https://user-images.githubusercontent.com/129978840/232319302-2dbf8a96-40bb-42e7-8ba3-3e809228064a.png)
-
 
 #### Implement Avatar Uploading
 
