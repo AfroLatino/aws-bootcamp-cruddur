@@ -14,7 +14,14 @@
 - [Lambda Codes](#paragraph2)
    - [Lambda code for Processing Images](#subparagraph6)
    - [Lambda code for Testing Processing Images](#subparagraph7)
-
+   - [Lambda code for Image Processing using S3](#subparagraph8)
+   - [Lambda code for example JSON file for Processing Images](#subparagraph9)
+- [Additional creations to Thumbing Serverless CDK Stack](#paragraph3)
+   - [Create SNS Topic](#subparagraph10)
+   - [Create an SNS Subscription](#subparagraph11)
+   - [Create S3 Event Notification to SNS](#subparagraph12)
+   - [Create S3 Event Notification to Lambda](#subparagraph13)
+ 
 
 ### Introduction <a name="introduction"></a>
 
@@ -168,10 +175,9 @@ cdk bootstrap "aws://$AWS_ACCOUNT_ID/$AWS_DEFAULT_REGION"
 
 #### Lambda code for Processing Images <a name="subparagraph6"></a>
 
-
 The lambda code below was created for processing images.
 
-This is available via ```aws//aws/lambdas/process-images/index.js```
+This is available via ```aws/lambdas/process-images/index.js```
 
 ```sh
 const process = require('process');
@@ -212,8 +218,9 @@ See the screenshot below of the lambda function:
 
 #### Lambda code for Testing Processing Images <a name="subparagraph7"></a>
 
+The lambda code below was created for testing processing images.
 
-Please find the lambda code below for testing processing images:
+This is available via ```aws/lambdas/process-images/test.js```
 
 ```sh
 const {getClient, getOriginalImage, processImage, uploadProcessedImage} = require('./s3-image-processing.js')
@@ -236,10 +243,126 @@ async function main(){
 main()
 ```
 
+#### Lambda code for Image Processing using S3 <a name="subparagraph8"></a>
 
-### Addition to  Thumbing Serverless CDK Stack
+The lambda code below was created for image processing using s3.
 
-#### Create SNS Topic
+This is available via ```aws/lambdas/process-images/s3-image-processing-file.js```
+
+```sh
+const sharp = require('sharp');
+const { S3Client, PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
+
+function getClient(){
+  const client = new S3Client();
+  return client;
+}
+
+async function getOriginalImage(client,srcBucket,srcKey){
+  console.log('get==')
+  const params = {
+    Bucket: srcBucket,
+    Key: srcKey
+  };
+  console.log('params',params)
+  const command = new GetObjectCommand(params);
+  const response = await client.send(command);
+
+  const chunks = [];
+  for await (const chunk of response.Body) {
+    chunks.push(chunk);
+  }
+  const buffer = Buffer.concat(chunks);
+  return buffer;
+}
+
+async function processImage(image,width,height){
+  const processedImage = await sharp(image)
+    .resize(width, height)
+    .jpeg()
+    .toBuffer();
+  return processedImage;
+}
+
+async function uploadProcessedImage(client,dstBucket,dstKey,image){
+  console.log('upload==')
+  const params = {
+    Bucket: dstBucket,
+    Key: dstKey,
+    Body: image,
+    ContentType: 'image/jpeg'
+  };
+  console.log('params',params)
+  const command = new PutObjectCommand(params);
+  const response = await client.send(command);
+  console.log('repsonse',response);
+  return response;
+}
+
+module.exports = {
+  getClient: getClient,
+  getOriginalImage: getOriginalImage,
+  processImage: processImage,
+  uploadProcessedImage: uploadProcessedImage
+}
+```
+
+This was installed using the command below:
+
+```sh
+npm i sharp @aws-sdk/client-s3
+```
+
+#### Lambda code for example JSON file for Processing Images <a name="subparagraph9"></a>
+
+The lambda code below was created as an example JSON file for processing images.
+
+This is available via ```aws/lambdas/process-images/example.json```
+
+```sh
+{
+    "Records": [
+      {
+        "eventVersion": "2.0",
+        "eventSource": "aws:s3",
+        "awsRegion": "us-east-1",
+        "eventTime": "1970-01-01T00:00:00.000Z",
+        "eventName": "ObjectCreated:Put",
+        "userIdentity": {
+          "principalId": "EXAMPLE"
+        },
+        "requestParameters": {
+          "sourceIPAddress": "127.0.0.1"
+        },
+        "responseElements": {
+          "x-amz-request-id": "EXAMPLE123456789",
+          "x-amz-id-2": "EXAMPLE123/5678abcdefghijklambdaisawesome/mnopqrstuvwxyzABCDEFGH"
+        },
+        "s3": {
+          "s3SchemaVersion": "1.0",
+          "configurationId": "testConfigRule",
+          "bucket": {
+            "name": "assets.ocubeltd.co.uk",
+            "ownerIdentity": {
+              "principalId": "EXAMPLE"
+            },
+            "arn": "arn:aws:s3:::assets.ocubeltd.co.uk"
+          },
+          "object": {
+            "key": "avatars/original/data.jpg",
+            "size": 1024,
+            "eTag": "0123456789abcdef0123456789abcdef",
+            "sequencer": "0A1B2C3D4E5F678901"
+          }
+        }
+      }
+    ]
+  }
+```
+  
+### Additional creations to Thumbing Serverless CDK Stack <a name="paragraph3"></a>
+
+#### Create SNS Topic <a name="subparagraph10"></a>
 
 ```sh
 import * as sns from 'aws-cdk-lib/aws-sns';
@@ -255,7 +378,7 @@ createSnsTopic(topicName: string): sns.ITopic{
   }
 ```
 
-#### Create an SNS Subscription
+#### Create an SNS Subscription <a name="subparagraph11"></a>
 
 ```sh
 import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
@@ -270,7 +393,7 @@ createSnsSubscription(snsTopic: sns.ITopic, webhookUrl: string): sns.Subscriptio
   }
 ```
 
-#### Create S3 Event Notification to SNS
+#### Create S3 Event Notification to SNS <a name="subparagraph12"></a>
 
 ```sh
 this.createS3NotifyToSns(folderOutput,snsTopic,assetsBucket)
@@ -285,7 +408,7 @@ createS3NotifyToSns(prefix: string, snsTopic: sns.ITopic, bucket: s3.IBucket): v
 }
 ```
 
-#### Create S3 Event Notification to Lambda
+#### Create S3 Event Notification to Lambda <a name="subparagraph13"></a>
 
 ```sh
 this.createS3NotifyToLambda(folderInput,lambda,uploadsBucket)
