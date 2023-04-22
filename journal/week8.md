@@ -5,8 +5,12 @@
 ## Table of contents
 
 - [Introduction](#introduction)
-- [CodePipeline for Backend Flask](#paragraph1)
-- [Create Build Project](#paragraph2)
+- [Implement CDK Stack](#paragraph1)
+   - [Initialize a new project](#subparagraph1)
+   - [Thumbing Serverless CDK Stack](#subparagraph2)
+   - [Synth](#subparagraph3)
+   - [Deploy](#subparagraph4)
+   - [Bootstrapping](#subparagraph5)
 - [IAM Service Role Permissions](#paragraph3)
 - [Creating the Build Stage of CodePipeline](#paragraph4)
 - [Amendment of app.py file](#paragraph5)
@@ -14,14 +18,14 @@
 - [CodeDeploy](#paragraph7)
 
 
-## Introduction
+### Introduction <a name="introduction"></a>
 
 AWS CDK lets you build reliable, scalable, cost-effective applications in the cloud with the considerable expressive power of a programming language. 
 
 It uses the power of AWS CloudFormation to perform infrastructure deployments predictably and repeatedly, with rollback on error.
 
 
-### Implement CDK Stack
+### Implement CDK Stack <a name="paragraph1"></a>
 
 The cdk pipeline called thumbing-serverless-cdk was added to the top level directory using the command below:
 
@@ -44,7 +48,7 @@ The install was added to my gitpod task file using the command below:
    npm install aws-cdk -g
 ```
 
-#### Initialize a new project
+#### Initialize a new project <a name="subparagraph1"></a>
 
 A new cdk project was initialised within the folder I created using the command below:
 
@@ -52,7 +56,7 @@ A new cdk project was initialised within the folder I created using the command 
 cdk init app --language typescript
 ```
       
-### Thumbing Serverless CDK Stack
+#### Thumbing Serverless CDK Stack <a name="subparagraph2"></a>
 
 This script loaded environment variables, created a bucket and lambda.
 
@@ -133,7 +137,7 @@ To run environment variable, use the command below:
 npm i dotenv
 ```
 
-#### Synth
+#### Synth <a name="subparagraph3"></a>
 
 The synth command is used to synthesize the AWS CloudFormation stack(s) that represent your infrastructure as code.
 
@@ -141,7 +145,7 @@ The synth command is used to synthesize the AWS CloudFormation stack(s) that rep
 cdk synth
 ```
 
-#### Deploy
+#### Deploy <a name="subparagraph4"></a>
 
 To deploy, use the command below:
 
@@ -154,13 +158,15 @@ See screenshots below:
 ![S3Bucket](https://user-images.githubusercontent.com/129978840/232314987-c76e7e6b-dc1a-431a-91f7-6d9ead480b32.png)
 
 
-#### Bootstrapping
+#### Bootstrapping <a name="subparagraph5"></a>
 
 I needed to bootstrap for region using the command below:
 
 ```sh
 cdk bootstrap "aws://$AWS_ACCOUNT_ID/$AWS_DEFAULT_REGION"
 ```
+
+### Lambda codes
 
 #### Lambda code for Processing Images
 
