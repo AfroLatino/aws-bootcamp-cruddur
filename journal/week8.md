@@ -164,6 +164,10 @@ cdk bootstrap "aws://$AWS_ACCOUNT_ID/$AWS_DEFAULT_REGION"
 
 #### Lambda code for Processing Images
 
+The lambda code below was created for processing images.
+
+This is available via ```aws//aws/lambdas/process-images/index.js```
+
 ```sh
 const process = require('process');
 const {getClient, getOriginalImage, processImage, uploadProcessedImage} = require('./s3-image-processing.js')
@@ -199,6 +203,32 @@ exports.handler = async (event) => {
 See the screenshot below of the lambda function:
 
 ![Lambdafunction](https://user-images.githubusercontent.com/129978840/232314997-e5c84afd-db8e-4a2a-9b46-b3aa72ead369.png)
+
+
+#### Lambda code for Testing Processing Images
+
+Please find the lambda code below for testing processing images:
+
+```sh
+const {getClient, getOriginalImage, processImage, uploadProcessedImage} = require('./s3-image-processing.js')
+
+async function main(){
+  client = getClient()
+  const srcBucket = 'cruddur-thumbs'
+  const srcKey = 'avatar/original/data.jpg'
+  const dstBucket = 'cruddur-thumbs'
+  const dstKey = 'avatar/processed/data.png'
+  const width = 256
+  const height = 256
+
+  const originalImage = await getOriginalImage(client,srcBucket,srcKey)
+  console.log(originalImage)
+  const processedImage = await processImage(originalImage,width,height)
+  await uploadProcessedImage(client,dstBucket,dstKey,processedImage)
+}
+
+main()
+```
 
 
 ### Addition to  Thumbing Serverless CDK Stack
