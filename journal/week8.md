@@ -24,7 +24,10 @@
 - [Serving Avatars via CloudFront](#paragraph4)
 - [Updating Thumbing Serverless CDK Stack](#paragraph5)
 - [Implement Users Profile Page](#paragraph6)
-- [File Creations](#subparagraph14)
+   - [File Creations](#subparagraph14)
+   - [File Updates](#subparagraph15)
+- [Implement Migrations Backend Endpoint and Profile Form](#paragraph7)
+   - [File Creations](#subparagraph16)
 
 
 
@@ -784,6 +787,15 @@ export default function UserFeedPage() {
 Please find my screenshot of my users' page below:
 
 ![AfroLatinopics](https://user-images.githubusercontent.com/129978840/233803835-a7b6357c-706b-41a0-91f1-6c62b67ba663.jpg)
+
+
+### Implement Migrations Backend Endpoint and Profile Form <a name="paragraph7"></a>
+
+#### File Creations <a name="subparagraph16"></a>
+
+####
+
+This file was updated within ```frontend-react-js/src/components/ActivityFeed.js``` as seen below:
 
 
 ### Deployment Package 
