@@ -28,7 +28,14 @@
    - [File Updates](#subparagraph15)
 - [Implement Migrations Backend Endpoint and Profile Form](#paragraph7)
    - [File Creations](#subparagraph16)
-
+- [Deployment Package](#paragraph8)
+- [Manually create s3 bucket](#paragraph9)
+- [Create Policy for Bucket Access](#paragraph10)
+- [Attach the Policies to the Lambda Role](#paragraph11)
+- [Implement Avatar Uploading](#paragraph12)
+- [HTTP API Gateway with Lambda Authorizer](#paragraph13)
+- [Cross-origin resource sharing (CORS)](#paragraph14)
+- [Create JWT Lambda Layer](#paragraph15)
 
 
 ### Introduction <a name="introduction"></a>
