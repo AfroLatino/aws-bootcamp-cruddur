@@ -23,6 +23,9 @@
    - [Create S3 Event Notification to Lambda](#subparagraph13)
 - [Serving Avatars via CloudFront](#paragraph4)
 - [Updating Thumbing Serverless CDK Stack](#paragraph5)
+- [Implement Users Profile Page](#paragraph6)
+- [File Creations](#subparagraph14)
+
 
 
 ### Introduction <a name="introduction"></a>
@@ -310,11 +313,12 @@ module.exports = {
 }
 ```
 
-This was installed using the command below:
+Install npm i sharp to process-images as seen below:
 
 ```sh
-npm i sharp @aws-sdk/client-s3
+npm i sharp
 ```
+
 
 #### Lambda code for example JSON file for Processing Images <a name="subparagraph9"></a>
 
@@ -487,35 +491,299 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
     const assetsBucket = this.importBucket(assetsBucketName);
 ```
 
-### Cloud Formation
 
-The CDK was built on Cloud Formation. CloudFormation is an infrastructure automation platform for AWS that deploys AWS resources in a repeatable, testable and auditable manner.
+### Implement Users Profile Page <a name="paragraph6"></a>
 
-SAM is a specialised type of CloudFormation.
+#### File Creations <a name="subparagraph14"></a>
 
+I created the files below for the implementation of users' profile page.
 
-### Process Images
+#### Edit Profile Button
 
-I created a new folder called process-images within /workspace/aws-bootcamp-cruddur-2023/aws/lambdas'
+This file was created within ```frontend-react-js/src/components/EditProfileButton.js``` as seen below:
+
+import './EditProfileButton.css';
+
+export default function EditProfileButton(props) {
+  const pop_profile_form = (event) => {
+    event.preventDefault();
+    props.setPopped(true);
+    return false;
+  }
+
+  return (
+    <button onClick={pop_profile_form} className='profile-edit-button' href="#">Edit Profile</button>
+  );
+}
+
+The css file was created ```frontend-react-js/src/components/EditProfileButton.css``` as seen below:
 
 ```sh
-cd  aws/lambdas/process-images from main directory
-```
+.profile-edit-button {
+    border: solid 1px rgba(255,255,255,0.5);
+    padding: 12px 20px;
+    font-size: 18px;
+    background: none;
+    border-radius: 999px;
+    color: rgba(255,255,255,0.8);
+    cursor: pointer;
+  }
+  
+  .profile-edit-button:hover {
+    background: rgba(255,255,255,0.3)
+  }
+  ```
 
-Then, ran the following command:
+#### Profile Heading
+
+This file was created within ```frontend-react-js/src/components/ProfileHeading.js``` as seen below:
 
 ```sh
-npm init – y
+import './ProfileHeading.css';
+import EditProfileButton from '../components/EditProfileButton';
+
+import ProfileAvatar from 'components/ProfileAvatar'
+
+export default function ProfileHeading(props) {
+  const backgroundImage = 'url("https://assets.ocubeltd.co.uk/banners/banner.jpg")';
+  const styles = {
+    backgroundImage: backgroundImage,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  };
+  return (
+  <div className='activity_feed_heading profile_heading'>
+    <div className='title'>{props.profile.display_name}</div>
+    <div className="cruds_count">{props.profile.cruds_count} Cruds</div>
+    <div className="banner" style={styles} >
+      <ProfileAvatar id={props.profile.cognito_user_uuid} />
+    </div>
+    <div className="info">
+      <div className='id'>
+        <div className="display_name">{props.profile.display_name}</div>
+        <div className="handle">@{props.profile.handle}</div>
+      </div>
+      <EditProfileButton setPopped={props.setPopped} />
+    </div>
+    <div className="bio">{props.profile.bio}</div>
+
+  </div>
+  );
+}
 ```
 
-Install npm i sharp to process-images
+The css file was created ```frontend-react-js/src/components/EditProfileButton.css``` as seen below:
 
 ```sh
-npm i sharp
+.profile_heading {
+  padding-bottom: 0px;
+}
+.profile_heading .profile-avatar {
+  position: absolute;
+  bottom:-74px;
+  left: 16px;
+  width: 148px;
+  height: 148px;
+  border-radius: 999px;
+  border: solid 8px var(--fg);
+}
+
+.profile_heading .banner {
+  position: relative;
+  height: 200px;
+}
+
+.profile_heading .info {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  padding: 16px;
+}
+
+.profile_heading .info .id {
+  padding-top: 70px;
+  flex-grow: 1;
+}
+
+.profile_heading .info .id .display_name {
+  font-size: 24px;
+  font-weight: bold;
+  color: rgb(255,255,255);
+}
+.profile_heading .info .id .handle {
+  font-size: 16px;
+  color: rgba(255,255,255,0.7);
+}
+
+.profile_heading .cruds_count {
+  color: rgba(255,255,255,0.7);
+}
+
+.profile_heading .bio {
+  padding: 16px;
+  color: rgba(255,255,255,0.7);
+}
 ```
 
-### AWS Lambda
+### Show.sql
 
+This file was created within ```backend-flask/db/sql/users/show.sql``` as seen below:
+
+```
+SELECT 
+  (SELECT COALESCE(row_to_json(object_row),'{}'::json) FROM (
+    SELECT
+      users.uuid,
+      users.cognito_user_id as cognito_user_uuid,
+      users.handle,
+      users.display_name,
+      users.bio,
+      (
+       SELECT 
+        count(true) 
+       FROM public.activities
+       WHERE
+        activities.user_uuid = users.uuid
+       ) as cruds_count
+  ) object_row) as profile,
+  (SELECT COALESCE(array_to_json(array_agg(row_to_json(array_row))),'[]'::json) FROM (
+    SELECT
+      activities.uuid,
+      users.display_name,
+      users.handle,
+      activities.message,
+      activities.created_at,
+      activities.expires_at
+    FROM public.activities
+    WHERE
+      activities.user_uuid = users.uuid
+    ORDER BY activities.created_at DESC 
+    LIMIT 40
+  ) array_row) as activities
+FROM public.users
+WHERE
+  users.handle = 'AfroLatino'
+```
+
+#### File Updates <a name="subparagraph15"></a>
+
+I updated the files below for the implementation of users' profile page.
+
+#### User Activities
+
+This file was updated within ```backend-flask/services/user_activities.py``` as seen below:
+
+```sh
+from lib.db import db
+class UserActivities:
+  def run(user_handle):
+    model = {
+      'errors': None,
+      'data': None
+    }
+    if user_handle == None or len(user_handle) < 1:
+      model['errors'] = ['blank_user_handle']
+    else:
+      print("else:")
+      sql = db.template('users','show')
+      results = db.query_object_json(sql,{'handle': user_handle})
+      model['data'] = results
+    return model
+```
+
+##### Activity Feed
+
+This file was updated within ```frontend-react-js/src/components/ActivityFeed.js``` as seen below:
+
+```sh
+import './ActivityFeed.css';
+import ActivityItem from './ActivityItem';
+
+export default function ActivityFeed(props) {
+  return (
+    <div className='activity_feed_collection'>
+      {props.activities.map(activity => {
+      return  <ActivityItem setReplyActivity={props.setReplyActivity} setPopped={props.setPopped} key={activity.uuid} activity={activity} />
+      })}
+    </div>
+  );
+}
+```
+
+##### User Feed Page
+
+This file was updated within ```frontend-react-js/src/components/ActivityFeed.js``` as seen below:
+
+```sh
+import {checkAuth, getAccessToken} from '../lib/CheckAuth';
+
+export default function UserFeedPage() {
+  const [activities, setActivities] = React.useState([]);
+  const [profile, setProfile] = React.useState([]);
+  const [popped, setPopped] = React.useState([]);
+  const [poppedProfile, setPoppedProfile] = React.useState([]);
+  const [user, setUser] = React.useState(null);
+  const dataFetchedRef = React.useRef(false);
+
+  const params = useParams();
+
+  const loadData = async () => {
+    try {
+      const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/@${params.handle}`
+      await getAccessToken()
+      const access_token = localStorage.getItem("access_token")
+      const res = await fetch(backend_url, {
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        },
+        method: "GET"
+      });
+      let resJson = await res.json();
+      if (res.status === 200) {
+        console.log('setprofile',resJson.profile)
+        setProfile(resJson.profile)
+        setActivities(resJson.activities)
+      } else {
+        console.log(res)
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  React.useEffect(()=>{
+    //prevents double call
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+
+    loadData();
+    checkAuth(setUser);
+  }, [])
+
+  return (
+    <article>
+      <DesktopNavigation user={user} active={'profile'} setPopped={setPopped} />
+      <div className='content'>
+        <ActivityForm popped={popped} setActivities={setActivities} />
+        <ProfileForm 
+          profile={profile}
+          popped={poppedProfile} 
+          setPopped={setPoppedProfile} 
+        />
+        <div className='activity_feed'>
+          <ProfileHeading setPopped={setPoppedProfile} profile={profile} />
+          <ActivityFeed activities={activities} />
+        </div>
+      </div>
+      <DesktopSidebar user={user} />
+    </article>
+  );
+}
+```
+
+
+
+### Deployment Package 
 The node_modules directory of the deployment package must include binaries for the Linux x64 platform.
 
 When building deployment package on machines other than linux x64, run the following additional command after npm install:
