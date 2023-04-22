@@ -21,8 +21,9 @@
    - [Create an SNS Subscription](#subparagraph11)
    - [Create S3 Event Notification to SNS](#subparagraph12)
    - [Create S3 Event Notification to Lambda](#subparagraph13)
-- [Served Avatars via CloudFront](#paragraph4)
- 
+- [Serving Avatars via CloudFront](#paragraph4)
+- [Updating Thumbing Serverless CDK Stack](#paragraph5)
+
 
 ### Introduction <a name="introduction"></a>
 
@@ -424,7 +425,7 @@ createS3NotifyToLambda(prefix: string, lambda: lambda.IFunction, bucket: s3.IBuc
 }
 ```
 
-### Served Avatars via CloudFront <a name="paragraph4"></a>
+### Serving Avatars via CloudFront <a name="paragraph4"></a>
 
 Amazon CloudFront is a web service that gives businesses and web application developers an easy and cost effective way to distribute content with low latency and high data transfer speeds.
 
@@ -450,7 +451,7 @@ See the screenshot below of the distribution created in CloudFront:
 ![CloudFront](https://user-images.githubusercontent.com/129978840/232319302-2dbf8a96-40bb-42e7-8ba3-3e809228064a.png)
 
 
-### Updating Thumbing Serverless CDK Stack
+### Updating Thumbing Serverless CDK Stack <a name="paragraph5"></a>
 
 THUMBING_BUCKET_NAME & THUMBING_S3_FOLDER_INPUT environment variables created within ```thumbing-serverless-cdk/.env.example``` file were updated to UPLOADS_BUCKET_NAME & ASSETS_BUCKET_NAME as seen below:
 
