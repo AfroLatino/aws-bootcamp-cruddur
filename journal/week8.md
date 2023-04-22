@@ -1062,9 +1062,309 @@ This file was created within ```frontend-react-js/src/components/Popup.css``` as
 
 #### Update Profile
 
+This file was created within ```backend-flask/services/update_profile.py``` as seen below:
+
+```sh
+from lib.db import db
+
+class UpdateProfile:
+  def run(cognito_user_id,bio,display_name):
+    model = {
+      'errors': None,
+      'data': None
+    }
+
+    if display_name == None or len(display_name) < 1:
+      model['errors'] = ['display_name_blank']
+
+    if model['errors']:
+      model['data'] = {
+        'bio': bio,
+        'display_name': display_name
+      }
+    else:
+      handle = UpdateProfile.update_profile(bio,display_name,cognito_user_id)
+      data = UpdateProfile.query_users_short(handle)
+      model['data'] = data
+    return model
+
+  def update_profile(bio,display_name,cognito_user_id):
+    if bio == None:    
+      bio = ''
+
+    sql = db.template('users','update')
+    handle = db.query_commit(sql,{
+      'cognito_user_id': cognito_user_id,
+      'bio': bio,
+      'display_name': display_name
+    })
+  def query_users_short(handle):
+    sql = db.template('users','short')
+    data = db.query_object_json(sql,{
+      'handle': handle
+    })
+    return data
+```
+
+#### Update SQL
+
+This file was created within ```backend-flask/db/sql/users/update.sql``` as seen below:
+
+```sh
+UPDATE public.users 
+SET 
+  bio = %(bio)s,
+  display_name= %(display_name)s
+WHERE 
+  users.cognito_user_id = %(cognito_user_id)s
+RETURNING handle;
+```
+
+App.py was also updated.
 
 
-### Deployment Package 
+#### Migration files
+
+A migration file was created within ```bin/generate/migration``` as seen below:
+
+```sh
+#!/usr/bin/env python3
+import time
+import os
+import sys
+
+if len(sys.argv) == 2:
+  name = sys.argv[1]
+else:
+  print("pass a filename: eg. ./bin/generate/migration add_bio_column")
+  exit(0)
+
+time_now = str(int(time.time()))
+
+filename = f"{time_now}_{name}.py"
+
+# covert undername name to title case eg. add_bio_column -> AddBioColumn
+klass = name.replace('_', ' ').title().replace(' ','')
+
+file_content = f"""
+from lib.db import db
+class {klass}Migration:
+  def migrate_sql():
+    data = \"\"\"
+    \"\"\"
+    return data
+  def rollback_sql():
+    data = \"\"\"
+    \"\"\"
+    return data
+  def migrate():
+    db.query_commit({klass}Migration.migrate_sql(),{{
+    }})
+  def rollback():
+    db.query_commit({klass}Migration.rollback_sql(),{{
+    }})
+migration = AddBioColumnMigration
+"""
+#remove leading and trailing new lines
+file_content = file_content.lstrip('\n').rstrip('\n')
+
+current_path = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.abspath(os.path.join(current_path, '..', '..','backend-flask','db','migrations',filename))
+print(file_path)
+
+with open(file_path, 'w') as f:
+  f.write(file_content)
+```
+
+Make this executable by running ```chmod u+x ./bin/generate/migration add_bio_column```
+
+Run this command ```./bin/generate/migration add_bio_column``` to generate a migration file within ```backend-flask/db/migrations``` as seen below:
+
+```sh
+from lib.db import db
+class AddBioColumnMigration:
+  def migrate_sql():
+    data = """
+    ALTER TABLE public.users ADD COLUMN bio text;
+    """
+    return data
+  def rollback_sql():
+    data = """
+    ALTER TABLE public.users DROP COLUMN bio;
+    """
+    return data
+  def migrate():
+    db.query_commit(AddBioColumnMigration.migrate_sql(),{
+    })
+  def rollback():
+    db.query_commit(AddBioColumnMigration.rollback_sql(),{
+    })
+migration = AddBioColumnMigration
+```
+
+```ALTER TABLE public.users ADD COLUMN bio text``` was added to migrate_sql command and ```ALTER TABLE public.users DROP COLUMN bio``` was added to rollback sql command.
+  
+A ```.keep``` file was also added to this directory. This is left blank.
+
+A migrate file was created within ```bin/db/migrate```
+
+This is for migrating changes.
+
+```sh
+#!/usr/bin/env python3
+
+import os
+import sys
+import glob
+import re
+import time
+import importlib
+
+current_path = os.path.dirname(os.path.abspath(__file__))
+parent_path = os.path.abspath(os.path.join(current_path, '..', '..','backend-flask'))
+sys.path.append(parent_path)
+from lib.db import db
+
+def get_last_successful_run():
+  sql = """
+    SELECT last_successful_run
+    FROM public.schema_information
+    LIMIT 1
+  """
+  return int(db.query_value(sql,{},verbose=False))
+
+def set_last_successful_run(value):
+  sql = """
+  UPDATE schema_information
+  SET last_successful_run = %(last_successful_run)s
+  WHERE id = 1
+  """
+  db.query_commit(sql,{'last_successful_run': value},verbose=False)
+  return value
+
+last_successful_run = get_last_successful_run()
+
+migrations_path = os.path.abspath(os.path.join(current_path, '..', '..','backend-flask','db','migrations'))
+sys.path.append(migrations_path)
+migration_files = glob.glob(f"{migrations_path}/*")
+
+
+for migration_file in migration_files:
+  filename = os.path.basename(migration_file)
+  module_name = os.path.splitext(filename)[0]
+  match = re.match(r'^\d+', filename)
+  if match:
+    file_time = int(match.group())
+    if last_successful_run <= file_time:
+      mod = importlib.import_module(module_name)
+      print('=== running migration: ',module_name)
+      mod.migration.migrate()
+      time_now = str(int(time.time()))
+      last_successful_run = set_last_successful_run(time_now)
+```
+
+A rollback file was created within ```bin/db/rollback``` as follows:
+
+```sh
+#!/usr/bin/env python3
+
+import os
+import sys
+import glob
+import re
+import time
+import importlib
+
+current_path = os.path.dirname(os.path.abspath(__file__))
+parent_path = os.path.abspath(os.path.join(current_path, '..', '..','backend-flask'))
+sys.path.append(parent_path)
+from lib.db import db
+
+def get_last_successful_run():
+  sql = """
+    SELECT last_successful_run
+    FROM public.schema_information
+    LIMIT 1
+  """
+  return int(db.query_value(sql,{},verbose=False))
+
+def set_last_successful_run(value):
+  sql = """
+  UPDATE schema_information
+  SET last_successful_run = %(last_successful_run)s
+  WHERE id = 1
+  """
+  db.query_commit(sql,{'last_successful_run': value})
+  return value
+
+last_successful_run = get_last_successful_run()
+
+migrations_path = os.path.abspath(os.path.join(current_path, '..', '..','backend-flask','db','migrations'))
+sys.path.append(migrations_path)
+migration_files = glob.glob(f"{migrations_path}/*")
+
+
+last_migration_file = None
+for migration_file in migration_files:
+  if last_migration_file == None:
+    filename = os.path.basename(migration_file)
+    module_name = os.path.splitext(filename)[0]
+    match = re.match(r'^\d+', filename)
+    if match:
+      file_time = int(match.group())
+      print("==<><>")
+      print(last_successful_run, file_time)
+      print(last_successful_run > file_time)
+      if last_successful_run > file_time:
+        last_migration_file = module_name
+        mod = importlib.import_module(module_name)
+        print('=== rolling back: ',module_name)
+        mod.migration.rollback()
+        set_last_successful_run(file_time)
+```
+
+The rollback file was for rolling back changes if needed.
+
+```backend-flask/db/schema.sql``` was updated with ```public.schema_information``` as seen below:
+
+```sh
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+DROP TABLE IF EXISTS public.users;
+DROP TABLE IF EXISTS public.activities;
+
+CREATE TABLE IF NOT EXISTS public.schema_information (
+  id integer UNIQUE,
+  last_successful_run text
+);
+INSERT INTO public.schema_information (id, last_successful_run)
+VALUES(1, '0')
+ON CONFLICT (id) DO NOTHING;
+
+
+CREATE TABLE public.users (
+  uuid UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  display_name text NOT NULL,
+  handle text NOT NULL,
+  email text NOT NULL,
+  cognito_user_id text NOT NULL,
+  created_at TIMESTAMP default current_timestamp NOT NULL
+);
+
+CREATE TABLE public.activities (
+  uuid UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  user_uuid UUID NOT NULL,
+  message text NOT NULL,
+  replies_count integer DEFAULT 0,
+  reposts_count integer DEFAULT 0,
+  likes_count integer DEFAULT 0,
+  reply_to_activity_uuid integer,
+  expires_at TIMESTAMP,
+  created_at TIMESTAMP default current_timestamp NOT NULL
+);
+```
+
+### Deployment Package <a name="paragraph8"></a>
+
 The node_modules directory of the deployment package must include binaries for the Linux x64 platform.
 
 When building deployment package on machines other than linux x64, run the following additional command after npm install:
@@ -1080,17 +1380,16 @@ To remove stacks in GUI:
 Run ```cdk destroy```
 
 
-### Manually create s3 bucket
+### Manually create s3 bucket <a name="paragraph9"></a>
 
 I manually created s3 bucket called assets.ocubeltd.co.uk
-
 
 ![s3bucketaddition](https://user-images.githubusercontent.com/129978840/232316688-85673ae6-8358-47ca-bfde-b481671dad42.png)
 
 2 objects called avatars and banners were later added to this.
 
 
-### Create Policy for Bucket Access
+### Create Policy for Bucket Access <a name="paragraph10"></a>
 
 I created a policy for bucket access using the command below:
 
@@ -1098,7 +1397,7 @@ I created a policy for bucket access using the command below:
 const s3ReadWritePolicy = this.createPolicyBucketAccess(bucket.bucketArn)
 ```
 
-### Attach the Policies to the Lambda Role
+### Attach the Policies to the Lambda Role <a name="paragraph11"></a>
 
 I attached the policy to the lambda role using the command below:
 
@@ -1106,7 +1405,7 @@ I attached the policy to the lambda role using the command below:
 lambda.addToRolePolicy(s3ReadWritePolicy);
 ```
 
-#### Implement Avatar Uploading
+#### Implement Avatar Uploading <a name="paragraph12"></a>
 
 I added function.rb script below to lambda and added this to the aws folder:
 
@@ -1200,7 +1499,7 @@ I added the environment variable of UPLOADS_BUCKET_NAME to lambda as seen below:
 ![envvariable](https://user-images.githubusercontent.com/129978840/232320225-2216be7a-2a0e-4672-98ce-57376594fc4f.png)
 
 
-### HTTP API Gateway with Lambda Authorizer
+### HTTP API Gateway with Lambda Authorizer <a name="paragraph13"></a>
 
 To get package-lock.json and package json in lambda-authorizer:
 
@@ -1224,7 +1523,8 @@ I created an API Gateway using authorization, integrations & routes and also tun
 
 ![Logging for api-gateway turned on](https://user-images.githubusercontent.com/129978840/232321256-86604dcc-f623-426e-b366-41a031e186f7.png)
 
-### Cross-origin resource sharing (CORS)
+
+### Cross-origin resource sharing (CORS) <a name="paragraph14"></a>
 
 Cross-origin resource sharing (CORS) defines a way for client web applications that are loaded in one domain to interact with resources in a different domain. With CORS support, you can build rich client-side web applications with Amazon S3 and selectively allow cross-origin access to your Amazon S3 resources.
 
@@ -1233,7 +1533,7 @@ S3 bucket of ocubeltd-uploaded-avatars was updated with the CORS below:
 ![CORS](https://user-images.githubusercontent.com/129978840/232321098-61188c87-6f52-48b2-8b4b-d6bc2502878d.png)
 
 
-### Create JWT Lambda Layer
+### Create JWT Lambda Layer <a name="paragraph15"></a>
 
 I added a layer to JWT as seen below:
 
