@@ -781,6 +781,9 @@ export default function UserFeedPage() {
 }
 ```
 
+Please find my screenshot of my users' page below:
+
+![AfroLatinopics](https://user-images.githubusercontent.com/129978840/233803835-a7b6357c-706b-41a0-91f1-6c62b67ba663.jpg)
 
 
 ### Deployment Package 
