@@ -11,11 +11,9 @@
    - [Synth](#subparagraph3)
    - [Deploy](#subparagraph4)
    - [Bootstrapping](#subparagraph5)
-- [IAM Service Role Permissions](#paragraph3)
-- [Creating the Build Stage of CodePipeline](#paragraph4)
-- [Amendment of app.py file](#paragraph5)
-- [CodeBuild](#paragraph6)
-- [CodeDeploy](#paragraph7)
+- [Lambda Codes](#paragraph2)
+   - [Lambda code for Processing Images](#subparagraph6)
+   - [Lambda code for Testing Processing Images](#subparagraph7)
 
 
 ### Introduction <a name="introduction"></a>
@@ -166,9 +164,10 @@ I needed to bootstrap for region using the command below:
 cdk bootstrap "aws://$AWS_ACCOUNT_ID/$AWS_DEFAULT_REGION"
 ```
 
-### Lambda codes
+### Lambda codes <a name="paragraph2"></a>
 
-#### Lambda code for Processing Images
+#### Lambda code for Processing Images <a name="subparagraph6"></a>
+
 
 The lambda code below was created for processing images.
 
@@ -211,7 +210,8 @@ See the screenshot below of the lambda function:
 ![Lambdafunction](https://user-images.githubusercontent.com/129978840/232314997-e5c84afd-db8e-4a2a-9b46-b3aa72ead369.png)
 
 
-#### Lambda code for Testing Processing Images
+#### Lambda code for Testing Processing Images <a name="subparagraph7"></a>
+
 
 Please find the lambda code below for testing processing images:
 
