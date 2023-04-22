@@ -30,4 +30,4 @@ SELECT
   ) array_row) as activities
 FROM public.users
 WHERE
-  users.handle = %(handle)s
+  users.handle = 'AfroLatino'
