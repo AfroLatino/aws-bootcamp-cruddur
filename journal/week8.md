@@ -424,6 +424,10 @@ createS3NotifyToLambda(prefix: string, lambda: lambda.IFunction, bucket: s3.IBuc
 
 ### Serve Avatars via CloudFront
 
+Amazon CloudFront is a web service that gives businesses and web application developers an easy and cost effective way to distribute content with low latency and high data transfer speeds.
+
+Find below the steps for creating a distribution in CloiudFront:
+
 - Search for CloudFront amongst AWS Services. Then, navigate to the screen and click on **Create distribution**
 - For **Origin domain**, choose the name with a prefix of *assets* under *Amazon S3*. This automatically populates the **Origin Name**
 - Select **Origin access control settings (recommended)** as **Origin access**
@@ -434,8 +438,10 @@ createS3NotifyToLambda(prefix: string, lambda: lambda.IFunction, bucket: s3.IBuc
 - Select **CORS-CustomOrigin** as the **Origin request policy**
 - For **Settings**, leave the default setting of **Price class**
 - Enter **Alternate domain name (CNAME)** as **assets.<domain_name>**
-
-CloudFront was used to create a distribution using the steps below:
+- Select the public certificate created as **Custom SSL certificate**
+- Leave the default settings of **Supported HTTP versions**, **Standard logging** and **IPv6**
+- I added a description to **Description - optional** section
+- Then, click on **Create distribution**
 
 
 ### Cloud Formation
