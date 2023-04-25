@@ -14,12 +14,16 @@ In order to get this working, I had to make 2 amendments on the File -> Page Set
 
 I made a few changes to rectangle as follows:
 
--	Got rid of rounding in rectangles by choosing a rectangle shape from the Flowchart
-Click on Shape Options -> Amend ROUNDED to 0 px
--	Right click on the Rectangle -> Arrange -> Send to Back
-Used the line colour of #b0084d to highlight the rectangle borders and CruddurStack & CruddurNetworking
+-	Got rid of rounding in rectangles by choosing a rectangle shape from the Flowchart.
+  
+   Clicked on Shape Options -> Amended ROUNDED to 0 px
+   
+-	Right clicked on the Rectangle -> Arrange -> Send to Back
 
-Got rid of padding by clicking on Text Options -> amending PADDING to 0cm
+- Used the line colour of #b0084d to highlight the rectangle borders and CruddurStack & CruddurNetworking
+
+- Got rid of padding by clicking on Text Options -> amending PADDING to 0cm
+
 
 Please find below the screenshot of my CFN Diagramming the Network Layer:
 
