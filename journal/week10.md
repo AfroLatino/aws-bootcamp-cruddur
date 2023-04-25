@@ -1,4 +1,4 @@
-# Week 10 — CloudFormation Part 1
+# Week 10 & 11 — CloudFormation Part 1 & Part 2
 
 
 
