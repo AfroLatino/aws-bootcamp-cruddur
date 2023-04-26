@@ -5,6 +5,7 @@
 ## Table of contents
 - [Introduction](#introduction)
 - [Creating CloudFormation Stack](#paragraph1)
+    - [Task Definition Guard File](#subparagraph1)
 - [CFN for Networking Layer](#paragraph2)
 - [CFN Diagramming the Network Layer](#paragraph3)
 - [CFN Cluster Layer](#paragraph4)
@@ -89,6 +90,55 @@ Use cfn-lint to validate your templates, so insatll cfn-lint using the command b
 pip install cfn-lint
 ```
 
+#### Task Definition Guard File <a name="subparagraph1"></a>
+
+Create a task definition guard file via this path: ```aws/cfn/task-definition.guard``` using the command below:
+
+```sh
+aws_ecs_cluster_configuration {
+  rules = [
+    {
+      rule = "task_definition_encryption"
+      description = "Ensure task definitions are encrypted"
+      level = "error"
+      action {
+        type = "disallow"
+        message = "Task definitions in the Amazon ECS cluster must be encrypted"
+      }
+      match {
+        type = "ecs_task_definition"
+        expression = "encrypt == false"
+      }
+    },
+    {
+      rule = "network_mode"
+      description = "Ensure Fargate tasks use awsvpc network mode"
+      level = "error"
+      action {
+        type = "disallow"
+        message = "Fargate tasks in the Amazon ECS cluster must use awsvpc network mode"
+      }
+      match {
+        type = "ecs_task_definition"
+        expression = "network_mode != 'awsvpc'"
+      }
+    },
+    {
+      rule = "execution_role"
+      description = "Ensure Fargate tasks have an execution role"
+      level = "error"
+      action {
+        type = "disallow"
+        message = "Fargate tasks in the Amazon ECS cluster must have an execution role"
+      }
+      match {
+        type = "ecs_task_definition"
+        expression = "execution_role == null"
+      }
+    },
+  ]
+}
+```
 
 
 ### CFN for Networking Layer <a name="paragraph2"></a>
