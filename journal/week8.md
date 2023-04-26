@@ -1598,6 +1598,30 @@ Please find below the screenshot of the distribution created:
 
 ### Disabling a CloudFront Distribution using CloudShell <a name="paragraph17"></a>
 
+Before you can delete a distribution, you must disable it, which requires permission to update the distribution.
+
+The following example disables the CloudFront distribution with the ID E1QWQFTW851VU by providing the distribution configuration in a JSON file named dist-config-disable.json. To update a distribution, you must use the --if-match option to provide the distribution's ETag. To get the ETag, use the get-distribution or get-distribution-config command.
+
+After you use the following example to disable a distribution, you can use the delete-distribution command to delete it.
+
+
+aws cloudfront update-distribution --id E1QWQFTW851VU \
+    --default-root-object index.html
+
+  
+### Getting the ETag of the distribution
+
+To delete a distribution, you must use the --if-match option to provide the distribution's ETag. 
+
+The example below extracts the ETag of the CloudFront distribution with the ID E1QWQFTW851VU. 
+
+```sh
+aws cloudfront get-distribution --id E1QWQFTW851VU
+```
+
+Please find below the screenshot of the query:
+
+![Etag](https://user-images.githubusercontent.com/78261965/234665875-beee1db6-5e3b-4bc5-a1d1-a04e2d2d2a3c.png)
 
 
 ### Deleting a CloudFront Distribution using CloudShell <a name="paragraph18"></a>
@@ -1608,9 +1632,7 @@ When a distribution is disabled, you can delete it. To delete a distribution, yo
 
 To get a CloudFront distribution
 
-The following example gets the CloudFront distribution with the ID EDFDVBD6EXAMPLE, including its ETag. The distribution ID is returned in the create-distribution and list-distributions commands.
 
-aws cloudfront get-distribution --id EDFDVBD6EXAMPLE
 
 Then delete the distribution using the command below:
 
