@@ -44,7 +44,6 @@ set -e # stop the execution of the script if it fails
 
 CFN_PATH="/workspace/aws-bootcamp-cruddur-2023/aws/cfn/template.yaml"
 
-```sh	
 aws cloudformation deploy \
   --stack-name "my-cluster" \
   --template-file "$CFN_PATH" \
