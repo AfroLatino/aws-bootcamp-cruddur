@@ -1621,7 +1621,7 @@ aws cloudfront get-distribution --id E1QWQFTW851VU
 
 Please find below the screenshot of the query:
 
-![Etag](https://user-images.githubusercontent.com/78261965/234665875-beee1db6-5e3b-4bc5-a1d1-a04e2d2d2a3c.png)
+![Etag](https://user-images.githubusercontent.com/78261965/234673744-b5717e11-10b4-41b3-9b0c-8d7cab431d85.png)
 
 
 ### Deleting a CloudFront Distribution using CloudShell <a name="paragraph18"></a>
@@ -1637,21 +1637,18 @@ aws cloudfront update-distribution \
     --distribution-config file://dist-config-disable.json
 ```
 
-Please find bwlo the disabled distribution:
+Please find the disabled distribution below:
 
 ![disabled](https://user-images.githubusercontent.com/78261965/234672669-5fa7aa9a-1af6-4c06-be1c-c1b3d041f05b.png)
 
-When a distribution is disabled, you can delete it. To delete a distribution, you must use the --if-match option to provide the distribution's ETag. To get the ETag, use the get-distribution or get-distribution-config command.
-
-To get a CloudFront distribution
-
+When a distribution is disabled, you can delete it. 
 
 
 Then delete the distribution using the command below:
 
 aws cloudfront delete-distribution \
     --id E1QWQFTW851VU \
-    --if-match E1HHDOGRIDL61M
+    --if-match E1G2ZYD01NQ8HQ
     
 When successful, this command has no output. 
 
