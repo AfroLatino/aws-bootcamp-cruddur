@@ -1606,6 +1606,6 @@ aws cloudfront delete-distribution \
     --id EDFDVBD6EXAMPLE \
     --if-match E2QWRUHEXAMPLE
     
-When successful, this command has no output.
+When successful, this command has no output. 
 
 
