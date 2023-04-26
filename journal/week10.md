@@ -77,6 +77,17 @@ This shows Modify as seen below:
 
 ![modifyCloudFormation](https://user-images.githubusercontent.com/78261965/234702423-b004d430-56f0-4f72-a0c7-013e1f3747e0.png)
 
+Below is the CLI command for validating CloudFormation template:
+
+``sh
+aws cloudformation validate-template --template-body file:///workspace/aws-bootcamp-cruddur-2023/aws/cfn/template.yaml
+```
+
+Use cfn-lint to validate your templates, so insatll cfn-lint using the command below:
+
+```sh
+pip install cfn-lint
+```
 
 
 ### CFN for Networking Layer <a name="paragraph2"></a>
