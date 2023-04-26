@@ -51,6 +51,33 @@ aws cloudformation deploy \
   --capabilities CAPABILITY_NAMED_IAM
 ```
 
+This creates **my-cluster** stack.
+
+```--no-execute-changeset``` is used so one could review what is being changed on the AWS Management Console.
+
+You have to click on the **Change sets** section, then click on **Name -> Execute change set** using the default setting.
+
+
+I amended template.yaml to include Properties of MyCluster as seen below:
+
+```sh
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Setup ECS Cluster
+Resources:
+  ECSCluster:
+     Type: 'AWS::ECS::Cluster'
+     Properties: 
+       ClusterName: MyCluster
+```
+
+Then, ran ```./bin/cfn/networking-deploy``` 
+
+This shows Modify as seen below:
+
+![modifyCloudFormation](https://user-images.githubusercontent.com/78261965/234702423-b004d430-56f0-4f72-a0c7-013e1f3747e0.png)
+
+
 
 ### CFN for Networking Layer <a name="paragraph2"></a>
 
