@@ -38,6 +38,14 @@
 - [Create JWT Lambda Layer](#paragraph15)
 
 
+## Stretch Homework Challenges
+
+## Table of contents
+
+- [Creating a CloudFront Distribution using CloudShell](#paragraph16)
+- [Deleting a CloudFront Distribution using CloudShell](#paragraph17)
+
+
 ### Introduction <a name="introduction"></a>
 
 AWS CDK lets you build reliable, scalable, cost-effective applications in the cloud with the considerable expressive power of a programming language. 
@@ -1560,5 +1568,10 @@ Then ```ls /tmp/```
 
 
 
+## Stretch Homework Challenges
+
+### Creating a CloudFront Distribution using CloudShell <a name="paragraph16"></a>
+
+### Deleting a CloudFront Distribution using CloudShell <a name="paragraph17"></a>
 
 
