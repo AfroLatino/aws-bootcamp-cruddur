@@ -6,6 +6,7 @@
 - [Introduction](#introduction)
 - [Creating CloudFormation Stack](#paragraph1)
     - [Task Definition Guard File](#subparagraph1)
+    - [CFN Guard RuleGen](#subparagraph2)
 - [CFN for Networking Layer](#paragraph2)
 - [CFN Diagramming the Network Layer](#paragraph3)
 - [CFN Cluster Layer](#paragraph4)
@@ -150,6 +151,18 @@ Add the below comands to the gitpod.yml file:
    pip install cfn-lint
    cargo install cfn-guard
 ```
+
+
+#### CFN Guard RuleGen <a name="subparagraph2"></a>
+
+Takes a JSON- or YAML-formatted AWS CloudFormation template file and autogenerates a set of AWS CloudFormation Guard rules that match the properties of the template resources. This command is a useful way to get started with rule writing or to create ready-to-use rules from known good templates.
+
+You can run this - ```cfn-guard rulegen --template /workspace/aws-bootcamp-cruddur-2023/aws/cfn/template.yaml```
+
+Reference:
+
+[Amazon Docs - CFN Guard RuleGen](https://docs.aws.amazon.com/cfn-guard/latest/ug/cfn-guard-rulegen.html)
+
 
 ### CFN for Networking Layer <a name="paragraph2"></a>
 
