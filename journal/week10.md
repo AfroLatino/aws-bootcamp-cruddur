@@ -192,6 +192,11 @@ aws cloudformation deploy \
 
 Then, run deploy by running ```./bin/cfn/deploy```
 
+Please see the screenshot of the s3 bucket created below:
+
+![cfn-artifacts-afrolatino](https://user-images.githubusercontent.com/78261965/234714835-87bbc6f9-0306-4258-849e-3ed12d462fe2.png)
+
+
 ### CFN for Networking Layer <a name="paragraph2"></a>
 
 
