@@ -43,7 +43,7 @@
 ## Table of contents
 
 - [Creating a CloudFront Distribution using CloudShell](#paragraph16)
-- [Disabling a CloudFront Distribution using CloudShell](#paragraph17)
+- [Getting the ETag of the distribution using CloudShell](#paragraph17)
 - [Deleting a CloudFront Distribution using CloudShell](#paragraph18)
 
 
@@ -1596,20 +1596,7 @@ Please find below the screenshot of the distribution created:
 ![newdistribution](https://user-images.githubusercontent.com/78261965/234663785-439a8a11-b323-4551-b829-ed73472dae12.png)
 
 
-### Disabling a CloudFront Distribution using CloudShell <a name="paragraph17"></a>
-
-Before you can delete a distribution, you must disable it, which requires permission to update the distribution.
-
-The following example disables the CloudFront distribution with the ID E1QWQFTW851VU by providing the distribution configuration in a JSON file named dist-config-disable.json. To update a distribution, you must use the --if-match option to provide the distribution's ETag. To get the ETag, use the get-distribution or get-distribution-config command.
-
-After you use the following example to disable a distribution, you can use the delete-distribution command to delete it.
-
-
-aws cloudfront update-distribution --id E1QWQFTW851VU \
-    --default-root-object index.html
-
-  
-### Getting the ETag of the distribution
+### Getting the ETag of the distribution using CloudShell <a name="paragraph17"></a>
 
 To delete a distribution, you must use the --if-match option to provide the distribution's ETag. 
 
@@ -1628,14 +1615,7 @@ Please find below the screenshot of the query:
 
 The following example deletes the CloudFront distribution with the ID E1QWQFTW851VU. Before you can delete a distribution, you must disable it. 
 
-You can do this through the Management Console or CLI command using the below:
-
-```sh
-aws cloudfront update-distribution \
-    --id EMLARXS9EXAMPLE \
-    --if-match E2QWRUHEXAMPLE \
-    --distribution-config file://dist-config-disable.json
-```
+You can do this through the Management Console 
 
 Please find the disabled distribution below:
 
@@ -1643,12 +1623,13 @@ Please find the disabled distribution below:
 
 When a distribution is disabled, you can delete it. 
 
+The distribution can be deleted using the command below:
 
-Then delete the distribution using the command below:
-
+```sh
 aws cloudfront delete-distribution \
     --id E1QWQFTW851VU \
     --if-match E1G2ZYD01NQ8HQ
+```
     
 When successful, this command has no output. 
 
