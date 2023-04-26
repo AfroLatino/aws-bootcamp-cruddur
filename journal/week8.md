@@ -1581,6 +1581,14 @@ The following example deletes the CloudFront distribution with the ID EDFDVBD6EX
 
 When a distribution is disabled, you can delete it. To delete a distribution, you must use the --if-match option to provide the distribution's ETag. To get the ETag, use the get-distribution or get-distribution-config command.
 
+To get a CloudFront distribution
+
+The following example gets the CloudFront distribution with the ID EDFDVBD6EXAMPLE, including its ETag. The distribution ID is returned in the create-distribution and list-distributions commands.
+
+aws cloudfront get-distribution --id EDFDVBD6EXAMPLE
+
+Then delete the distribution using the command below:
+
 aws cloudfront delete-distribution \
     --id EDFDVBD6EXAMPLE \
     --if-match E2QWRUHEXAMPLE
