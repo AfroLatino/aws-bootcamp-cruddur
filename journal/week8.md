@@ -43,7 +43,7 @@
 ## Table of contents
 
 - [Creating a CloudFront Distribution using CloudShell](#paragraph16)
-- [Getting the ETag of the distribution using CloudShell](#paragraph17)
+- [Getting the ETag of the CloudFront Distribution using CloudShell](#paragraph17)
 - [Deleting a CloudFront Distribution using CloudShell](#paragraph18)
 
 
@@ -1596,7 +1596,7 @@ Please find below the screenshot of the distribution created:
 ![newdistribution](https://user-images.githubusercontent.com/78261965/234663785-439a8a11-b323-4551-b829-ed73472dae12.png)
 
 
-### Getting the ETag of the distribution using CloudShell <a name="paragraph17"></a>
+### Getting the ETag of the CloudFront Distribution using CloudShell <a name="paragraph17"></a>
 
 To delete a distribution, you must use the --if-match option to provide the distribution's ETag. 
 
