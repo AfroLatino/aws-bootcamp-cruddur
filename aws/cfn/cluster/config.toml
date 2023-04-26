@@ -1,0 +1,7 @@
+[deploy]
+bucket = 'cfn-artifacts-afrolatino'
+region = 'us-east-1'
+stack_name = 'CrdCluster'
+
+[parameters]
+CertificateArn = 'arn:aws:acm:us-east-1:097592373482:certificate/b618d287-fb11-4046-844a-50466acca7c4'
