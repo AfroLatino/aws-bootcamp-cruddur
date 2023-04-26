@@ -23,6 +23,39 @@ Reference:
 
 ### Creating CloudFormation Stack <a name="paragraph1"></a>
 
+Create a folder within aws called cfn. Then, create a file called template.yaml with the command below:
+
+```sh
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Setup ECS Cluster
+Resources:
+  ECSCluster:
+     Type: 'AWS::ECS::Cluster'
+```
+
+Create a folder within bin called cfn. Then, create a file called networking-deploy.
+
+```sh
+#! /usr/bin/env bash
+
+set -e # stop the execution of the script if it fails
+	
+
+	CFN_PATH="/workspace/aws-bootcamp-cruddur-2023/aws/cfn/template.yaml"
+	echo $CFN_PATH
+	
+
+	cfn-lint $CFN_PATH
+	
+
+	aws cloudformation deploy \
+	  --stack-name "my-cluster" \
+	  --template-file "$CFN_PATH" \
+	  --no-execute-changeset \
+	  --capabilities CAPABILITY_NAMED_IAM
+```
+
 
 ### CFN for Networking Layer <a name="paragraph2"></a>
 
