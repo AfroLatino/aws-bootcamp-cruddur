@@ -7,6 +7,7 @@
 - [Creating CloudFormation Stack](#paragraph1)
     - [Task Definition Guard File](#subparagraph1)
     - [CFN Guard RuleGen](#subparagraph2)
+    - [Create s3 bucket](#subparagraph3)
 - [CFN for Networking Layer](#paragraph2)
 - [CFN Diagramming the Network Layer](#paragraph3)
 - [CFN Cluster Layer](#paragraph4)
@@ -162,6 +163,17 @@ You can run this - ```cfn-guard rulegen --template /workspace/aws-bootcamp-crudd
 Reference:
 
 [Amazon Docs - CFN Guard RuleGen](https://docs.aws.amazon.com/cfn-guard/latest/ug/cfn-guard-rulegen.html)
+
+
+#### Create s3 bucket <a name="subparagraph3"></a>
+
+- Search for s3 in AWS Services, then click on s3
+- Click on **Create bucket**
+- Enter **cfn-artifacts-afrolatino** as the **Bucket name**. The bucket name must be unique.
+- **AWS Region** is automatically populated
+- Leave the default setting of **Default encryption**
+- Then click on **Create bucket**
+
 
 
 ### CFN for Networking Layer <a name="paragraph2"></a>
