@@ -44,7 +44,6 @@ Create a folder within bin called cfn. Then, create a file called networking-dep
 
 set -e # stop the execution of the script if it fails
 	
-
 CFN_PATH="/workspace/aws-bootcamp-cruddur-2023/aws/cfn/template.yaml"
 
 aws cloudformation deploy \
@@ -174,7 +173,24 @@ Reference:
 - Leave the default setting of **Default encryption**
 - Then click on **Create bucket**
 
+Then, modify the netwporking-deploy script by adding the s3-bucket just created as seen below:
 
+```sh
+#! /usr/bin/env bash
+
+set -e # stop the execution of the script if it fails
+	
+CFN_PATH="/workspace/aws-bootcamp-cruddur-2023/aws/cfn/template.yaml"
+
+aws cloudformation deploy \
+  --stack-name "cfn-artifacts-afrolatino" \
+   --s3-bucket $CFN_BUCKET \
+  --template-file "$CFN_PATH" \
+  --no-execute-changeset \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+
+Then, run deploy by running ```./bin/cfn/deploy```
 
 ### CFN for Networking Layer <a name="paragraph2"></a>
 
