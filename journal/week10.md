@@ -140,6 +140,16 @@ aws_ecs_cluster_configuration {
 }
 ```
 
+Then, run ```cargo install cfn-guard```
+
+Add the below comands to the gitpod.yml file:
+
+```sh
+- name: cfn
+  before: |
+   pip install cfn-lint
+   cargo install cfn-guard
+```
 
 ### CFN for Networking Layer <a name="paragraph2"></a>
 
