@@ -1573,7 +1573,7 @@ Then ```ls /tmp/```
 
 ### Creating a CloudFront Distribution using CloudShell <a name="paragraph16"></a>
 
-The example below creates a distribution for an S3 bucket named **afrolatino.s3.amazonaws.com**, and also specifies index.html as the default root object, using command line arguments:
+This example creates a distribution for an S3 bucket named **afrolatino.s3.amazonaws.com**, and also specifies index.html as the default root object, using command line arguments below:
 
 ```sh
 aws cloudfront create-distribution \
@@ -1615,7 +1615,7 @@ Please find below the screenshot of the query:
 
 The following example deletes the CloudFront distribution with the ID E1QWQFTW851VU. Before you can delete a distribution, you must disable it. 
 
-You can do this through the Management Console 
+You can do this through the Management Console. 
 
 Please find the disabled distribution below:
 
