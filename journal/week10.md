@@ -12,6 +12,14 @@
 
 ### Introduction <a name="introduction"></a>
 
+AWS CloudFormation is a service that helps you model and set up your AWS resources so that you can spend less time managing those resources and more time focusing on your applications that run in AWS.
+
+When you use AWS CloudFormation, you work with templates and stacks. You create templates to describe your AWS resources and their properties. Whenever you create a stack, CloudFormation provisions the resources that are described in your template.
+
+Reference:
+
+[Amazon Docs - Cloud Formation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-whatis-concepts.html)
+
 
 ### Creating CloudFormation Stack <a name="paragraph1"></a>
 
