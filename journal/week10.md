@@ -42,18 +42,14 @@ Create a folder within bin called cfn. Then, create a file called networking-dep
 set -e # stop the execution of the script if it fails
 	
 
-	CFN_PATH="/workspace/aws-bootcamp-cruddur-2023/aws/cfn/template.yaml"
-	echo $CFN_PATH
-	
+CFN_PATH="/workspace/aws-bootcamp-cruddur-2023/aws/cfn/template.yaml"
 
-	cfn-lint $CFN_PATH
-	
-
-	aws cloudformation deploy \
-	  --stack-name "my-cluster" \
-	  --template-file "$CFN_PATH" \
-	  --no-execute-changeset \
-	  --capabilities CAPABILITY_NAMED_IAM
+```sh	
+aws cloudformation deploy \
+  --stack-name "my-cluster" \
+  --template-file "$CFN_PATH" \
+  --no-execute-changeset \
+  --capabilities CAPABILITY_NAMED_IAM
 ```
 
 
