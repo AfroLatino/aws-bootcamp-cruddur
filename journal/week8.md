@@ -1573,7 +1573,20 @@ Then ```ls /tmp/```
 
 ### Creating a CloudFront Distribution using CloudShell <a name="paragraph16"></a>
 
+The example below creates a distribution for an S3 bucket named **afrolatino.s3.amazonaws.com**, and also specifies index.html as the default root object, using command line arguments:
+
+aws cloudfront create-distribution \
+    --origin-domain-name afrolatino.s3.amazonaws.com \
+    --default-root-object index.html
+    
+Please find below the screenshot of distribution created:
+
+![newdistribution](https://user-images.githubusercontent.com/78261965/234660010-0e4a2f8a-7008-44ce-80d4-6ff03e8ef521.png)
+
+
 ### Disabling a CloudFront Distribution using CloudShell <a name="paragraph17"></a>
+
+
 
 ### Deleting a CloudFront Distribution using CloudShell <a name="paragraph18"></a>
 
