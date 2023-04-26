@@ -7,6 +7,7 @@
 - [Creating CloudFormation Stack](#paragraph1)
 - [CFN for Networking Layer](#paragraph2)
 - [CFN Diagramming the Network Layer](#paragraph3)
+- [CFN Cluster Layer](#paragraph4)
 
 
 ### Introduction <a name="introduction"></a>
@@ -14,7 +15,9 @@
 
 ### Creating CloudFormation Stack <a name="paragraph1"></a>
 
+
 ### CFN for Networking Layer <a name="paragraph2"></a>
+
 
 ### CFN Diagramming the Network Layer <a name="paragraph3"></a>
 
@@ -42,4 +45,6 @@ Please find below the screenshot of my CFN Diagramming the Network Layer:
 ![CFNdiagramming](https://user-images.githubusercontent.com/78261965/234646292-bfcd7c75-e7b7-491e-b4d0-7d846a99313c.png)
 
 [Lucid Sharelink](https://lucid.app/lucidchart/56fb0dce-8f55-46ef-b05a-c33514c5b721/edit?viewport_loc=-1163%2C-115%2C3091%2C1309%2C0_0&invitationId=inv_dc84d8ea-5144-440c-87db-46fa390dcd24)
- 
+
+
+### CFN Cluster Layer <a name="paragraph4"></a>
