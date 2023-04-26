@@ -1575,13 +1575,25 @@ Then ```ls /tmp/```
 
 The example below creates a distribution for an S3 bucket named **afrolatino.s3.amazonaws.com**, and also specifies index.html as the default root object, using command line arguments:
 
+```sh
 aws cloudfront create-distribution \
     --origin-domain-name afrolatino.s3.amazonaws.com \
+    --cli-read-timeout 30 \
+    --cli-connect-timeout 30 \
     --default-root-object index.html
-    
-Please find below the screenshot of distribution created:
+```
 
-![newdistribution](https://user-images.githubusercontent.com/78261965/234660010-0e4a2f8a-7008-44ce-80d4-6ff03e8ef521.png)
+#### cli-read-timeout (int)
+
+The maximum socket read time in seconds. If the value is set to 0, the socket read will be blocking and not timeout. The default value is 60 seconds.
+
+#### cli-connect-timeout (int)
+
+The maximum socket connect time in seconds. If the value is set to 0, the socket connect will be blocking and not timeout. The default value is 60 seconds.
+
+Please find below the screenshot of the distribution created:
+
+![newdistribution](https://user-images.githubusercontent.com/78261965/234663785-439a8a11-b323-4551-b829-ed73472dae12.png)
 
 
 ### Disabling a CloudFront Distribution using CloudShell <a name="paragraph17"></a>
