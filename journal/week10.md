@@ -79,7 +79,7 @@ This shows Modify as seen below:
 
 Below is the CLI command for validating CloudFormation template:
 
-``sh
+```sh
 aws cloudformation validate-template --template-body file:///workspace/aws-bootcamp-cruddur-2023/aws/cfn/template.yaml
 ```
 
