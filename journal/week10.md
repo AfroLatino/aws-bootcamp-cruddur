@@ -1,8 +1,22 @@
 # Week 10 & 11 — CloudFormation Part 1 & Part 2
 
+## Required Homework 
+
+## Table of contents
+- [Introduction](#introduction)
+- [Creating CloudFormation Stack](#paragraph1)
+- [CFN for Networking Layer](#paragraph2)
+- [CFN Diagramming the Network Layer](#paragraph3)
 
 
-## CFN Diagramming the Network Layer
+### Introduction <a name="introduction"></a>
+
+
+### Creating CloudFormation Stack <a name="paragraph1"></a>
+
+### CFN for Networking Layer <a name="paragraph2"></a>
+
+### CFN Diagramming the Network Layer <a name="paragraph3"></a>
 
 I used Lucid Chart for the diagram.
 
