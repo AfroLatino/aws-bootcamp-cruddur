@@ -9,6 +9,8 @@
     - [CFN Guard RuleGen](#subparagraph2)
     - [Create s3 bucket](#subparagraph3)
 - [CFN for Networking Layer](#paragraph2)
+    - [Components of CFN Networking Template File](#subparagraph4)
+    - [Fixing !RefYAML error](#subparagraph5)
 - [CFN Diagramming the Network Layer](#paragraph3)
 - [CFN Cluster Layer](#paragraph4)
 
@@ -198,6 +200,327 @@ Please see the screenshot of the s3 bucket created below:
 
 
 ### CFN for Networking Layer <a name="paragraph2"></a>
+
+Before you run any templates, be sure to create an S3 bucket to contain all of the artifacts for CloudFormation as follows:
+
+```sh
+aws s3 mk s3://cfn-artifacts-afrolatino
+export CFN_BUCKET="cfn-artifacts-afrolatino"
+gp env CFN_BUCKET="cfn-artifacts-afrolatino"
+```
+
+Note: Bucket names are unique to each individual
+
+Create a folder within aws/cfn called networking. Then, create a file called template.yaml with the command below:
+
+```sh
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  The base networking components for our stack:
+  - VPC
+    - sets DNS hostnames for EC2 instances
+    - Only IPV4, IPV6 is disabled
+  - InternetGateway
+  - Route Table
+    - route to the IGW
+    - route to Local
+  - 6 Subnets Explicity Associated to Route Table
+    - 3 Public Subnets numbered 1 to 3
+    - 3 Private Subnets numbered 1 to 3
+Parameters:
+  VpcCidrBlock:
+    Type: String
+    Default: 10.0.0.0/16
+  Az1:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Default: $AWS_DEFAULT_REGIONa
+  SubnetCidrBlocks: 
+    Description: "Comma-delimited list of CIDR blocks for our private public subnets"
+    Type: CommaDelimitedList
+    Default: >
+      10.0.0.0/24, 
+      10.0.4.0/24, 
+      10.0.8.0/24, 
+      10.0.12.0/24,
+      10.0.16.0/24,
+      10.0.20.0/24
+  Az2:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Default: $AWS_DEFAULT_REGIONb
+  Az3:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Default: $AWS_DEFAULT_REGIONc
+Resources:
+  VPC:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc.html
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCidrBlock
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}VPC"
+  IGW:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-internetgateway.html
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}IGW"
+  AttachIGW:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref IGW
+  RouteTable:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-routetable.html
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:  !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}RT"
+  RouteToIGW:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html
+    Type: AWS::EC2::Route
+    DependsOn: AttachIGW
+    Properties:
+      RouteTableId: !Ref RouteTable
+      GatewayId: !Ref IGW
+      DestinationCidrBlock: 0.0.0.0/0
+  SubnetPub1:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref Az1
+      CidrBlock: !Select [0, !Ref SubnetCidrBlocks]
+      EnableDns64: false
+      MapPublicIpOnLaunch: true #public subnet
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}SubnetPub1"
+  SubnetPub2:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref Az2
+      CidrBlock: !Select [1, !Ref SubnetCidrBlocks]
+      EnableDns64: false
+      MapPublicIpOnLaunch: true #public subnet
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}SubnetPub2"
+  SubnetPub3:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref Az3
+      CidrBlock: !Select [2, !Ref SubnetCidrBlocks]
+      EnableDns64: false
+      MapPublicIpOnLaunch: true #public subnet
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}SubnetPub3"
+  SubnetPriv1:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref Az1
+      CidrBlock: !Select [3, !Ref SubnetCidrBlocks]
+      EnableDns64: false
+      MapPublicIpOnLaunch: false #public subnet
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}SubnetPriv1"
+  SubnetPriv2:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref Az2
+      CidrBlock: !Select [4, !Ref SubnetCidrBlocks]
+      EnableDns64: false
+      MapPublicIpOnLaunch: false #public subnet
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}SubnetPriv2"
+  SubnetPriv3:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref Az3
+      CidrBlock: !Select [5, !Ref SubnetCidrBlocks]
+      EnableDns64: false
+      MapPublicIpOnLaunch: false #public subnet
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}SubnetPriv3"
+  SubnetPub1RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref SubnetPub1
+      RouteTableId: !Ref RouteTable
+  SubnetPub2RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref SubnetPub2
+      RouteTableId: !Ref RouteTable
+  SubnetPub3RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref SubnetPub3
+      RouteTableId: !Ref RouteTable
+  SubnetPriv1RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref SubnetPriv1
+      RouteTableId: !Ref RouteTable
+  SubnetPriv2RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref SubnetPriv2
+      RouteTableId: !Ref RouteTable
+  SubnetPriv3RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref SubnetPriv3
+      RouteTableId: !Ref RouteTable
+Outputs:
+  VpcId:
+    Value: !Ref VPC
+    Export:
+      Name: !Sub "${AWS::StackName}VpcId"
+  VpcCidrBlock:
+    Value: !GetAtt VPC.CidrBlock
+    Export:
+      Name: !Sub "${AWS::StackName}VpcCidrBlock"
+  SubnetCidrBlocks:
+    Value: !Join [",", !Ref SubnetCidrBlocks]
+    Export:
+      Name: !Sub "${AWS::StackName}SubnetCidrBlocks"
+  SubnetIds:
+    Value: !Join 
+      - ","
+      - - !Ref SubnetPub1
+        - !Ref SubnetPub2
+        - !Ref SubnetPub3
+        - !Ref SubnetPriv1
+        - !Ref SubnetPriv2
+        - !Ref SubnetPriv3
+    Export:
+      Name: !Sub "${AWS::StackName}SubnetIds"
+  AvailabilityZones:
+    Value: !Join 
+      - ","
+      - - !Ref Az1
+        - !Ref Az2
+        - !Ref Az3
+    Export:
+      Name: !Sub "${AWS::StackName}AvailabilityZones"
+```
+
+Amend ```bin/cfn/networking-deploy``` to the command below:
+
+```sh
+#! /usr/bin/env bash
+set -e # stop the execution of the script if it fails
+
+CFN_PATH="/workspace/aws-bootcamp-cruddur-2023/aws/cfn/networking/template.yaml"
+echo $CFN_PATH
+
+cfn-lint $CFN_PATH
+
+aws cloudformation deploy \
+  --stack-name "CrdNet" \
+  --s3-bucket $CFN_BUCKET \
+  --template-file "$CFN_PATH" \
+  --no-execute-changeset \
+  --tags group=cruddur-networking \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+
+Then run the commands below within aws-bootcamp-cruddur-2023/thumbing-serverless-cdk:
+
+```sh
+export CFN_BUCKET="cfn-artifacts-afrolatino"
+gp env CFN_BUCKET="cfn-artifacts-afrolatino"
+```
+
+Then, return to the main branch and run the command below:
+```./bin/cfn/networking-deploy```
+
+- Then, go over to CloudFormation and refresh the screen.
+
+- Navigate to **Change sets** section, then **Execute change set**
+
+A CloudFormation of **CrdNet** is created as seen below:
+
+![CrdNet CloudFormation](https://user-images.githubusercontent.com/78261965/234980574-fcb56c64-65f7-4f6d-82fc-343a1cb043d7.png)
+
+
+#### Components of CFN Networking Template File <a name="subparagraph4"></a>
+
+- Description
+- Parameters needed are as follows:
+  - VpcCidrBlock
+  - Az1
+  - SubnetCidrBlocks
+  - Az2
+  - Az3
+- Resources needed are as follows:
+  - Virtual Private Connection (VPC)
+  - Internet Gateway (IGW)
+  - Attach Internet Gateway (AttachIGW)
+  - RouteTable
+  - RouteToInternetGateway (IGW)
+  - SubnetPub1
+  - SubnetPub2
+  - SubnetPub3
+  - SubnetPriv1
+  - SubnetPriv2
+  - SubnetPriv3
+  - SubnetPub1RTAssociation
+  - SubnetPub2RTAssociation
+  - SubnetPub3RTAssociation
+  - SubnetPriv1RTAssociation
+  - SubnetPriv2RTAssociation
+  - SubnetPriv3RTAssociation
+- Outputs needed are as follows:
+  - VpcId
+  - VpcCidrBlock
+  - SubnetCidrBlocks
+  - SubnetIds
+  - AvailabilityZones
+
+
+Difference between Public Subnet (SubnetPub) and Private Subnet (SubnetPriv) is that **MapPublicIpOnLaunch** is *true* for **Public Subnet** and *false* for **Private Subnet**.
+
+
+#### Fixing !RefYAML error <a name="subparagraph5"></a>
+
+Navigate to **Settings** in Gitpod, search for YAML, Yaml: Custom Tags -> Edit in **settings.json**,  and add the below to **"yaml.customTags"**
+
+```yaml
+"yaml.customTags": [
+        "!Equals sequence",
+        "!FindInMap sequence",
+        "!GetAtt",
+        "!GetAZs",
+        "!ImportValue",
+        "!Join sequence",
+        "!Ref",
+        "!Select sequence",
+        "!Split sequence",
+        "!Sub"
+      ]   
+```
 
 
 ### CFN Diagramming the Network Layer <a name="paragraph3"></a>
