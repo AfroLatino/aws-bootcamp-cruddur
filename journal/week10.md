@@ -468,13 +468,13 @@ A CloudFormation of **CrdNet** is created as seen below:
 #### Components of CFN Networking Template File <a name="subparagraph4"></a>
 
 - Description
-- Parameters needed are as follows:
+- Parameters used are as follows:
   - VpcCidrBlock
   - Az1
   - SubnetCidrBlocks
   - Az2
   - Az3
-- Resources needed are as follows:
+- Resources used are as follows:
   - Virtual Private Connection (VPC)
   - Internet Gateway (IGW)
   - Attach Internet Gateway (AttachIGW)
@@ -492,7 +492,7 @@ A CloudFormation of **CrdNet** is created as seen below:
   - SubnetPriv1RTAssociation
   - SubnetPriv2RTAssociation
   - SubnetPriv3RTAssociation
-- Outputs needed are as follows:
+- Outputs used are as follows:
   - VpcId
   - VpcCidrBlock
   - SubnetCidrBlocks
