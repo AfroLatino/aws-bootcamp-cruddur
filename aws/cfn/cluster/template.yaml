@@ -6,6 +6,7 @@ Description: |
   - Application Load Balancer (ALB)
     - ipv4 only
     - internet facing
+    - certificate attached from Amazon Certification Manager (ACM)
   - ALB Security Group
   - HTTPS Listener
     - send naked domain to frontend Target Group
@@ -89,7 +90,7 @@ Resources:
           Logging: DEFAULT
       ServiceConnectDefaults:
         Namespace: cruddur
-ALB:
+  ALB:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-loadbalancer.html
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties: 
@@ -121,7 +122,7 @@ ALB:
         #   Value: bucket-name
         # - Name: access_logs.s3.prefix
         #   Value: "" 
-HTTPSListener:
+  HTTPSListener:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listener.html
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
@@ -133,7 +134,7 @@ HTTPSListener:
       DefaultActions:
         - Type: forward
           TargetGroupArn:  !Ref FrontendTG
-HTTPListener:
+  HTTPListener:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listener.html
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
@@ -149,7 +150,7 @@ HTTPListener:
               Path: "/#{path}"
               Query: "#{query}"
               StatusCode: "HTTP_301"
-ApiALBListernerRule:
+  ApiALBListernerRule:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listenerrule.html
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
     Properties:
@@ -163,7 +164,7 @@ ApiALBListernerRule:
           TargetGroupArn:  !Ref BackendTG
       ListenerArn: !Ref HTTPSListener
       Priority: 1
-ALBSG:
+  ALBSG:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -180,7 +181,7 @@ ALBSG:
           ToPort: 80
           CidrIp: '0.0.0.0/0'
           Description: INTERNET HTTP
-BackendTG:
+  BackendTG:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-targetgroup.html
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
@@ -205,7 +206,7 @@ BackendTG:
       VpcId:
         Fn::ImportValue:
           !Sub ${NetworkingStack}VpcId
-FrontendTG:
+  FrontendTG:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-targetgroup.html
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:

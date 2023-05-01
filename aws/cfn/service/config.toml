@@ -1,0 +1,4 @@
+[deploy]
+bucket = 'cfn-artifacts-afrolatino'
+region = 'us-east-1'
+stack_name = 'CrdSrvBackendFlask'
