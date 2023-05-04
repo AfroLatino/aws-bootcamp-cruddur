@@ -559,17 +559,17 @@ Please find below the screenshot of my CFN Diagramming the Network Layer:
 
 
 ### Table of contents
-- [What is Infrastructure as Code](#introduction)
-- [AWS CloudFormation – Security Best Practices – AWS](#paragraph1)
-- [AWS CloudFormation – Security Best Practices – Application](#paragraph2)
+- [What is Infrastructure as Code](#introduction30)
+- [AWS CloudFormation – Security Best Practices – AWS](#paragraph31)
+- [AWS CloudFormation – Security Best Practices – Application](#paragraph32)
 
 
-### What is Infrastructure as Code <a name="introduction"></a>
+### What is Infrastructure as Code <a name="introduction30"></a>
 
 What is Infrastructure as Code? Infrastructure is the server or work station where your application would be running. Infrastructure as Code is the ability to use code to create the same infrastructure of work servers automatically in a cloud context.
 
 
-### AWS CloudFormation – Security Best Practices – AWS <a name="paragraph1"></a>
+### AWS CloudFormation – Security Best Practices – AWS <a name="paragraph31"></a>
 
 - Compliance standard is what your business requires from a Infrastructure as Code (IaC) service and is available in the region you need to operate in.
 - Amazon Organizations SCP – to restrict actions like creation, deletion, modification of production CloudFormation Templates/Resources etc
@@ -577,7 +577,7 @@ What is Infrastructure as Code? Infrastructure is the server or work station whe
 - AWS Audit Manager, IAM Access Analyzer etc.
 
 
-### AWS CloudFormation – Security Best Practices – Application <a name="paragraph2"></a>
+### AWS CloudFormation – Security Best Practices – Application <a name="paragraph32"></a>
 
 - Access Control – Roles or IAM Users for making changes in Amazon CloudFormation Template stacks or StackSets especially one for production.
 - Security of the CloudFormation – Configuration access
