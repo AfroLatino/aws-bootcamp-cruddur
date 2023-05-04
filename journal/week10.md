@@ -556,3 +556,33 @@ Please find below the screenshot of my CFN Diagramming the Network Layer:
 
 
 ## AWS CloudFormation Security Best Practices
+
+
+### Table of contents
+- [What is Infrastructure as Code](#introduction)
+- [AWS CloudFormation – Security Best Practices – AWS](#paragraph1)
+- [AWS CloudFormation – Security Best Practices – Application](#paragraph2)
+
+
+### What is Infrastructure as Code <a name="introduction"></a>
+
+What is Infrastructure as Code? Infrastructure is the server or work station where your application would be running. Infrastructure as Code is the ability to use code to create the same infrastructure of work servers automatically in a cloud context.
+
+
+### AWS CloudFormation – Security Best Practices – AWS <a name="paragraph1"></a>
+
+- Compliance standard is what your business requires from a Infrastructure as Code (IaC) service and is available in the region you need to operate in.
+- Amazon Organizations SCP – to restrict actions like creation, deletion, modification of production CloudFormation Templates/Resources etc
+- AWS CloudTrail is enabled & monitored to trigger alerts for malicious activities e.g. changes to Production environment etc.
+- AWS Audit Manager, IAM Access Analyzer etc.
+
+
+### AWS CloudFormation – Security Best Practices – Application <a name="paragraph2"></a>
+
+- Access Control – Roles or IAM Users for making changes in Amazon CloudFormation Template stacks or StackSets especially one for production.
+- Security of the CloudFormation – Configuration access
+- Security in the CloudFormation – Code Security Best Practices – SCA, SAST, Secret Scanner, DAST implemented in the CI/CD Pipeline
+- Security of the CloudFormation entry points e.g. – private access points using AWS Private Link etc.
+- Only use Trusted Source Control for sending changes to CloudFormation
+- Develop process for continuously verifying if there is a change that may compromise the known state of a CI/CD pipeline.
+	
