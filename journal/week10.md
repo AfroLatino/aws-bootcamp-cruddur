@@ -552,3 +552,7 @@ Please find below the screenshot of my CFN Diagramming the Network Layer:
 
 
 ### CFN Cluster Layer <a name="paragraph4"></a>
+
+
+
+## AWS CloudFormation Security Best Practices
