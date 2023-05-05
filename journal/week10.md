@@ -1023,7 +1023,7 @@ Please see the result below:
 You can specify the particular region if you wish using the command below:
 
 ```sh
-aws rds describe-db-instances --query=DBInstances[*].Endpoint.Address --region us-east-2
+aws rds describe-db-instances --query=DBInstances[*].Endpoint.Address --region us-east-1
 ```
 
 
