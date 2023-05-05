@@ -547,9 +547,10 @@ I made a few changes to rectangle as follows:
 
 Please find below the screenshot of my CFN Diagramming the Network Layer:
 
-![CFNdiagramming](https://user-images.githubusercontent.com/78261965/234646292-bfcd7c75-e7b7-491e-b4d0-7d846a99313c.png)
+![CFNdiagramming](https://user-images.githubusercontent.com/78261965/236579058-19079df7-665e-4feb-b611-3bcebf92f159.png)
 
-[Lucid Sharelink](https://lucid.app/lucidchart/56fb0dce-8f55-46ef-b05a-c33514c5b721/edit?viewport_loc=-1163%2C-115%2C3091%2C1309%2C0_0&invitationId=inv_dc84d8ea-5144-440c-87db-46fa390dcd24)
+
+[Lucid Sharelink](https://lucid.app/lucidchart/da017170-fa3e-40c1-bcc9-6ee836005ddc/edit?viewport_loc=-1944%2C-865%2C3657%2C1646%2C0_0&invitationId=inv_690a7f45-a65b-4bd4-b161-266dbc273a6e)
 
 
 ### CFN Cluster Layer <a name="paragraph4"></a>
