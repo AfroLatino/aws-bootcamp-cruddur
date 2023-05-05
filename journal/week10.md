@@ -17,6 +17,14 @@
 - [CFN Service Layer](#paragraph5)
 
 
+## Stretch Homework Challenges
+
+## Table of contents
+
+- [Searching for Load Balancer IPs via AWS CLI](#paragraph6)
+
+
+
 ### Introduction <a name="introduction"></a>
 
 AWS CloudFormation is a service that helps you model and set up your AWS resources so that you can spend less time managing those resources and more time focusing on your applications that run in AWS.
@@ -981,6 +989,22 @@ Find the screenshots below of the stacks created:
 ### CFN Service Layer <a name="paragraph5"></a>
 
 
+
+
+## Stretch Homework Challenges
+
+
+### Searching for Load Balancer IPs via AWS CLI <a name="paragraph6"></a>
+
+Run the following command to fetch the Load Balancer DNS name:
+
+```sh
+aws elbv2 describe-load-balancers --query LoadBalancers[*].DNSName
+```
+
+Please see the result below:
+
+![LoadBalIPs](https://user-images.githubusercontent.com/78261965/236585086-26d50cc9-87da-4a34-87c0-be97374cdddc.png)
 
 
 ## AWS CloudFormation Security Best Practices
