@@ -21,7 +21,8 @@
 
 ## Table of contents
 
-- [Searching for Load Balancer IPs via AWS CLI](#paragraph6)
+- [Retrieving Load Balancer IPs via AWS CLI](#paragraph6)
+- [Retrieving Relational Database Service (RDS) IPs via AWS CLI](#paragraph7)
 
 
 
@@ -994,7 +995,7 @@ Find the screenshots below of the stacks created:
 ## Stretch Homework Challenges
 
 
-### Searching for Load Balancer IPs via AWS CLI <a name="paragraph6"></a>
+### Retrieving Load Balancer IPs via AWS CLI <a name="paragraph6"></a>
 
 Run the following command to fetch the Load Balancer DNS name:
 
@@ -1005,6 +1006,27 @@ aws elbv2 describe-load-balancers --query LoadBalancers[*].DNSName
 Please see the result below:
 
 ![LoadBalIPs](https://user-images.githubusercontent.com/78261965/236585086-26d50cc9-87da-4a34-87c0-be97374cdddc.png)
+
+
+### Retrieving Relational Database Service (RDS) via AWS CLI <a name="paragraph7"></a>
+
+Run the following command to fetch the RDS DNS name:
+
+```sh
+aws rds describe-db-instances --query=DBInstances[*].Endpoint.Address 
+```
+
+Please see the result below:
+
+![RDSIPs](https://user-images.githubusercontent.com/78261965/236585756-21cc6292-921f-49a0-b449-90b9de58fc2a.png)
+
+You can specify the particular region if you wish using the command below:
+
+```sh
+aws rds describe-db-instances --query=DBInstances[*].Endpoint.Address --region us-east-2
+```
+
+
 
 
 ## AWS CloudFormation Security Best Practices
