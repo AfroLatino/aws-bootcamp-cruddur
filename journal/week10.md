@@ -974,8 +974,7 @@ Then run the commands below to execute networking-deploy and cluster-deploy file
 
 Find the screenshots below of the stacks created:
 
-[allstackscreatedsuccessfully](https://user-images.githubusercontent.com/78261965/236583909-9371ff06-35f6-4808-b64a-e0d31a345a40.png)
-
+![allstackscreatedsuccessfully](https://user-images.githubusercontent.com/78261965/236584014-b67e6d61-62c1-4a13-9f71-abc1df0412ec.png)
 
 
 ### CFN 
