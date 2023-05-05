@@ -13,6 +13,7 @@
     - [Fixing !RefYAML error](#subparagraph5)
 - [CFN Diagramming the Network Layer](#paragraph3)
 - [CFN Cluster Layer](#paragraph4)
+    - [Create Config Toml files](#subparagraph6)
 - [CFN Service Layer](#paragraph5)
 
 
@@ -847,6 +848,64 @@ aws cloudformation deploy \
   --parameter-overrides $PARAMETERS \
   --capabilities CAPABILITY_NAMED_IAM
 ```
+
+#### [Create Config Toml files] <a name="subparagraph6"></a>
+
+TOML (Tom's Obvious Minimal Language) is a configuration file format that is easy to read and write. It's minimal, and even people with no programming experience can easily understand it.
+
+TOML supports many data structures, such as key-value pairs, arrays, and tables.
+
+On the main directory, type ``gem install cfn-toml``` to install cfn-toml.
+
+I also updated gitpod by adding the code below to the tasks:
+
+```sh
+gem install cfn-toml 
+```
+
+Added a file called config.toml to ```aws/cfn/cluster``` with the code below:
+
+```sh
+[deploy]
+bucket = '$BUCKET_NAME'
+region = '$AWS_DEFAUKT_REGION'
+stack_name = '$STACK_NAME
+
+[parameters]
+CertificateArn = $CERTIFICATE_ARN'
+NetworkingStack = 'CrdNet'
+```
+
+Added ```config/toml.example``` with the code below:
+
+```sh
+[deploy]
+bucket = ''
+region = ''
+stack_name = ''
+
+[parameters]
+CertificateArn = ''
+```
+
+Within aws/cfn/networking, create config.toml file below:
+
+```sh
+[deploy]
+bucket = '$BUCKET_NAME
+region = '$AWS_DEFAULT_REGION'
+stack_name = '$STACK_NAME'
+```
+
+Added ```config.toml.example``` with the code below:
+
+```sh
+[deploy]
+bucket = ''
+region = ''
+stack_name = ''
+```
+
 
 Then, make this executable by doing this command - ```chmod u+x ./bin/cfn/cluster-deploy```.
 
