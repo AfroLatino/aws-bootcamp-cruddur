@@ -937,7 +937,7 @@ What is Infrastructure as Code? Infrastructure is the server or work station whe
 - Compliance standard is what your business requires from a Infrastructure as Code (IaC) service and is available in the region you need to operate in.
 - Amazon Organizations SCP – to restrict actions like creation, deletion, modification of production CloudFormation Templates/Resources etc
 - AWS CloudTrail is enabled & monitored to trigger alerts for malicious activities e.g. changes to Production environment etc.
-- AWS Audit Manager, IAM Access Analyzer etc.
+- AWS Audit Manager, IAM Access Analyzer etc. 
 
 
 ### AWS CloudFormation – Security Best Practices – Application <a name="paragraph32"></a>
