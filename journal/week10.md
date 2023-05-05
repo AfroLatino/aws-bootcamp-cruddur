@@ -849,6 +849,11 @@ aws cloudformation deploy \
   --capabilities CAPABILITY_NAMED_IAM
 ```
 
+Then, make this executable by running this command - ```chmod u+x ./bin/cfn/cluster-deploy```.
+
+Then, run ```./bin/cfn/cluster-deploy```
+
+
 #### Create Config Toml files <a name="subparagraph6"></a>
 
 TOML (Tom's Obvious Minimal Language) is a configuration file format that is easy to read and write. It's minimal, and even people with no programming experience can easily understand it.
@@ -960,13 +965,21 @@ aws cloudformation deploy \
   --capabilities CAPABILITY_NAMED_IAM
 ```
 
-Then, make this executable by doing this command - ```chmod u+x ./bin/cfn/cluster-deploy```.
+Then run the commands below to execute networking-deploy and cluster-deploy files:
 
-Then, run ```./bin/cfn/cluster-deploy```
+```sh
+./bin/cfn/networking-deploy
+./bin/cfn/cluster-deploy
+```
+
+Find the screenshots below of the stacks created:
+
+[allstackscreatedsuccessfully](https://user-images.githubusercontent.com/78261965/236583909-9371ff06-35f6-4808-b64a-e0d31a345a40.png)
 
 
 
-### CFN Service Layer <a name="paragraph5"></a>
+### CFN 
+Service Layer <a name="paragraph5"></a>
 
 
 
