@@ -13,6 +13,7 @@
     - [Fixing !RefYAML error](#subparagraph5)
 - [CFN Diagramming the Network Layer](#paragraph3)
 - [CFN Cluster Layer](#paragraph4)
+- [CFN Service Layer](#paragraph5)
 
 
 ### Introduction <a name="introduction"></a>
@@ -552,6 +553,10 @@ Please find below the screenshot of my CFN Diagramming the Network Layer:
 
 
 ### CFN Cluster Layer <a name="paragraph4"></a>
+
+
+### CFN Service Layer <a name="paragraph5"></a>
+
 
 
 
