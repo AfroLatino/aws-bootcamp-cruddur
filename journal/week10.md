@@ -555,6 +555,14 @@ Please find below the screenshot of my CFN Diagramming the Network Layer:
 
 ### CFN Cluster Layer <a name="paragraph4"></a>
 
+Create a folder within aws/cfn called cluster. Then, create a file called template.yaml.
+
+Create a file within bin/cfn called cluster-deploy. Then, make this executable by doing the command below:
+chmod u+x ./bin/cfn/cluster-deploy
+
+./bin/cfn/cluster-deploy
+
+
 
 ### CFN Service Layer <a name="paragraph5"></a>
 
