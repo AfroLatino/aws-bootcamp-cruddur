@@ -977,8 +977,8 @@ Find the screenshots below of the stacks created:
 ![allstackscreatedsuccessfully](https://user-images.githubusercontent.com/78261965/236584014-b67e6d61-62c1-4a13-9f71-abc1df0412ec.png)
 
 
-### CFN 
-Service Layer <a name="paragraph5"></a>
+
+### CFN Service Layer <a name="paragraph5"></a>
 
 
 
