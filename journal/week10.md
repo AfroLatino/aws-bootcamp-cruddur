@@ -849,7 +849,7 @@ aws cloudformation deploy \
   --capabilities CAPABILITY_NAMED_IAM
 ```
 
-#### [Create Config Toml files] <a name="subparagraph6"></a>
+#### Create Config Toml files <a name="subparagraph6"></a>
 
 TOML (Tom's Obvious Minimal Language) is a configuration file format that is easy to read and write. It's minimal, and even people with no programming experience can easily understand it.
 
