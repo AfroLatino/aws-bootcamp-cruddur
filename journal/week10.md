@@ -23,7 +23,7 @@
 
 - [Retrieving Load Balancer IPs via AWS CLI](#paragraph6)
 - [Retrieving Relational Database Service (RDS) IPs via AWS CLI](#paragraph7)
-
+- [Retrieving AWS Elastic Beanstalk Public IPs via AWS CLI](#paragraph8)
 
 
 ### Introduction <a name="introduction"></a>
@@ -1026,7 +1026,23 @@ You can specify the particular region if you wish using the command below:
 aws rds describe-db-instances --query=DBInstances[*].Endpoint.Address --region us-east-1
 ```
 
+### Retrieving AWS Elastic Beanstalk Public IPs via AWS CLI <a name="paragraph8"></a>
 
+Run the following command to fetch details of all the Elastic Beanstalk instances:
+
+```sh
+aws elasticbeanstalk describe-environments --query Environments[*].EndpointURL 
+```
+
+Please see the result below:
+
+![ElasticIPs](https://user-images.githubusercontent.com/78261965/236586608-49147ae0-b4f6-4fb7-ad81-5afe3e2c2f4b.png)
+
+You can specify the particular region if you wish using the command below:
+
+```sh
+aws elasticbeanstalk describe-environments --query Environments[*].EndpointURL --region us-east-1
+```
 
 
 ## AWS CloudFormation Security Best Practices
