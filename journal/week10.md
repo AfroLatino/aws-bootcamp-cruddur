@@ -39,7 +39,7 @@ Reference:
 
 ### Creating CloudFormation Stack <a name="paragraph1"></a>
 
-Create a folder within aws called cfn. Then, create a file called template.yaml with the command below:
+Create a folder within aws called cfn. Then, create a file called template.yaml with the command below: 
 
 ```sh
 AWSTemplateFormatVersion: 2010-09-09
