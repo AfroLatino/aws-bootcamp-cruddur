@@ -1328,8 +1328,162 @@ aws ecs create-service \
 
 #### CFN Relational Database Service (RDS)  <a name="subparagraph9"></a>
 
+Create a new  file within ```aws/cfn/db``` called ```template``` using the command below:
 
-## Stretch Homework Challenges
+```sh
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  The primary Postgres RDS Database for the application
+  - RDS Instance
+  - Database Security Group
+  - DBSubnetGroup
+
+Parameters:
+  NetworkingStack:
+    Type: String
+    Description: This is our base layer of networking components eg. VPC, Subnets
+    Default: CrdNet
+  ClusterStack:
+    Type: String
+    Description: This is our FargateCluster
+    Default: CrdCluster
+  BackupRetentionPeriod:
+    Type: Number
+    Default: 0
+  DBInstanceClass:
+    Type: String
+    Default: db.t4g.micro
+  DBInstanceIdentifier:
+    Type: String
+    Default: cruddur-instance
+  DBName:
+    Type: String
+    Default: cruddur
+  DeletionProtection:
+    Type: String
+    AllowedValues:
+      - true
+      - false
+    Default: true
+  EngineVersion:
+    Type: String
+    #  DB Proxy only supports very specific versions of Postgres
+    #  https://stackoverflow.com/questions/63084648/which-rds-db-instances-are-supported-for-db-proxy
+    Default: '15.2'
+  MasterUsername:
+    Type: String
+  MasterUserPassword:
+    Type: String
+    NoEcho: true
+Resources:
+  RDSPostgresSG:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub "${AWS::StackName}RDSSG"
+      GroupDescription: Public Facing SG for our Cruddur ALB
+      VpcId:
+        Fn::ImportValue:
+          !Sub ${NetworkingStack}VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          SourceSecurityGroupId:
+            Fn::ImportValue:
+              !Sub ${ClusterStack}ServiceSecurityGroupId
+          FromPort: 5432
+          ToPort: 5432
+          Description: ALB HTTP
+  DBSubnetGroup:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbsubnetgroup.html
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupName: !Sub "${AWS::StackName}DBSubnetGroup"
+      DBSubnetGroupDescription: !Sub "${AWS::StackName}DBSubnetGroup"
+      SubnetIds: { 'Fn::Split' : [ ','  , { "Fn::ImportValue": { "Fn::Sub": "${NetworkingStack}PublicSubnetIds" }}] }
+  Database:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbinstance.html
+    Type: AWS::RDS::DBInstance
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html
+    DeletionPolicy: 'Snapshot'
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html
+    UpdateReplacePolicy: 'Snapshot'
+    Properties:
+      AllocatedStorage: '20'
+      AllowMajorVersionUpgrade: true
+      AutoMinorVersionUpgrade: true
+      BackupRetentionPeriod: !Ref  BackupRetentionPeriod
+      DBInstanceClass: !Ref DBInstanceClass
+      DBInstanceIdentifier: !Ref DBInstanceIdentifier
+      DBName: !Ref DBName
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      DeletionProtection: !Ref DeletionProtection
+      EnablePerformanceInsights: true
+      Engine: postgres
+      EngineVersion: !Ref EngineVersion
+
+# Must be 1 to 63 letters or numbers.
+# First character must be a letter.
+# Can't be a reserved word for the chosen database engine.
+      MasterUsername:  !Ref MasterUsername
+      # Constraints: Must contain from 8 to 128 characters.
+      MasterUserPassword: !Ref MasterUserPassword
+      PubliclyAccessible: true
+      VPCSecurityGroups:
+        - !GetAtt RDSPostgresSG.GroupId
+```
+
+Create a ```config.toml``` via ```/aws/cfn/db``` using the command below:
+
+
+```sh
+[deploy]
+bucket = '$BUCKET_NAME'
+region = '$AWS_DEFAULT_REGION'
+stack_name = '$STACK_NAME'
+
+[parameters]
+NetworkingStack = 'CrdNet'
+ClusterStack = 'CrdCluster'
+MasterUsername = 'cruddurroot'
+```
+
+Create the eploy file within ```/bin/cfn/db-deploy``` using the command below:
+
+```sh
+#! /usr/bin/env bash
+set -e # stop the execution of the script if it fails
+
+CFN_PATH="/workspace/aws-bootcamp-cruddur-2023/aws/cfn/db/template.yaml"
+CONFIG_PATH="/workspace/aws-bootcamp-cruddur-2023/aws/cfn/db/config.toml"
+echo $CFN_PATH
+
+cfn-lint $CFN_PATH
+
+BUCKET=$(cfn-toml key deploy.bucket -t $CONFIG_PATH)
+REGION=$(cfn-toml key deploy.region -t $CONFIG_PATH)
+STACK_NAME=$(cfn-toml key deploy.stack_name -t $CONFIG_PATH)
+PARAMETERS=$(cfn-toml params v2 -t $CONFIG_PATH)
+
+aws cloudformation deploy \
+  --stack-name $STACK_NAME \
+  --s3-bucket $BUCKET \
+  --region $REGION \
+  --template-file "$CFN_PATH" \
+  --no-execute-changeset \
+  --tags group=cruddur-cluster \
+  --parameter-overrides $PARAMETERS MasterUserPassword=$DB_PASSWORD \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+
+This creates a RDS database called **cruddur-instance**.
+
+- Copy the endpoint from this database and copy unto parameter store.
+- Navigate to Systems Manager on AWS Services Search
+- Then search for parameter store
+- Navigate to /cruddur/backend-flask/CONNECTION_URL. Check if the endpoint URL matches that of the RDS database. If not, continue with the steps below.
+- Click on Edit
+- Update Value after **password@** and before **:5432** to enter the endpoint.
+- Then save changes
 
 
 ### Retrieving Load Balancer IPs via AWS CLI <a name="paragraph6"></a>
