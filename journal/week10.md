@@ -562,7 +562,7 @@ Please find below the screenshot of my CFN Diagramming the Network Layer:
 ![CFNdiagramming](https://user-images.githubusercontent.com/78261965/236579058-19079df7-665e-4feb-b611-3bcebf92f159.png)
 
 
-[Lucid Sharelink](https://lucid.app/lucidchart/da017170-fa3e-40c1-bcc9-6ee836005ddc/edit?viewport_loc=-1944%2C-865%2C3657%2C1646%2C0_0&invitationId=inv_690a7f45-a65b-4bd4-b161-266dbc273a6e)
+[Lucid Sharelink](https://lucid.app/lucidchart/da017170-fa3e-40c1-bcc9-6ee836005ddc/edit?shared=true&page=0_0#))
 
 
 ### CFN Cluster Layer <a name="paragraph4"></a>
