@@ -4,6 +4,7 @@ Description: |
   Fargate Service
   Execution Role
   Task Role
+
 Parameters:
   NetworkingStack:
     Type: String
@@ -33,7 +34,7 @@ Parameters:
     Default: backend-flask
   EcrImage:
     Type: String
-    Default: '097592373482.dkr.ecr.us-east-1.amazonaws.com/backend-flask'
+    Default: '387543059434.dkr.ecr.ca-central-1.amazonaws.com/backend-flask'
   EnvOtelServiceName:
     Type: String
     Default: backend-flask
@@ -42,10 +43,10 @@ Parameters:
     Default: https://api.honeycomb.io
   EnvAWSCognitoUserPoolId:
     Type: String
-    Default: us-east-1_bvraqo7ao
+    Default: ca-central-1_CQ4wDfnwc
   EnvCognitoUserPoolClientId:
     Type: String
-    Default: 1bvcdole0jhqjn4bs2dolv3o75
+    Default: 5b6ro31g97urk767adrbrdj1g5
   EnvFrontendUrl:
     Type: String
     Default: "*"
@@ -193,7 +194,7 @@ Resources:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html
     Type: AWS::IAM::Role
     Properties:
-      RoleName: CruddurServiceExecRole
+      RoleName: CruddurServiceExecutionRole
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -252,3 +253,8 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
         - arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess
+Outputs:
+  ServiceName:
+    Value: !GetAtt FargateService.Name
+    Export:
+      Name: !Sub "${AWS::StackName}ServiceName"
