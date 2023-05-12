@@ -559,7 +559,7 @@ I made a few changes to rectangle as follows:
 
 Please find below the screenshot of my CFN Diagramming the Network Layer:
 
-![CFNDiagram](https://github.com/AfroLatino/aws-bootcamp-cruddur-2023/assets/78261965/ec824e6b-92a0-4bb8-bd0b-7948e26dde05)
+![CFN-diagram-latest](https://github.com/AfroLatino/aws-bootcamp-cruddur-2023/assets/78261965/4c9355ef-dada-4d7a-9ebe-731db32bc3b9)
 
 [Lucid Sharelink](https://lucid.app/lucidchart/f75c2844-ebe9-4b86-b34f-4a6a7ca45933/edit?invitationId=inv_459df47d-2f9f-4c85-b6be-0cbbb06c4805&page=0_0#)
 
