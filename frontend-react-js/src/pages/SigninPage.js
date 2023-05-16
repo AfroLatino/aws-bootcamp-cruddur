@@ -15,18 +15,18 @@ export default function SigninPage() {
   const onsubmit = async (event) => {
     setErrors('')
     event.preventDefault();
-      Auth.signIn(email, password)
-       .then(user => {
-          console.log('user',user)
-          localStorage.setItem("access_token", user.signInUserSession.accessToken.jwtToken)
-          window.location.href = "/"
-        })
-       .catch(error => { 
-        if (error.code == 'UserNotConfirmedException') {
+    Auth.signIn(email, password)
+    .then(user => {
+      console.log('user',user)
+      localStorage.setItem("access_token", user.signInUserSession.accessToken.jwtToken)
+      window.location.href = "/"
+    })
+    .catch(error => { 
+      if (error.code === 'UserNotConfirmedException') {
         window.location.href = "/confirm"
       }
-         setErrors(error.message)
-      });
+      setErrors(error.message)
+    });
     return false
   }
 
@@ -38,7 +38,6 @@ export default function SigninPage() {
   }
 
   let el_errors;
-
   if (errors){
     el_errors = <div className='errors'>{errors}</div>;
   }
