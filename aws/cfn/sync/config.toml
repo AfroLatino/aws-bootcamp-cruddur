@@ -1,0 +1,9 @@
+[deploy]
+bucket = 'cfn-artifacts-afrolatino'
+region = 'us-east-1'
+stack_name = 'CrdSyncRole'
+
+[parameters]
+GitHubOrg = 'afrolatino'
+RepositoryName = 'aws-bootcamp-cruddur-2023'
+OIDCProviderArn = ''
