@@ -5,6 +5,13 @@
   overflow: hidden;
 }
 
+a.activity_item {
+  text-decoration: none;
+}
+a.activity_item:hover {
+  background: rgba(255,255,255,0.15);
+}
+
 .replies {
   padding-left: 24px;
   background: rgba(255,255,255,0.15);
@@ -13,7 +20,7 @@
   background: var(--fg);
 }
 
-.activity_main {
+.acitivty_main {
   padding: 16px;
 }
 
