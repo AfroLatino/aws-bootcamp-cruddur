@@ -19,6 +19,8 @@
     - [Create ECS Service](#subparagraph8)
     - [CFN Relational Database Service (RDS)](#subparagraph9)
 - [SAM CFN for DynamoDB Streams Lambda](#paragraph6)
+    - [Create Config Toml files](#subparagraph10)
+    - [Create Build, Deploy, Package and Template files](#subparagraph11)
 - [CFN CICD](#paragraph7) 
 - [CFN Static Website Hosting Frontend](#paragraph8) 
 
@@ -1502,6 +1504,24 @@ tasks:
       cd $THEIA_WORKSPACE_ROOT
  ```
 
+#### Create Config Toml files <a name="subparagraph10">
+	
+Create a folder called ```ddb``` in the main directory, then add a file called ```config.toml``` with the command below:
+	
+```sh
+version=0.1
+[default.build.parameters]
+region = "$AWS_DEFAULT_REGION"
+
+[default.package.parameters]
+region = "$AWS_DEFAULT_REGION"
+
+[default.deploy.parameters]
+region = "$AWS_DEFAULT_REGION"
+```
+	
+#### Create Build, Deploy, Package and Template files <a name="subparagraph11">
+	
 Create a folder called ```ddb``` in the main directory, then add a file called ```template.yaml``` with the command below:
 
 ```sh
