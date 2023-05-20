@@ -18,14 +18,18 @@
     - [Create Config Toml files](#subparagraph7)
     - [Create ECS Service](#subparagraph8)
     - [CFN Relational Database Service (RDS)](#subparagraph9)
+- [SAM CFN for DynamoDB Streams Lambda](#paragraph6)
+- [CFN CICD](#paragraph7) 
+- [CFN Static Website Hosting Frontend](#paragraph8) 
+
     
 ## Stretch Homework Challenges
 
 ## Table of contents
 
-- [Retrieving Load Balancer IPs via AWS CLI](#paragraph6)
-- [Retrieving Relational Database Service (RDS) IPs via AWS CLI](#paragraph7)
-- [Retrieving AWS Elastic Beanstalk Public IPs via AWS CLI](#paragraph8)
+- [Retrieving Load Balancer IPs via AWS CLI](#paragraph9)
+- [Retrieving Relational Database Service (RDS) IPs via AWS CLI](#paragraph10)
+- [Retrieving AWS Elastic Beanstalk Public IPs via AWS CLI](#paragraph11)
 
 
 ### Introduction <a name="introduction"></a>
@@ -1484,9 +1488,19 @@ This creates a RDS database called **cruddur-instance**.
 - Update Value after **password@** and before **:5432** to enter the endpoint.
 - Then save changes
 
+### SAM CFN for DynamoDB Streams Lambda <a name="paragraph6"></a>
+
+
+### CFN CICD <a name="paragraph7"></a>
+
+
+### CFN Static Website Hosting Frontend <a name="paragraph8"></a>
+
+
+
 ## Stretch Homework Challenges
 
-### Retrieving Load Balancer IPs via AWS CLI <a name="paragraph6"></a>
+### Retrieving Load Balancer IPs via AWS CLI <a name="paragraph9"></a>
 
 Run the following command to fetch the Load Balancer DNS name:
 
@@ -1499,7 +1513,7 @@ Please see the result below:
 ![LoadBalIPs](https://user-images.githubusercontent.com/78261965/236585086-26d50cc9-87da-4a34-87c0-be97374cdddc.png)
 
 
-### Retrieving Relational Database Service (RDS) via AWS CLI <a name="paragraph7"></a>
+### Retrieving Relational Database Service (RDS) via AWS CLI <a name="paragraph10"></a>
 
 Run the following command to fetch the RDS DNS name:
 
@@ -1517,7 +1531,7 @@ You can specify the particular region if you wish using the command below:
 aws rds describe-db-instances --query=DBInstances[*].Endpoint.Address --region us-east-1
 ```
 
-### Retrieving AWS Elastic Beanstalk Public IPs via AWS CLI <a name="paragraph8"></a>
+### Retrieving AWS Elastic Beanstalk Public IPs via AWS CLI <a name="paragraph11"></a>
 
 Run the following command to fetch details of all the Elastic Beanstalk instances:
 
