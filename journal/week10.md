@@ -1738,10 +1738,23 @@ Then run the following commands below to build and deploy the package :
 ```
 
 
-Move cruddur messaging stream.py to ddb folder
+Move ```cruddur messaging stream.py``` to ```ddb``` folder
 
 
 ### CFN CICD <a name="paragraph7"></a>
+	
+As developers work on multiple clients or for a group that supports various AWS deployments,they may often find ourselves challenged with updating AWS CloudFormation. A CI/CD pipeline can be built to automate the process of updating CloudFormation. AWS CodePipeline can initiate a workflow that builds and tests a stack and then pushes it to production. The workflow can either create or manipulate an existing stack.
+
+The diagram below illustrates the solution architecture of a fully functional CI/CD that updates the CloudFormation template. The pipeline starts automatically after applying the intended changes to the Bitbucket repository.
+
+
+[CICDSummary](https://github.com/AfroLatino/aws-bootcamp-cruddur-2023/assets/78261965/e93d72ac-dfe5-4d6e-82d7-909e209f7d08)
+
+**Reference**
+	
+[cloudthat](https://www.cloudthat.com/resources/blog/deploy-cicd-pipeline-aws-by-updating-cloudformation-template#:~:text=Introduction%20to%20CloudFormation,-As%20developers%20work&text=We%20can%20build%20a%20CI,or%20manipulate%20an%20existing%20stack)	
+Create a s3 bucket called codepipeline-cruddur-artifacts-afrolatino
+	
 
 
 ### CFN Static Website Hosting Frontend <a name="paragraph8"></a>
