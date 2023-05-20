@@ -28,7 +28,7 @@
 - [CFN Static Website Hosting Frontend](#paragraph8) 
     - [Create Config Toml file](#subparagraph15)
     - [Create Template file](#subparagraph16)
-    - [Remove route domain](#subparagraph17)
+    - [Remove Route Domain](#subparagraph17)
     - [Create Frontend file](#subparagraph18)
 
     
@@ -2203,7 +2203,7 @@ Resources:
 	
 Remove all files in the ```bin / cfn``` folder with suffix of deploy
 
-#### Remove route domain <a name="subparagraph17">
+#### Remove Route Domain <a name="subparagraph17">
 
 In order to remove Type A from ocubeltd.co.uk, follows the commands below:
 	
