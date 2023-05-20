@@ -22,6 +22,9 @@
     - [Create Config Toml files](#subparagraph10)
     - [Create Build, Deploy, Package and Template files](#subparagraph11)
 - [CFN CICD](#paragraph7) 
+    - [Create Config Toml file](#subparagraph12)
+    - [Create Template file](#subparagraph13)
+    - [Create CodeBuild file](#subparagraph14)
 - [CFN Static Website Hosting Frontend](#paragraph8) 
 
     
@@ -1737,7 +1740,6 @@ Then run the following commands below to build and deploy the package :
 ./ddb/deploy
 ```
 
-
 Move ```cruddur messaging stream.py``` to ```ddb``` folder
 
 
@@ -1753,10 +1755,325 @@ The diagram below illustrates the solution architecture of a fully functional CI
 **Reference**
 	
 [cloudthat](https://www.cloudthat.com/resources/blog/deploy-cicd-pipeline-aws-by-updating-cloudformation-template#:~:text=Introduction%20to%20CloudFormation,-As%20developers%20work&text=We%20can%20build%20a%20CI,or%20manipulate%20an%20existing%20stack)	
-Create a s3 bucket called codepipeline-cruddur-artifacts-afrolatino
 	
+Create a s3 bucket called codepipeline-cruddur-artifacts-afrolatino using the command below:
 
+- Navigate to AWS Management Console and serach for S3 in AWS Services
+- Click on **Create bucket**
+- Give **Bucket name** as **codepipeline-cruddur-artifacts-afrolatino**	(Bucket names are unique)
+- Then click on **Create bucket**
 
+Create cicd files within aws/cfn/cicd
+
+#### Create Config Toml file <a name="subparagraph12"></a>
+
+Create a folder called ```cicd``` within aws / cfn, then add a file called ```config.toml``` with the command below:
+
+```sh
+[deploy]
+bucket = '$BUCKET_NAME'
+region = '$AWS_DEFAULT_REGION'
+stack_name = 'CrdCicd'
+
+[parameters]
+ServiceStack = 'CrdSrvBackendFlask'
+ClusterStack = 'CrdCluster'
+GitHubBranch = 'prod'
+GithubRepo = 'aws-bootcamp-cruddur-2023'
+ArtifactBucketName = "codepipeline-cruddur-artifacts-afrolatino"
+```
+	
+#### Create Template file <a name="subparagraph13"></a>
+	
+Add a file within aws / cfn / cicd called ```template.yaml``` with the command below:
+
+```sh
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  - CodeStar Connection V2 Github
+  - CodePipeline
+  - Codebuild
+Parameters:
+  GitHubBranch:
+    Type: String
+    Default: prod
+  GithubRepo:
+    Type: String
+    Default: 'afrolatino/aws-bootcamp-cruddur-2023'
+  ClusterStack:
+    Type: String
+  ServiceStack:
+    Type: String
+  ArtifactBucketName:
+    Type: String
+Resources:
+  CodeBuildBakeImageStack:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack.html
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: nested/codebuild.yaml
+  CodeStarConnection:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestarconnections-connection.html
+    Type: AWS::CodeStarConnections::Connection
+    Properties:
+      ConnectionName: !Sub ${AWS::StackName}-connection
+      ProviderType: GitHub
+  Pipeline:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-pipeline.html
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      ArtifactStore:
+        Location: !Ref ArtifactBucketName
+        Type: S3
+      RoleArn: !GetAtt CodePipelineRole.Arn
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: ApplicationSource
+              RunOrder: 1
+              ActionTypeId:
+                Category: Source
+                Provider: CodeStarSourceConnection
+                Owner: AWS
+                Version: '1'
+              OutputArtifacts:
+                - Name: Source
+              Configuration:
+                ConnectionArn: !Ref CodeStarConnection
+                FullRepositoryId: !Ref GithubRepo
+                BranchName: !Ref GitHubBranch
+                OutputArtifactFormat: "CODE_ZIP"
+        - Name: Build
+          Actions:
+            - Name: BuildContainerImage
+              RunOrder: 1
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: '1'
+              InputArtifacts:
+                - Name: Source
+              OutputArtifacts:
+                - Name: ImageDefinition
+              Configuration:
+                ProjectName: !GetAtt CodeBuildBakeImageStack.Outputs.CodeBuildProjectName
+                BatchEnabled: false
+        # https://docs.aws.amazon.com/codepipeline/latest/userguide/action-reference-ECS.html
+        - Name: Deploy
+          Actions:
+            - Name: Deploy
+              RunOrder: 1
+              ActionTypeId:
+                Category: Deploy
+                Provider: ECS
+                Owner: AWS
+                Version: '1'
+              InputArtifacts:
+                - Name: ImageDefinition
+              Configuration:
+                # In Minutes
+                DeploymentTimeout: "10"
+                ClusterName:
+                  Fn::ImportValue:
+                    !Sub ${ClusterStack}ClusterName
+                ServiceName:
+                  Fn::ImportValue:
+                    !Sub ${ServiceStack}ServiceName
+  CodePipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: ['sts:AssumeRole']
+          Effect: Allow
+          Principal:
+            Service: [codepipeline.amazonaws.com]
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+        - PolicyName: !Sub ${AWS::StackName}EcsDeployPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - ecs:DescribeServices
+                - ecs:DescribeTaskDefinition
+                - ecs:DescribeTasks
+                - ecs:ListTasks
+                - ecs:RegisterTaskDefinition
+                - ecs:UpdateService
+                Effect: Allow
+                Resource: "*"
+        - PolicyName: !Sub ${AWS::StackName}CodeStarPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - codestar-connections:UseConnection
+                Effect: Allow
+                Resource:
+                  !Ref CodeStarConnection
+        - PolicyName: !Sub ${AWS::StackName}CodePipelinePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - s3:*
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+                - cloudformation:*
+                - iam:PassRole
+                - iam:CreateRole
+                - iam:DetachRolePolicy
+                - iam:DeleteRolePolicy
+                - iam:PutRolePolicy
+                - iam:DeleteRole
+                - iam:AttachRolePolicy
+                - iam:GetRole
+                - iam:PassRole
+                Effect: Allow
+                Resource: '*'
+        - PolicyName: !Sub ${AWS::StackName}CodePipelineBuildPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - codebuild:StartBuild
+                - codebuild:StopBuild
+                - codebuild:RetryBuild
+                Effect: Allow
+                Resource: !Join
+                  - ''
+                  - - 'arn:aws:codebuild:'
+                    - !Ref AWS::Region
+                    - ':'
+                    - !Ref AWS::AccountId
+                    - ':project/'
+                    - !GetAtt CodeBuildBakeImageStack.Outputs.CodeBuildProjectName
+```
+
+#### Create CodeBuild file <a name="subparagraph14"></a>
+	
+Create a folder called ```nested``` within aws / cfn / cicd, then add a file called ```codebuild.yaml``` with the command below:
+	
+```sh
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Codebuild used for baking container images
+  - Codebuild Project
+  - Codebuild Project Role
+
+Parameters:
+  LogGroupPath:
+    Type: String
+    Description: "The log group path for CodeBuild"
+    Default: "/cruddur/codebuild/bake-service"
+  LogStreamName:
+    Type: String
+    Description: "The log group path for CodeBuild"
+    Default: "backend-flask"
+  CodeBuildImage:
+    Type: String
+    Default: aws/codebuild/amazonlinux2-x86_64-standard:4.0
+  CodeBuildComputeType:
+    Type: String
+    Default: BUILD_GENERAL1_SMALL
+  CodeBuildTimeoutMins:
+    Type: Number
+    Default: 5
+  BuildSpec:
+    Type: String
+    Default: 'buildspec.yaml'
+Resources:
+  CodeBuild:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html
+    Type: AWS::CodeBuild::Project
+    Properties:
+      QueuedTimeoutInMinutes: !Ref CodeBuildTimeoutMins
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      # PrivilegedMode is needed to build Docker images
+      # even though we have No Artifacts, CodePipeline Demands both to be set as CODEPIPLINE
+      Artifacts:
+        Type: CODEPIPELINE
+      Environment:
+        ComputeType: !Ref CodeBuildComputeType
+        Image: !Ref CodeBuildImage
+        Type: LINUX_CONTAINER
+        PrivilegedMode: true
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName: !Ref LogGroupPath
+          Status: ENABLED
+          StreamName: !Ref LogStreamName
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: !Ref BuildSpec
+  CodeBuildRole:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: ['sts:AssumeRole']
+          Effect: Allow
+          Principal:
+            Service: [codebuild.amazonaws.com]
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+        - PolicyName: !Sub ${AWS::StackName}ECRPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - ecr:BatchCheckLayerAvailability
+                - ecr:CompleteLayerUpload
+                - ecr:GetAuthorizationToken
+                - ecr:InitiateLayerUpload
+                - ecr:BatchGetImage
+                - ecr:GetDownloadUrlForLayer
+                - ecr:PutImage
+                - ecr:UploadLayerPart
+                Effect: Allow
+                Resource: "*"
+        - PolicyName: !Sub ${AWS::StackName}VPCPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - ec2:CreateNetworkInterface
+                - ec2:DescribeDhcpOptions
+                - ec2:DescribeNetworkInterfaces
+                - ec2:DeleteNetworkInterface
+                - ec2:DescribeSubnets
+                - ec2:DescribeSecurityGroups
+                - ec2:DescribeVpcs
+                Effect: Allow
+                Resource: "*"
+              - Action:
+                - ec2:CreateNetworkInterfacePermission
+                Effect: Allow
+                Resource: "*"
+        - PolicyName: !Sub ${AWS::StackName}Logs
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+                Effect: Allow
+                Resource:
+                  - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:${LogGroupPath}*
+                  - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:${LogGroupPath}:*
+Outputs:
+  CodeBuildProjectName:
+    Description: "CodeBuildProjectName"
+    Value: !Sub ${AWS::StackName}Project
+```
+	
 ### CFN Static Website Hosting Frontend <a name="paragraph8"></a>
 
 
