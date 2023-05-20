@@ -36,3 +36,4 @@ export default function ActivityItem(props) {
       {replies}
     </div>
   );
+ }
