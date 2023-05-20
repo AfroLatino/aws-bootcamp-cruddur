@@ -1437,7 +1437,6 @@ Resources:
 
 Create a ```config.toml``` via ```/aws/cfn/db``` using the command below:
 
-
 ```sh
 [deploy]
 bucket = '$BUCKET_NAME'
