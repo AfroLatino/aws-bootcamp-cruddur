@@ -26,6 +26,10 @@
     - [Create Template file](#subparagraph13)
     - [Create CodeBuild file](#subparagraph14)
 - [CFN Static Website Hosting Frontend](#paragraph8) 
+    - [Create Config Toml file](#subparagraph15)
+    - [Create Template file](#subparagraph16)
+    - [Remove route domain](#subparagraph17)
+    - [Create Frontend file](#subparagraph18)
 
     
 ## Stretch Homework Challenges
@@ -1260,6 +1264,7 @@ Resources:
 ```
 
 #### Create Config Toml files  <a name="subparagraph7"></a>
+
 Create a file called ```aws/cfn/service/config.toml``` with the command below:
 
 ```sh
@@ -2076,7 +2081,174 @@ Outputs:
 	
 ### CFN Static Website Hosting Frontend <a name="paragraph8"></a>
 
+#### Create Config Toml file  <a name="subparagraph15"></a>
 
+Create a folder called frontend within aws / cfn and a file called config.toml with the command below:
+	
+```sh
+[deploy]
+bucket = 'cfn-artifacts-afrolatino'
+region = '$AWS_DEFAULT_REGION'
+stack_name = 'CrdFrontend'
+
+[parameters]
+CertificateArn = '$CERTIFICATE_ARN'
+WwwBucketName = '$WWW_BUCKET_NAME'
+RootBucketName = '$ROOT_BUCKET_NAME'
+```
+
+#### Create Template file  <a name="subparagraph16"></a>
+
+Create a file called ```template.yaml``` within aws / cfn / frontend with the command below:
+	
+```sh
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  - CloudFront Distribution
+  - S3 Bucket for www.
+  - S3 Bucket for naked domain
+  - Bucket Policy
+
+Parameters:
+  CertificateArn:
+    Type: String
+  WwwBucketName:
+    Type: String
+  RootBucketName:
+    Type: String
+
+Resources:
+  RootBucketPolicy:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref RootBucket
+      PolicyDocument:
+        Statement:
+          - Action:
+              - 's3:GetObject'
+            Effect: Allow
+            Resource: !Sub 'arn:aws:s3:::${RootBucket}/*'
+            Principal: '*'
+  WWWBucket:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref WwwBucketName
+      WebsiteConfiguration:
+        RedirectAllRequestsTo:
+          HostName: !Ref RootBucketName
+  RootBucket:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html
+    Type: AWS::S3::Bucket
+    #DeletionPolicy: Retain
+    Properties:
+      BucketName: !Ref RootBucketName
+      PublicAccessBlockConfiguration:
+        BlockPublicPolicy: false
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+  RootBucketDomain:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneName: !Sub ${RootBucketName}.
+      Name: !Sub ${RootBucketName}.
+      Type: A
+      AliasTarget:
+        # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-aliastarget.html#cfn-route53-aliastarget-hostedzoneid
+        # Specify Z2FDTNDATAQYW2. This is always the hosted zone ID when you create an alias record that routes traffic to a CloudFront distribution.
+        DNSName: !GetAtt Distribution.DomainName
+        HostedZoneId: Z2FDTNDATAQYW2
+  WwwBucketDomain:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneName: !Sub ${RootBucketName}.
+      Name: !Sub ${WwwBucketName}.
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt Distribution.DomainName
+        # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-aliastarget.html#cfn-route53-aliastarget-hostedzoneid
+        # Specify Z2FDTNDATAQYW2. This is always the hosted zone ID when you create an alias record that routes traffic to a CloudFront distribution.
+        HostedZoneId: Z2FDTNDATAQYW2
+  Distribution:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudfront-distribution.html
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Aliases:
+          - ocubeltd.co.uk
+          - www.ocubeltd.co.uk
+        Comment: Frontend React Js for Cruddur
+        Enabled: true
+        HttpVersion: http2and3 
+        DefaultRootObject: index.html
+        Origins:
+          - DomainName: !GetAtt RootBucket.DomainName
+            Id: RootBucketOrigin
+            S3OriginConfig: {}
+        DefaultCacheBehavior:
+          TargetOriginId: RootBucketOrigin
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: redirect-to-https
+        ViewerCertificate:
+          AcmCertificateArn: !Ref CertificateArn
+          SslSupportMethod: sni-only
+```
+	
+Remove all files in the ```bin / cfn``` folder with suffix of deploy
+
+#### Remove route domain <a name="subparagraph17">
+
+In order to remove Type A from ocubeltd.co.uk, follows the commands below:
+	
+- Navigate to Route53 amongst AWS Services
+- Navigate to Hosted Zones 
+- Navigate to ocubeltd.co.uk
+- Delete ```Type A``` with record name of ```ocubeltd.co.uk```
+
+#### Create Frontend file <a name="subparagraph18">
+	
+Create a new file within ```bin / cfn``` called frontend with the command below:
+
+```sh
+#! /usr/bin/env bash
+set -e # stop the execution of the script if it fails
+
+CFN_PATH="/workspace/aws-bootcamp-cruddur-2023/aws/cfn/frontend/template.yaml"
+CONFIG_PATH="/workspace/aws-bootcamp-cruddur-2023/aws/cfn/frontend/config.toml"
+echo $CFN_PATH
+
+cfn-lint $CFN_PATH
+
+BUCKET=$(cfn-toml key deploy.bucket -t $CONFIG_PATH)
+REGION=$(cfn-toml key deploy.region -t $CONFIG_PATH)
+STACK_NAME=$(cfn-toml key deploy.stack_name -t $CONFIG_PATH)
+PARAMETERS=$(cfn-toml params v2 -t $CONFIG_PATH)
+
+aws cloudformation deploy \
+  --stack-name $STACK_NAME \
+  --s3-bucket $BUCKET \
+  --s3-prefix frontend \
+  --region $REGION \
+  --template-file "$CFN_PATH" \
+  --no-execute-changeset \
+  --tags group=cruddur-frontend \
+  --parameter-overrides $PARAMETERS \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+	
+Make the file executable by running ```chmod u+x ./bin/cfn/frontend```, then run  ```./bin/cfn/frontend```.
+	
+Find the result from CloudFormation as seen on the screenshot below:
+
+![CrdFrontend screenshot](https://github.com/AfroLatino/aws-bootcamp-cruddur-2023/assets/78261965/e2249b39-d4ac-46c1-ad1a-f363047ec9a7)
+	
 
 ## Stretch Homework Challenges
 
