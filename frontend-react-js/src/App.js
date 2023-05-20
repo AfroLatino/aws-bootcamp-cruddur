@@ -45,7 +45,7 @@ const router = createBrowserRouter([
     element: <NotificationsFeedPage />
   },
   {
-    path: "/@:handle",
+    path: "/@AfroLatino",
     element: <UserFeedPage />
   },
   {
