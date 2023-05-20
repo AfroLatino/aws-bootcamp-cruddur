@@ -1446,7 +1446,7 @@ ClusterStack = 'CrdCluster'
 MasterUsername = 'cruddurroot'
 ```
 
-Create the eploy file within ```/bin/cfn/db-deploy``` using the command below:
+Create the deploy file within ```/bin/cfn/db-deploy``` using the command below:
 
 ```sh
 #! /usr/bin/env bash
@@ -1484,6 +1484,7 @@ This creates a RDS database called **cruddur-instance**.
 - Update Value after **password@** and before **:5432** to enter the endpoint.
 - Then save changes
 
+## Stretch Homework Challenges
 
 ### Retrieving Load Balancer IPs via AWS CLI <a name="paragraph6"></a>
 
