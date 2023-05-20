@@ -1748,7 +1748,7 @@ As developers work on multiple clients or for a group that supports various AWS 
 The diagram below illustrates the solution architecture of a fully functional CI/CD that updates the CloudFormation template. The pipeline starts automatically after applying the intended changes to the Bitbucket repository.
 
 
-[CICDSummary](https://github.com/AfroLatino/aws-bootcamp-cruddur-2023/assets/78261965/e93d72ac-dfe5-4d6e-82d7-909e209f7d08)
+![CICDSummary](https://github.com/AfroLatino/aws-bootcamp-cruddur-2023/assets/78261965/e93d72ac-dfe5-4d6e-82d7-909e209f7d08)
 
 **Reference**
 	
