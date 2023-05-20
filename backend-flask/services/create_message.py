@@ -26,7 +26,7 @@ class CreateMessage:
     if message == None or len(message) < 1:
       model['errors'] = ['message_blank'] 
     elif len(message) > 1024:
-      model['errors'] = ['message_exceed_max_chars'] 
+      model['errors'] = ['message_exceed_max_chars_1024'] 
 
     if model['errors']:
       # return what we provided
@@ -60,7 +60,7 @@ class CreateMessage:
       ddb = Ddb.client()
 
       if (mode == "update"):
-          data = Ddb.create_message(
+        data = Ddb.create_message(
           client=ddb,
           message_group_uuid=message_group_uuid,
           message=message,
@@ -69,7 +69,7 @@ class CreateMessage:
           my_user_handle=my_user['handle']
         )
       elif (mode == "create"):
-          data = Ddb.create_message_group(
+        data = Ddb.create_message_group(
           client=ddb,
           message=message,
           my_user_uuid=my_user['uuid'],
@@ -79,6 +79,5 @@ class CreateMessage:
           other_user_display_name=other_user['display_name'],
           other_user_handle=other_user['handle']
         )
-      #MomentoCounter.incr(f"msgs/{user_handle}")
       model['data'] = data
     return model
