@@ -791,7 +791,23 @@ def lambda_handler(event, context):
     return event
 ```
 
+
 ### Use CORS for Service <a name="paragraph3"></a>
 
+Amend ```config.toml``` file within ```aws/cfn/service``` with the command below:
+
+```sh
+[deploy]
+bucket = 'cfn-artifacts-afrolatino'
+region = '$AWS_DEFAULT_REGION'
+stack_name = 'CrdSrvBackendFlask'
+
+[parameters]
+EnvFrontendUrl = 'https://ocubeltd.co.uk'
+EnvBackendUrl = 'https://api.ocubeltd.co.uk'
+```
+
+Amended ```bin/cfn/service``` by removing the comments for the parameters.
 
 
+### CICD Pipeline and Create Activity <a name="paragraph4"></a>
