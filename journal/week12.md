@@ -70,9 +70,8 @@ Amended ```frontend-react-js/src/components/ActivityContent.css``` by adding fle
 .activity_content_wrap {
   display: flex;
   flex-direction: row;
-```
   align-items: flex-start;
 }
-
+```
 
 
