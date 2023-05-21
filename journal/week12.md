@@ -620,3 +620,178 @@ Run ```bundle install```, then ```bundle update --bundler``` to resolve dependen
 This creates **CrdSyncRole** as seen on the screenshot below:
 
 ![CrdSyncRole_created](https://github.com/AfroLatino/aws-bootcamp-cruddur-2023/assets/78261965/cecb06ca-90e4-40c5-97ff-11e7a08899f2)
+
+#### Role Permission added
+
+This creates a role called **CrdSyncRole-Role-177E0006O8UW2**.
+
+- Navigate to Permissions
+- Add Permissions -> Create inline policy 
+- Navigate to Visual editor
+- Select S3 service
+- Choose Actions of getObject, PutObject, ListBucket, DeleteObject
+- Resources: Leave the default setting of Specific
+- Navigate to bucket -> Add ARN (s), Then Bucket name of ocubeltd.co.uk -> Click on Add
+- Navigate to object -> Add ARN (s), Then Bucket name of ocubeltd.co.uk and Object name of Any-> Click on Add
+
+See JSON format below:
+```sh
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:ListBucket",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::ocubeltd.co.uk",
+                "arn:aws:s3:::ocubeltd.co.uk/*"
+            ]
+        }
+    ]
+}
+```
+
+- Click on **Review policy**, 
+- Name the policy **S3AccessForSync**, 
+- Click on **Create Policy**
+- Update role-to-assume within ```github/ workflows/ sync.yaml.example``` with the Role's ARN
+
+
+### Reconnect Database and Post Confirmation Lambda <a name="paragraph2"></a>
+
+Run the commands below:
+
+```sh
+./bin/backend/build
+./bin/backend/push
+./bin/backend/register
+```
+
+Amend **PROD_CONNECTION_URL** from **cruddur-db-instance** to **cruddur-instance**
+
+- Navigate to cruddur-instance within RDS in AWS Management Console
+- Open the Security Group 
+- Navigate to Inbound rules 
+- Edit inbound rules
+- Choose Type of PostgreSQL
+- Choose Source of My IP 
+- Note down GITPOD as Description 
+- Then, save rules
+
+Run ```./bin/rds/update-sg-rule```
+
+Choose ```Security group rule ID for IPv4```
+
+Then type in ```export DB_SG_RULE_ID="$SECURITY_GROUP_RULE_ID"``` on CLI
+
+Copy the Security Group ID from ```CrdDbRDSSG``` Security Group name, then export ```DB_SG_ID="$SECURITY_GROUP_ID"```
+
+Ensure GITPOD is set by running the command below:
+
+```sh
+export GITPOD_IP=$(curl ifconfig.me)
+```
+
+Run the commands below:
+
+```sh
+./bin/db/connect prod
+./bin/db/schema-load prod
+```
+
+Amend **CONNECTION_URL** to the command below:
+
+```sh
+CONNECTION_URL=$PROD_CONNECTION_URL ./bin/db/migrate
+```
+
+This adds the **bio text user**
+
+- Update **environment variable** on **cruddur-post-confirmation lambda**
+- Create a new **Security Group**
+- Navigate to **Security Groups** from AWS Services
+- Name the Security Group **CognitoLambdaSG**
+- Choose **non-default VPC**
+- Do not specify any inbound rules 
+- Navigate to Create
+- Navigate to **cruddur-post-confirmation lambda**
+- Navigate to **Environment variables**
+- Update **CONNECTION_URL** environment variable from **cruddur-db-instance** to **cruddur-instance**
+- Navigate to VPC 
+- Choose non-default VPC 
+- Choose only Public Subnets
+- Choose the new Security Group created
+- Then, save.
+
+- Navigate to the Security Group for the database
+- Edit Inbound rules 
+- Add rule of Type PostgreSQL
+- Source of Custom and choose the newly created Security Group
+- Add a description of **COGNITOPOSTCONF**
+
+Update ```aws/lambdas/cruddur-post-confirrmation.py``` and also the lambda called ```cruddur-post-confirmation``` with the command below:
+
+```sh
+import json
+import psycopg2
+import os
+
+def lambda_handler(event, context):
+    user = event['request']['userAttributes']
+    print('userAttributes')
+    print(user)
+
+    user_display_name  = user['name']
+    user_email         = user['email']
+    user_handle        = user['preferred_username']
+    cognito_user_id    = user['sub']
+    try:
+      print('entered-try')
+      sql = f"""
+         INSERT INTO public.users (
+          display_name, 
+          email,
+          handle, 
+          cognito_user_id
+          ) 
+        VALUES(
+          %(display_name)s,
+          %(email)s,
+          %(handle)s,
+          %(cognito_user_id)s
+        )
+      """
+      print('SQL Statement ----')
+      print(sql)
+      conn = psycopg2.connect(os.getenv('CONNECTION_URL'))
+      cur = conn.cursor()
+      params = {
+        'display_name': user_display_name,
+        'email': user_email,
+        'handle': user_handle,
+        'cognito_user_id': cognito_user_id
+      }
+      cur.execute(sql,params)
+      conn.commit() 
+
+    except (Exception, psycopg2.DatabaseError) as error:
+      print('error:')
+      print(error)
+    finally:
+      if conn is not None:
+          cur.close()
+          conn.close()
+          print('Database connection closed.')
+    return event
+```
+
+### Use CORS for Service <a name="paragraph3"></a>
+
+
+
