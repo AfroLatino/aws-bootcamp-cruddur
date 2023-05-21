@@ -1834,4 +1834,1361 @@ Removed the code below from ```frontend-react-js/src/pages/SignupPage.css```:
 
 ### Activity Show Page <a name="paragraph10"></a>
 
+Amend ```frontend-react-js/src/components/ActivityActionLike.js``` with the command below:
+
+```sh
+export default function ActivityActionLike(props) { 
+  const onclick = (event) => {
+    event.preventDefault()
+    console.log('toggle like/unlike')
+    return false
+  }
+```
+
+Amend ```frontend-react-js/src/components/ActivityActionReply.js``` with the command below:
+
+```sh
+export default function ActivityActionReply(props) { 
+  const onclick = (event) => {
+    event.preventDefault()
+    props.setReplyActivity(props.activity)
+    props.setPopped(true)
+    return false
+  }
+```
+
+Amend ```frontend-react-js/src/components/ActivityActionRepost.js``` with the command below:
+
+```sh
+export default function ActivityActionRepost(props) { 
+  const onclick = (event) => {
+    event.preventDefault()
+    console.log('trigger repost')
+    return false
+  }
+
+```
+Amended frontend-react-js/src/components/ActivityActionShare.js with the command below:
+```sh
+export default function ActivityActionRepost(props) { 
+  const onclick = (event) => {
+    event.preventDefault()
+    console.log('trigger share')
+    return false
+  }
+```
+
+Amend ```frontend-react-js/src/components/ActivityContent.js``` with the command below:
+
+```sh
+return (
+    <div className='activity_content_wrap'>
+      <Link className='activity_avatar'to={`/@`+props.activity.handle} ></Link>
+      <div className='activity_content'>
+        <div className='activity_meta'>
+          <div className='activity_identity' >
+            <Link className='display_name' to={`/@`+props.activity.handle}>{props.activity.display_name}</Link>
+            <Link className="handle" to={`/@`+props.activity.handle}>@{props.activity.handle}</Link>
+          </div>{/* activity_identity */}
+          <div className='activity_times'>
+            <div className="created_at" title={props.activity.created_at}>
+              <span className='ago'>{format_time_created_at(props.activity.created_at)}</span> 
+            </div>
+            {expires_at}
+          </div>{/* activity_times */}
+        </div>{/* activity_meta */}
+        <div className="message">{props.activity.message}</div>
+      </div>{/* activity_content */}
+    </div>
+  );
+}
+```
+
+Amend ```frontend-react-js/src/components/ActivityContent.css``` with the content below:
+
+```sh
+.activity_content .activity_identity {
+  flex-grow: 1;
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.activity_content .activity_identity a {
+  text-decoration: none;
+  display: block;
+  flex-shrink: 1;
+}
+
+.activity_content .activity_identity .display_name {
+  font-weight: 800;
+  color: #fff;
+}
+.activity_content .activity_identity .display_name:hover {
+  text-decoration: underline;
+}
+
+.activity_content  .activity_identity .handle {
+  color: rgb(255,255,255,0.5);
+}
+```
+
+Amend ```frontend-react-js/src/components/ActivityForm.js``` with the command below:
+
+```sh
+import './ActivityForm.css';
+import React from "react";
+import process from 'process';
+import {ReactComponent as BombIcon} from './svg/bomb.svg';
+import {post} from 'lib/Requests';
+import FormErrors from 'components/FormErrors';
+
+export default function ActivityForm(props) {
+  const [count, setCount] = React.useState(0);
+  const [message, setMessage] = React.useState('');
+  const [ttl, setTtl] = React.useState('7-days');
+  const [errors, setErrors] = React.useState([]);
+
+  const classes = []
+  classes.push('count')
+  if (240-count < 0){
+    classes.push('err')
+  }
+
+  const onsubmit = async (event) => {
+    event.preventDefault();
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/activities`
+    const payload_data = {
+      message: message,
+      ttl: ttl
+    }
+    post(url,payload_data,{
+        auth: true,
+        setErrors: setErrors,
+        success: function(data){
+          // add activity to the feed
+          props.setActivities(current => [data,...current]);
+          // reset and close the form
+          setCount(0)
+          setMessage('')
+          setTtl('7-days')
+          props.setPopped(false)
+        }
+    })
+  }
+
+  const textarea_onchange = (event) => {
+    setCount(event.target.value.length);
+    setMessage(event.target.value);
+  }
+
+  const ttl_onchange = (event) => {
+    setTtl(event.target.value);
+  }
+
+  if (props.popped === true) {
+    return (
+      <form 
+        className='activity_form'
+        onSubmit={onsubmit}
+      >
+        <textarea
+          type="text"
+          placeholder="what would you like to say?"
+          value={message}
+          onChange={textarea_onchange} 
+        />
+        <div className='submit'>
+          <div className={classes.join(' ')}>{240-count}</div>
+          <button type='submit'>Crud</button>
+          <div className='expires_at_field'>
+            <BombIcon className='icon' />
+            <select
+              value={ttl}
+              onChange={ttl_onchange} 
+            >
+              <option value='30-days'>30 days</option>
+              <option value='7-days'>7 days</option>
+              <option value='3-days'>3 days</option>
+              <option value='1-day'>1 day</option>
+              <option value='12-hours'>12 hours</option>
+              <option value='3-hours'>3 hours</option>
+              <option value='1-hour'>1 hour </option>
+            </select>
+          </div>
+          <FormErrors errors={errors} />
+        </div>
+      </form>
+    );
+  }
+}
+```
+
+Amend ```frontend-react-js/src/components/ActivityItem.js``` with the command below:
+
+```sh
+import './ActivityItem.css';
+
+import { Link } from "react-router-dom";
+import ActivityContent  from '../components/ActivityContent';
+import ActivityActionReply  from '../components/ActivityActionReply';
+import ActivityActionRepost  from '../components/ActivityActionRepost';
+import ActivityActionLike  from '../components/ActivityActionLike';
+import ActivityActionShare  from '../components/ActivityActionShare';
+
+export default function ActivityItem(props) {
+  return (
+    <Link className='activity_item' to={`/@${props.activity.handle}/status/${props.activity.uuid}`}>
+      <div className="acitivty_main">
+        <ActivityContent activity={props.activity} />
+        <div className="activity_actions">
+          <ActivityActionReply setReplyActivity={props.setReplyActivity} activity={props.activity} setPopped={props.setPopped} activity_uuid={props.activity.uuid} count={props.activity.replies_count}/>
+          <ActivityActionRepost activity_uuid={props.activity.uuid} count={props.activity.reposts_count}/>
+          <ActivityActionLike activity_uuid={props.activity.uuid} count={props.activity.likes_count}/>
+          <ActivityActionShare activity_uuid={props.activity.uuid} />
+        </div>
+      </div>
+    </Link>
+  );
+}
+```
+
+Amend ```frontend-react-js/src/components/ActivityItem.css``` with the command below:
+
+```sh
+a.activity_item {
+  text-decoration: none;
+}
+a.activity_item:hover {
+  background: rgba(255,255,255,0.15);
+}
+```
+
+Amend ```frontend-react-js/src/components/MessageForm.js``` with the command below:
+
+```sh
+import './MessageForm.css';
+import React from "react";
+import process from 'process';
+import { useParams } from 'react-router-dom';
+import {post} from 'lib/Requests';
+import FormErrors from 'components/FormErrors';
+
+export default function ActivityForm(props) {
+  const [count, setCount] = React.useState(0);
+  const [message, setMessage] = React.useState('');
+  const params = useParams();
+
+  const classes = []
+  classes.push('count')
+  if (1024-count < 0){
+    classes.push('err')
+  }
+
+  const onsubmit = async (event) => {
+    event.preventDefault();
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/messages`
+    let payload_data = { 'message': message }
+    if (params.handle) {
+      payload_data.handle = params.handle
+    } else {
+      payload_data.message_group_uuid = params.message_group_uuid
+    }
+    post(url,payload_data,{
+      auth: true,
+      setErrors: setErrors,
+      success: function(){
+        console.log('data:',data)
+        if (data.message_group_uuid) {
+          console.log('redirect to message group')
+          window.location.href = `/messages/${data.message_group_uuid}`
+        } else {
+          props.setMessages(current => [...current,data]);
+        }
+      }
+    })
+  }
+
+  const textarea_onchange = (event) => {
+    setCount(event.target.value.length);
+    setMessage(event.target.value);
+  }
+
+  return (
+    <form 
+      className='message_form'
+      onSubmit={onsubmit}
+    >
+      <textarea
+        type="text"
+        placeholder="send a direct message..."
+        value={message}
+        onChange={textarea_onchange} 
+      />
+      <div className='submit'>
+        <div className={classes.join(' ')}>{1024-count}</div>
+        <button type='submit'>Message</button>
+      </div>
+      <FormErrors errors={errors} />
+    </form>
+  );
+}
+```
+
+Amend ```frontend-react-js/src/components/ProfileForm.js``` with the command below:
+
+```sh
+import './ProfileForm.css';
+import React from "react";
+import process from 'process';
+import {getAccessToken} from 'lib/CheckAuth';
+import {put} from 'lib/Requests';
+import FormErrors from 'components/FormErrors';
+
+export default function ProfileForm(props) {
+  const [bio, setBio] = React.useState('');
+  const [displayName, setDisplayName] = React.useState('');
+
+  React.useEffect(()=>{
+    setBio(props.profile.bio || '');
+    setDisplayName(props.profile.display_name);
+  }, [props.profile])
+
+  const s3uploadkey = async (extension)=> {
+    console.log('ext',extension)
+    try {
+      const gateway_url = `${process.env.REACT_APP_API_GATEWAY_ENDPOINT_URL}/avatars/key_upload`
+      await getAccessToken()
+      const access_token = localStorage.getItem("access_token")
+      const json = {
+        extension: extension
+      }
+      const res = await fetch(gateway_url, {
+        method: "POST",
+        body: JSON.stringify(json),
+        headers: {
+          'Origin': process.env.REACT_APP_FRONTEND_URL,
+          'Authorization': `Bearer ${access_token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+      let data = await res.json();
+      if (res.status === 200) {
+        return data.url
+      } else {
+        console.log(res)
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  const s3upload = async (event)=> {
+    console.log('event',event)
+    const file = event.target.files[0]
+    const filename = file.name
+    const size = file.size
+    const type = file.type
+    //const preview_image_url = URL.createObjectURL(file)
+    console.log(filename,size,type)
+    const fileparts = filename.split('.')
+    const extension = fileparts[fileparts.length-1]
+    const presignedurl = await s3uploadkey(extension)
+    try {
+      console.log('s3upload')
+      const res = await fetch(presignedurl, {
+        method: "PUT",
+        body: file,
+        headers: {
+          'Content-Type': type
+      }})
+      if (res.status === 200) {
+        
+      } else {
+        console.log(res)
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const onsubmit = async (event) => {
+    event.preventDefault();
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/profile/update`
+    const payload_data = {
+      bio: bio,
+      display_name: displayName
+    }
+    put(url,payload_data,{
+      auth: true,
+      setErrors: setErrors,
+      success: function(data){
+        setBio(null)
+        setDisplayName(null)
+        props.setPopped(false)
+      }
+    })
+  }
+
+  const bio_onchange = (event) => {
+    setBio(event.target.value);
+  }
+
+  const display_name_onchange = (event) => {
+    setDisplayName(event.target.value);
+  }
+
+  const close = (event)=> {
+    if (event.target.classList.contains("profile_popup")) {
+      props.setPopped(false)
+    }
+  }
+
+  if (props.popped === true) {
+    return (
+      <div className="popup_form_wrap profile_popup" onClick={close}>
+        <form 
+          className='profile_form popup_form'
+          onSubmit={onsubmit}
+        >
+          <div className="popup_heading">
+            <div className="popup_title">Edit Profile</div>
+            <div className='submit'>
+              <button type='submit'>Save</button>
+            </div>
+          </div>
+          <div className="popup_content">
+            <input type="file" name="avatarupload" onChange={s3upload} />
+
+            <div className="field display_name">
+              <label>Display Name</label>
+              <input
+                type="text"
+                placeholder="Display Name"
+                value={displayName}
+                onChange={display_name_onchange} 
+              />
+            </div>
+            <div className="field bio">
+              <label>Bio</label>
+              <textarea
+                placeholder="Bio"
+                value={bio}
+                onChange={bio_onchange} 
+              />
+            </div>
+            <FormErrors errors={errors} />
+          </div>
+        </form>
+      </div>
+    );
+  }
+}
+```
+
+Add a new file called ```Replies.js``` within ```frontend-react-js/src/components``` with the command below:
+
+```sh
+import './Replies.css';
+
+import ActivityItem from './ActivityItem';
+
+export default function Replies(props) {
+  console.log('replies-props',props)
+  let content;
+  if (props.replies.length === 0){
+    content = <div className='replies_primer'>
+      <span>Nothing to see here yet</span>
+    </div>
+  } else {
+    content = <div className='activities_feed_collection'>
+      {props.replies.map(activity => {
+      return  <ActivityItem 
+          setReplyActivity={props.setReplyActivity}
+          setPopped={props.setPopped}
+          key={activity.uuid}
+          activity={activity} 
+        />
+      })}
+    </div>
+  }
+
+  return (<div>
+    {content}
+  </div>
+  );
+}
+```
+
+Add a new file called ```Replies.css``` within ```frontend-react-js/src/components``` 
+
+Amend ```frontend-react-js/src/components/ReplyForm.js``` with the command below:
+
+```sh
+import './ReplyForm.css';
+import React from "react";
+import process from 'process';
+import {post} from 'lib/Requests';
+
+import ActivityContent  from 'components/ActivityContent';
+import FormErrors from 'components/FormErrors';
+
+export default function ReplyForm(props) {
+  const [count, setCount] = React.useState(0);
+  const [message, setMessage] = React.useState('');
+  const [errors, setErrors] = React.useState([]);
+
+  const classes = []
+  classes.push('count')
+  if (240-count < 0){
+    classes.push('err')
+  }
+
+  const onsubmit = async (event) => {
+    event.preventDefault();
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/${props.activity.uuid}/reply`
+    const payload_data = {
+      activity_uuid: props.activity.uuid,
+      message: message
+    }
+    post(url,payload_data,{
+      auth: true,
+      setErrors: setErrors,
+      success: function(data){
+        // add activity to the feed
+        //let activities_deep_copy = JSON.parse(JSON.stringify(props.activities))
+        //let found_activity = activities_deep_copy.find(function (element) {
+        //  return element.uuid ===  props.activity.uuid;
+        //});
+        //found_activity.replies.push(data)
+        //props.setActivities(activities_deep_copy);
+
+        // reset and close the form
+        setCount(0)
+        setMessage('')
+        props.setPopped(false)
+      }
+    })
+  }
+
+  const textarea_onchange = (event) => {
+    setCount(event.target.value.length);
+    setMessage(event.target.value);
+  }
+
+  let content;
+  if (props.activity){
+    content = <ActivityContent activity={props.activity} />;
+  }
+
+  const close = (event)=> {
+    if (event.target.classList.contains("reply_popup")) {
+      props.setPopped(false)
+    }
+  }
+  if (props.popped === true) {
+    return (
+      <div className="popup_form_wrap reply_popup" onClick={close}>
+        <div className="popup_form">
+          <div className="popup_heading">
+            <div className="popup_title">
+              Reply to...
+            </div>
+          </div>
+          <div className="popup_content">
+            <div className="activity_wrap">
+              {content}
+            </div>
+            <form 
+              className='replies_form'
+              onSubmit={onsubmit}
+            >
+              <textarea
+                type="text"
+                placeholder="what is your reply?"
+                value={message}
+                onChange={textarea_onchange} 
+              />
+              <div className='submit'>
+                <div className={classes.join(' ')}>{240-count}</div>
+                <button type='submit'>Reply</button>
+              </div>
+              <FormErrors errors={errors} />
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+```
+
+Add a new file called ```Requests.js``` within ```frontend-react-js/src/lib``` with the command below:
+
+```sh
+import {getAccessToken} from 'lib/CheckAuth';
+
+async function request(method,url,payload_data,options){
+  console.log(options)
+  if (options.hasOwnProperty('setErrors')){
+    options.setErrors('')
+  }
+  let res
+  try {
+
+    const attrs = {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+
+    if (options.hasOwnProperty('auth') && options.auth === true){
+      await getAccessToken()
+      const access_token = localStorage.getItem("access_token")
+      attrs.headers['Authorization'] = `Bearer ${access_token}`
+    }
+
+    if (method !== 'GET') {
+      attrs.body = JSON.stringify(payload_data)
+    }
+
+    res = await fetch(url,attrs)
+    let data = await res.json();
+    if (res.status === 200) {
+      options.success(data)
+    } else {
+      if (setErrors !== null){
+        options.setErrors(data)
+      }
+      console.log(res,data)
+    }
+  } catch (err) {
+    console.log('request catch',err)
+    if (err instanceof Response) {
+        console.log('HTTP error detected:', err.status); // Here you can see the status.
+        if (options.hasOwnProperty('setErrors')){
+          options.setErrors([`generic_${err.status}`]) // Just an example. Adjust it to your needs.
+        }
+    } else {
+      if (options.hasOwnProperty('setErrors')){
+        options.setErrors([`generic_500`]) // For network errors or any other errors
+      }
+    }
+  }
+}
+
+export function post(url,payload_data,options){
+  request('POST',url,payload_data,options)
+}
+
+export function put(url,payload_data,options){
+  request('PUT',url,payload_data,options)
+}
+
+export function get(url,options){
+  request('GET',url,null,options)
+}
+
+export function destroy(url,payload_data,options){
+  request('DELETE',url,payload_data,options)
+}
+```
+
+Add a new file called ```ActivityShowPage.js``` within ```frontend-react-js/src/pages``` with the command below:
+
+```sh
+import './ActivityShowPage.css';
+import React from "react";
+import { useParams } from 'react-router-dom';
+
+import DesktopNavigation  from 'components/DesktopNavigation';
+import DesktopSidebar     from 'components/DesktopSidebar';
+import ActivityForm from 'components/ActivityForm';
+import ReplyForm from 'components/ReplyForm';
+import Replies from 'components/Replies';
+import ActivityItem from 'components/ActivityItem'
+
+import {get} from 'lib/Requests';
+import {checkAuth} from 'lib/CheckAuth';
+
+export default function ActivityShowPage() {
+  const [activity, setActivity] = React.useState(null);
+  const [replies, setReplies] = React.useState([]);
+  const [popped, setPopped] = React.useState(false);
+  const [poppedReply, setPoppedReply] = React.useState(false);
+  const [replyActivity, setReplyActivity] = React.useState({});
+  const [user, setUser] = React.useState(null);
+  const dataFetchedRef = React.useRef(false);
+  const params = useParams();
+
+  const loadData = async () => {
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/@${params.handle}/status/${params.activity_uuid}`
+    get(url,{
+      auth: false,
+      success: function(data){
+        setActivity(data.activity)
+        setReplies(data.replies)
+      }
+    })
+  }
+  
+  React.useEffect(()=>{
+    //prevents double call
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+
+    loadData();
+    checkAuth(setUser);
+  }, [])
+
+  let el_activity
+  if (activity !== null){
+    el_activity = (
+      <ActivityItem 
+        setReplyActivity={setReplyActivity}
+        setPopped={setPoppedReply}
+        activity={activity} 
+      />
+    )
+  }
+
+  return (
+    <article>
+      <DesktopNavigation user={user} active={'home'} setPopped={setPopped} />
+      <div className='content'>
+        <ActivityForm  
+          popped={popped}
+          setPopped={setPopped} 
+        />
+        <ReplyForm 
+          activity={replyActivity} 
+          popped={poppedReply} 
+          setPopped={setPoppedReply} 
+        />
+        <div className='activity_feed'>
+          <div className='activity_feed_heading'>
+            <div className='title'>Home</div>
+          </div>
+          {el_activity}
+          <Replies
+            setReplyActivity={setReplyActivity} 
+            setPopped={setPoppedReply} 
+            replies={replies} 
+          />
+        </div>
+      </div>
+      <DesktopSidebar user={user} />
+    </article>
+  );
+}
+```
+
+Add a new page called ```ActivityShowPage.css``` within ```frontend-react-js/src/pages``` 
+
+Amend ```frontend-react-js/src/pages/HomeFeedPage.js``` with the command below:
+
+```sh
+import './HomeFeedPage.css';
+import React from "react";
+
+import DesktopNavigation  from 'components/DesktopNavigation';
+import DesktopSidebar     from 'components/DesktopSidebar';
+import ActivityFeed from 'components/ActivityFeed';
+import ActivityForm from 'components/ActivityForm';
+import ReplyForm from 'components/ReplyForm';
+
+import {get} from 'lib/Requests';
+import {checkAuth} from 'lib/CheckAuth';
+
+export default function HomeFeedPage() {
+  const [activities, setActivities] = React.useState([]);
+  const [popped, setPopped] = React.useState(false);
+  const [poppedReply, setPoppedReply] = React.useState(false);
+  const [replyActivity, setReplyActivity] = React.useState({});
+  const [user, setUser] = React.useState(null);
+  const dataFetchedRef = React.useRef(false);
+
+  const loadData = async () => {
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/home`
+    get(url,{
+      auth: true,
+      success: function(data){
+        setActivities(data)
+      }
+    })
+  }
+  
+  React.useEffect(()=>{
+    //prevents double call
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+
+    loadData();
+    checkAuth(setUser);
+  }, [])
+
+  return (
+    <article>
+      <DesktopNavigation user={user} active={'home'} setPopped={setPopped} />
+      <div className='content'>
+        <ActivityForm  
+          popped={popped}
+          setPopped={setPopped} 
+          setActivities={setActivities} 
+        />
+        <ReplyForm 
+          activity={replyActivity} 
+          popped={poppedReply} 
+          setPopped={setPoppedReply} 
+        />
+        <div className='activity_feed'>
+          <div className='activity_feed_heading'>
+            <div className='title'>Home</div>
+          </div>
+          <ActivityFeed 
+            setReplyActivity={setReplyActivity} 
+            setPopped={setPoppedReply} 
+            activities={activities} 
+          />
+        </div>
+      </div>
+      <DesktopSidebar user={user} />
+    </article>
+  );
+}
+```
+
+Amend ```frontend-react-js/src/pages/MessageGroupNewPage.js``` with the command below:
+
+```sh
+import './MessageGroupPage.css';
+import React from "react";
+import { useParams } from 'react-router-dom';
+
+import DesktopNavigation  from 'components/DesktopNavigation';
+import MessageGroupFeed from 'components/MessageGroupFeed';
+import MessagesFeed from 'components/MessageFeed';
+import MessagesForm from 'components/MessageForm';
+
+import {get} from 'lib/Requests';
+import {checkAuth} from 'lib/CheckAuth';
+
+export default function MessageGroupPage() {
+  const [otherUser, setOtherUser] = React.useState([]);
+  const [messageGroups, setMessageGroups] = React.useState([]);
+  const [messages, setMessages] = React.useState([]);
+  const [popped, setPopped] = React.useState([]);
+  const [user, setUser] = React.useState(null);
+  const dataFetchedRef = React.useRef(false);
+  const params = useParams();
+
+  const loadUserShortData = async () => {
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/users/@${params.handle}/short`
+    get(url,{
+      auth: true,
+      success: function(data){
+        console.log('other user:',data)
+        setOtherUser(data)
+      }
+    })
+  }
+
+  const loadMessageGroupsData = async () => {
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/message_groups`
+    get(url,{
+      auth: true,
+      success: function(data){
+        setMessageGroups(data)
+      }
+    })
+  };  
+
+  React.useEffect(()=>{
+    //prevents double call
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+
+    loadMessageGroupsData();
+    loadUserShortData();
+    checkAuth(setUser);
+  }, [])
+  return (
+    <article>
+      <DesktopNavigation user={user} active={'home'} setPopped={setPopped} />
+      <section className='message_groups'>
+        <MessageGroupFeed otherUser={otherUser} message_groups={messageGroups} />
+      </section>
+      <div className='content messages'>
+        <MessagesFeed messages={messages} />
+        <MessagesForm setMessages={setMessages} />
+      </div>
+    </article>
+  );
+}
+```
+
+Amend ```frontend-react-js/src/pages/MessageGroupsPage.js``` with the command below:
+
+```sh
+import './MessageGroupsPage.css';
+import React from "react";
+
+import DesktopNavigation  from '../components/DesktopNavigation';
+import MessageGroupFeed from '../components/MessageGroupFeed';
+import {checkAuth, getAccessToken} from '../lib/CheckAuth';
+
+export default function MessageGroupsPage() {
+  const [messageGroups, setMessageGroups] = React.useState([]);
+  const [popped, setPopped] = React.useState([]);
+  const [user, setUser] = React.useState(null);
+  const dataFetchedRef = React.useRef(false);
+
+  const loadData = async () => {
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/message_groups`
+    get(url,{
+      auth: true,
+      success: function(data){
+        setMessageGroups(data)
+      }
+    })
+  }
+
+  React.useEffect(()=>{
+    //prevents double call
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+
+    loadData();
+    checkAuth(setUser);
+  }, [])
+  return (
+    <article>
+      <DesktopNavigation user={user} active={'home'} setPopped={setPopped} />
+      <section className='message_groups'>
+        <MessageGroupFeed message_groups={messageGroups} />
+      </section>
+      <div className='content'>
+      </div>
+    </article>
+  );
+}
+```
+
+Amend ```frontend-react-js/src/pages/NotificationsFeedPage.js``` with the command below:
+
+```sh
+import './NotificationsFeedPage.css';
+import React from "react";
+
+import DesktopNavigation  from 'components/DesktopNavigation';
+import DesktopSidebar     from 'components/DesktopSidebar';
+import ActivityFeed from 'components/ActivityFeed';
+import ActivityForm from 'components/ActivityForm';
+import ReplyForm from 'components/ReplyForm';
+
+import {get} from 'lib/Requests';
+import {checkAuth} from 'lib/CheckAuth';
+
+export default function NotificationsFeedPage() {
+  const [activities, setActivities] = React.useState([]);
+  const [popped, setPopped] = React.useState(false);
+  const [poppedReply, setPoppedReply] = React.useState(false);
+  const [replyActivity, setReplyActivity] = React.useState({});
+  const [user, setUser] = React.useState(null);
+  const dataFetchedRef = React.useRef(false);
+
+  const loadData = async () => {
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/notifications`
+    get(url,{
+      auth: true,
+      success: function(data){
+        setActivities(data)
+      }
+    })
+  };
+
+  React.useEffect(()=>{
+    //prevents double call
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+
+    loadData();
+    checkAuth(setUser);
+  }, [])
+
+  return (
+    <article>
+      <DesktopNavigation user={user} active={'notifications'} setPopped={setPopped} />
+      <div className='content'>
+        <ActivityForm  
+          popped={popped}
+          setPopped={setPopped} 
+          setActivities={setActivities} 
+        />
+        <ReplyForm 
+          activity={replyActivity} 
+          popped={poppedReply} 
+          setPopped={setPoppedReply} 
+          setActivities={setActivities} 
+          activities={activities} 
+        />
+        <div className='activity_feed'>
+          <div className='activity_feed_heading'>
+            <div className='title'>Notifications</div>
+          </div>
+          <ActivityFeed 
+            setReplyActivity={setReplyActivity} 
+            setPopped={setPoppedReply} 
+            activities={activities} 
+          />
+        </div>
+      </div>
+      <DesktopSidebar user={user} />
+    </article>
+  );
+}
+```
+
+Amend ```frontend-react-js/src/pages/UserFeedPage.js``` with the command below:
+
+```sh
+import './UserFeedPage.css';
+import React from "react";
+import { useParams } from 'react-router-dom';
+
+import DesktopNavigation  from 'components/DesktopNavigation';
+import DesktopSidebar     from 'components/DesktopSidebar';
+import ActivityFeed from 'components/ActivityFeed';
+import ActivityForm from 'components/ActivityForm';
+import ProfileHeading from 'components/ProfileHeading';
+import ProfileForm from 'components/ProfileForm';
+
+import {get} from 'lib/Requests';
+import {checkAuth} from 'lib/CheckAuth';
+
+export default function UserFeedPage() {
+  const [activities, setActivities] = React.useState([]);
+  const [profile, setProfile] = React.useState([]);
+  const [popped, setPopped] = React.useState([]);
+  const [poppedProfile, setPoppedProfile] = React.useState([]);
+  const [user, setUser] = React.useState(null);
+  const dataFetchedRef = React.useRef(false);
+
+  const params = useParams();
+
+  const loadData = async () => {
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/@${params.handle}`
+    get(url,{
+      auth: false,
+      success: function(data){
+        console.log('setprofile',data.profile)
+        setProfile(data.profile)
+        setActivities(data.activities)
+      }
+    })
+  }
+
+  React.useEffect(()=>{
+    //prevents double call
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+
+    loadData();
+    checkAuth(setUser);
+  }, [])
+
+  return (
+    <article>
+      <DesktopNavigation user={user} active={'profile'} setPopped={setPopped} />
+      <div className='content'>
+        <ActivityForm popped={popped} setActivities={setActivities} />
+        <ProfileForm 
+          profile={profile}
+          popped={poppedProfile} 
+          setPopped={setPoppedProfile} 
+        />
+        <div className='activity_feed'>
+          <ProfileHeading setPopped={setPoppedProfile} profile={profile} />
+          <ActivityFeed activities={activities} />
+        </div>
+      </div>
+      <DesktopSidebar user={user} />
+    </article>
+  );
+}
+```
+
+Amend ```frontend-react-js/src/App.js``` with the command below:
+
+```sh
+import './App.css';
+import './components/Popup.css';
+
+import HomeFeedPage from './pages/HomeFeedPage';
+import NotificationsFeedPage from './pages/NotificationsFeedPage';
+import UserFeedPage from './pages/UserFeedPage';
+import SignupPage from './pages/SignupPage';
+import SigninPage from './pages/SigninPage';
+import RecoverPage from './pages/RecoverPage';
+import MessageGroupsPage from './pages/MessageGroupsPage';
+import MessageGroupPage from './pages/MessageGroupPage';
+import MessageGroupNewPage from './pages/MessageGroupNewPage';
+import ConfirmationPage from './pages/ConfirmationPage';
+import ActivityShowPage from './pages/ActivityShowPage';
+import React from 'react';
+import {
+  createBrowserRouter,
+  RouterProvider
+} from "react-router-dom";
+
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure({
+  "AWS_PROJECT_REGION": process.env.REACT_APP_AWS_PROJECT_REGION,
+  "aws_cognito_region": process.env.REACT_APP_AWS_COGNITO_REGION,
+  "aws_user_pools_id": process.env.REACT_APP_AWS_USER_POOLS_ID,
+  "aws_user_pools_web_client_id": process.env.REACT_APP_CLIENT_ID,
+  "oauth": {},
+  Auth: {
+    // We are not using an Identity Pool
+    // identityPoolId: process.env.REACT_APP_IDENTITY_POOL_ID, // REQUIRED - Amazon Cognito Identity Pool ID
+    region: process.env.REACT_APP_AWS_PROJECT_REGION,           // REQUIRED - Amazon Cognito Region
+    userPoolId: process.env.REACT_APP_AWS_USER_POOLS_ID,         // OPTIONAL - Amazon Cognito User Pool ID
+    userPoolWebClientId: process.env.REACT_APP_CLIENT_ID,   // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+  }
+});
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomeFeedPage />
+  },
+  {
+    path: "/notifications",
+    element: <NotificationsFeedPage />
+  },
+  {
+    path: "/@:handle",
+    element: <UserFeedPage />
+  },
+  {
+    path: "/@:handle/status/:activity_uuid",
+    element: <ActivityShowPage />
+  },
+  {
+    path: "/messages",
+    element: <MessageGroupsPage />
+  },
+  {
+    path: "/messages/new/:handle",
+    element: <MessageGroupNewPage />
+  },
+  {
+    path: "/messages/:message_group_uuid",
+    element: <MessageGroupPage />
+  },
+  {
+    path: "/signup",
+    element: <SignupPage />
+  },
+  {
+    path: "/signin",
+    element: <SigninPage />
+  },
+  {
+    path: "/confirm",
+    element: <ConfirmationPage />
+  },
+  {
+    path: "/forgot",
+    element: <RecoverPage />
+  }
+]);
+
+function App() {
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
+}
+
+export default App;
+```
+
+Add a new page called ```show.sql``` within ```backend-flask/db/sql/activities``` with the command below:
+
+```sh
+SELECT
+  (SELECT COALESCE(row_to_json(object_row),'{}'::json) FROM (
+    SELECT
+      activities.uuid,
+      users.display_name,
+      users.handle,
+      activities.message,
+      activities.replies_count,
+      activities.reposts_count,
+      activities.likes_count,
+      activities.expires_at,
+      activities.created_at
+  ) object_row) as activity,
+  (SELECT COALESCE(array_to_json(array_agg(row_to_json(array_row))),'[]'::json) FROM (
+  SELECT
+    replies.uuid,
+    reply_users.display_name,
+    reply_users.handle,
+    replies.message,
+    replies.replies_count,
+    replies.reposts_count,
+    replies.likes_count,
+    replies.reply_to_activity_uuid,
+    replies.created_at
+  FROM public.activities replies
+  LEFT JOIN public.users reply_users ON reply_users.uuid = replies.user_uuid
+  WHERE
+    replies.reply_to_activity_uuid = activities.uuid
+  ORDER BY  activities.created_at ASC
+  ) array_row) as replies
+FROM public.activities
+LEFT JOIN public.users ON users.uuid = activities.user_uuid
+WHERE activities.uuid = %(uuid)s
+ORDER BY activities.created_at DESC
+```
+
+Amend ```backend-flask/routes/activities.py``` with the command below:
+
+```sh
+## flask
+from flask import request, g
+
+## decorators
+from aws_xray_sdk.core import xray_recorder
+from lib.cognito_jwt_token import jwt_required
+from flask_cors import cross_origin
+
+## services
+from services.home_activities import *
+from services.notifications_activities import *
+from services.create_activity import *
+from services.search_activities import *
+from services.create_reply import *
+
+## helpers
+from lib.helpers import model_json
+
+def load(app):
+  def default_home_feed(e):
+    app.logger.debug(e)
+    app.logger.debug("unauthenicated")
+    data = HomeActivities.run()
+    return data, 200
+
+  @app.route("/api/activities/home", methods=['GET'])
+  #@xray_recorder.capture('activities_home')
+  @jwt_required(on_error=default_home_feed)
+  def data_home():
+    data = HomeActivities.run(cognito_user_id=g.cognito_user_id)
+    return data, 200
+
+  @app.route("/api/activities/notifications", methods=['GET'])
+  def data_notifications():
+    data = NotificationsActivities.run()
+    return data, 200
+
+  @app.route("/api/activities/search", methods=['GET'])
+  def data_search():
+    term = request.args.get('term')
+    model = SearchActivities.run(term)
+    return model_json(model)
+
+  @app.route("/api/activities", methods=['POST','OPTIONS'])
+  @cross_origin()
+  @jwt_required()
+  def data_activities():
+    message = request.json['message']
+    ttl = request.json['ttl']
+    model = CreateActivity.run(message, g.cognito_user_id, ttl)
+    return model_json(model)
+
+  @app.route("/api/activities/<string:activity_uuid>/reply", methods=['POST','OPTIONS'])
+  @cross_origin()
+  @jwt_required()
+  def data_activities_reply(activity_uuid):
+    message = request.json['message']
+    model = CreateReply.run(message, g.cognito_user_id, activity_uuid)
+    return model_json(model)
+```
+
+Amend ```backend-flask/routes/users.py``` with the command below:
+
+```sh
+## flask
+from flask import request, g
+
+## decorators
+from aws_xray_sdk.core import xray_recorder
+from lib.cognito_jwt_token import jwt_required
+from flask_cors import cross_origin
+
+## services
+from services.users_short import UsersShort
+from services.update_profile import UpdateProfile
+from services.user_activities import UserActivities
+from services.show_activity import ShowActivity
+
+## helpers
+from lib.helpers import model_json
+
+def load(app):
+  @app.route("/api/activities/@<string:handle>", methods=['GET'])
+  #@xray_recorder.capture('activities_users')
+  def data_users_activities(handle):
+    model = UserActivities.run(handle)
+    return model_json(model)
+
+  @app.route("/api/activities/@<string:handle>/status/<string:activity_uuid>", methods=['GET'])
+  def data_show_activity(handle,activity_uuid):
+    data = ShowActivity.run(activity_uuid)
+    return data, 200
+
+  @app.route("/api/users/@<string:handle>/short", methods=['GET'])
+  def data_users_short(handle):
+    data = UsersShort.run(handle)
+    return data, 200
+
+  @app.route("/api/profile/update", methods=['POST','OPTIONS'])
+  @cross_origin()
+  @jwt_required()
+  def data_update_profile():
+    bio          = request.json.get('bio',None)
+    display_name = request.json.get('display_name',None)
+    model = UpdateProfile.run(
+      cognito_user_id=g.cognito_user_id,
+      bio=bio,
+      display_name=display_name
+    )
+    return model_json(model)
+```
+
+Amend ```backend-flask/services/show_activity.py``` with the command below:
+
+```sh
+from datetime import datetime, timedelta, timezone
+
+from lib.db import db
+
+class ShowActivity:
+  def run(activity_uuid):
+   
+    sql = db.template('activities','show')
+    results = db.query_array_json(sql,{
+      'uuid': activity_uuid
+    })
+    return results
+```
+
+
 
