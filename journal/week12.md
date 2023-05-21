@@ -42,7 +42,7 @@ REACT_APP_CLIENT_ID="$AWS_COGNITO_AWS_USER_POOL_CLIENT_ID" \
 npm run build
 ```
 
-Amended ```frontend-react-js/src/pages/SigninPage.js``` with parts of the command below:
+Amend ```frontend-react-js/src/pages/SigninPage.js``` with parts of the command below:
 
 ```sh
 const onsubmit = async (event) => {
@@ -64,7 +64,7 @@ const onsubmit = async (event) => {
   }
 ```
 
-Amended ```frontend-react-js/src/components/ActivityContent.css``` by adding flex-start to align-items with parts of the command below:
+Amend ```frontend-react-js/src/components/ActivityContent.css``` by adding flex-start to align-items with parts of the command below:
 
 ```sh
 .activity_content_wrap {
@@ -74,4 +74,33 @@ Amended ```frontend-react-js/src/components/ActivityContent.css``` by adding fle
 }
 ```
 
+Amend ```frontend-react-js/src/pages/RecoverPage.js``` with parts of the command below:
+
+```sh
+const onsubmit_confirm_code = async (event) => {
+    event.preventDefault();
+    setErrors('')
+    if (password === passwordAgain){
+      Auth.forgotPasswordSubmit(username, code, password)
+      .then((data) => setFormState('success'))
+      .catch((err) => setErrors(err.message) );
+    } else {
+      setErrors('Passwords do not match')
+    }
+    return false
+  }
+  
+  ---
+  
+  let form;
+  if (formState === 'send_code') {
+    form = send_code()
+  }
+  else if (formState === 'confirm_code') {
+    form = confirm_code()
+  }
+  else if (formState === 'success') {
+    form = success()
+  }
+```
 
