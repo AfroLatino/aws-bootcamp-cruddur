@@ -237,3 +237,71 @@ Amend ```frontend-react-js/src/components/MessageGroupItem.css``` with parts of 
   text-decoration: none;
 }
 ```
+
+Amend ```frontend-react-js/src/components/MessageItem.css``` with parts of the command below:
+
+```sh
+.message_item {
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+  border-bottom: solid 1px rgb(31,36,49);
+  padding: 16px;
+  cursor: pointer;
+  text-decoration: none;
+}
+```
+
+Amend ```frontend-react-js/src/components/ProfileHeading.css``` with parts of the command below:
+
+```sh
+.profile_heading .info {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 16px;
+}
+```
+
+Amend ```frontend-react-js/src/components/MessageGroupItem.js``` with parts of the command below:
+
+```sh
+const classes = () => {
+    let classes = ["message_group_item"];
+    if (params.message_group_uuid === props.message_group.uuid){
+      classes.push('active')
+    }
+    return classes.join(' ');
+  }
+```
+
+Run the command below in the frontend-flask directory; ```/workspace/aws-bootcamp-cruddur-2023/frontend-react-js``` to build the application:
+
+```sh
+REACT_APP_BACKEND_URL="https://api.ocubeltd.co.uk" \
+REACT_APP_AWS_PROJECT_REGION="$AWS_DEFAULT_REGION" \
+REACT_APP_AWS_COGNITO_REGION="$AWS_DEFAULT_REGION" \
+REACT_APP_AWS_USER_POOLS_ID="$AWS_USER_POOLS_ID" \
+REACT_APP_CLIENT_ID="$APP_CLIENT_ID" \
+npm run build
+```
+
+Zip the contents by running the command below:
+
+```sh
+zip -r build.zip build/
+```
+
+- This creates the build.zip file
+- Right click and download the file
+- Delete the build.zip file from the directory.
+- Navigate to Amazon S3 -> Buckets -> ocubeltd.co.uk
+- Copy the build zip folder onto the desktop
+- Open the build folder
+- Copy and drag all the contents onto the page
+- Click on upload
+
+I typed ocubeltd.co.uk on the URL and got the web application as seen below:
+
+![ocubeltd co uk_webapplication_showing](https://github.com/AfroLatino/aws-bootcamp-cruddur-2023/assets/78261965/b8ccfb18-bb04-4b07-bd28-13d19762ea43)
+
