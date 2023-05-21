@@ -811,3 +811,112 @@ Amended ```bin/cfn/service``` by removing the comments for the parameters.
 
 
 ### CICD Pipeline and Create Activity <a name="paragraph4"></a>
+
+Amend ```docker-compose.yaml``` so that it is using the standard docker file as opposed to prod version as seen below:
+
+```sh
+build:
+      context:  ./backend-flask
+      dockerfile: Dockerfile
+```
+
+Amended ```backend-flask/app.py``` to the command below:
+
+```sh
+@app.route("/api/activities", methods=['POST','OPTIONS'])
+@cross_origin()
+@jwt_required()
+def data_activities():
+  message = request.json['message']
+  ttl = request.json['ttl']
+  model = CreateActivity.run(message, g.cognito_user_id, ttl)
+  if model['errors'] is not None:
+    return model['errors'], 422
+  else:
+    return model['data'], 200
+```
+
+Amend ```backend-flask/services/create_activity.py``` to include cognito_user_id as follows:
+
+```sh
+class CreateActivity:
+  def run(message, cognito_user_id, ttl):
+    model = {
+      'errors': None,
+      'data': None
+    }
+    
+ ---
+
+if cognito_user_id == None or len(cognito_user_id) < 1:
+      model['errors'] = ['cognito_user_id_blank']
+---
+
+else:
+      expires_at = (now + ttl_offset)
+      uuid = CreateActivity.create_activity(cognito_user_id,message,expires_at)
+
+      object_json = CreateActivity.query_object_activity(uuid)
+      model['data'] = object_json
+    return model
+
+  def create_activity(cognito_user_id, message, expires_at):
+    sql = db.template('activities','create')
+    uuid = db.query_commit(sql,{
+      'cognito_user_id': cognito_user_id,
+      'message': message,
+      'expires_at': expires_at
+    })
+```
+
+Add another cognito user to the seed data via this path: ```backend-flask/db/seed.sql```
+
+Amend ```backend-flask/db/sql/activities/create.sql``` with the command below:
+
+```sh
+INSERT INTO public.activities (
+  user_uuid,
+  message,
+  expires_at
+)
+VALUES (
+  (SELECT uuid 
+    FROM public.users 
+    WHERE users.cognito_user_id = %(cognito_user_id)s
+    LIMIT 1
+  ),
+  %(message)s,
+  %(expires_at)s
+) RETURNING uuid;
+```
+
+Add the command below to ```frontend-react-js/src/components/ActivityForm.js```:
+
+```sh
+import {getAccessToken} from '../lib/CheckAuth';
+```
+
+Trigger the CodePipeline
+
+Amend ```aws/cfn/cicd/config.toml``` to include my username as shown below:
+
+```sh
+GithubRepo = 'afrolatino/aws-bootcamp-cruddur-2023'
+```
+
+Amend ```aws/cfn/cicd/template.yaml``` to include additional permissions as seen below:
+
+```sh
+- PolicyName: !Sub ${AWS::StackName}S3ArtifactAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - s3:*
+                Effect: Allow
+                Resource:
+                  - !Sub arn:aws:s3:::${ArtifactBucketName}
+                  - !Sub arn:aws:s3:::${ArtifactBucketName}/*
+```
+
+### Refactor JWT to use a decorator <a name="paragraph5"></a>
