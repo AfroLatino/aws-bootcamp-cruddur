@@ -919,6 +919,7 @@ Amend ```aws/cfn/cicd/template.yaml``` to include additional permissions as seen
                   - !Sub arn:aws:s3:::${ArtifactBucketName}/*
 ```
 
+
 ### Refactor JWT to use a decorator <a name="paragraph5"></a>
 
 Amend ```aws/cfn/cicd/config.toml to include the command below:
@@ -967,6 +968,7 @@ Amend ```backend-flask/app.py``` with the code below:
 ```sh
 from flask import request, g
 ```
+
 
 ### Refactor AppPy <a name="paragraph6"></a>
 
@@ -1132,5 +1134,376 @@ def init_xray(app):
 ```
 
 
+### Refactor Flask Routes <a name="paragraph7"></a>
 
+Create a folder within ```backend-flask``` called ```routes```, then a file called ```users.py``` with the command below:
+
+```sh
+## flask
+from flask import request, g
+
+## decorators
+from aws_xray_sdk.core import xray_recorder
+from lib.cognito_jwt_token import jwt_required
+from flask_cors import cross_origin
+
+## services
+from services.users_short import UsersShort
+from services.update_profile import UpdateProfile
+from services.user_activities import UserActivities
+
+## helpers
+from lib.helpers import model_json
+
+def load(app):
+  @app.route("/api/activities/@<string:handle>", methods=['GET'])
+  #@xray_recorder.capture('activities_users')
+  def data_handle(handle):
+    model = UserActivities.run(handle)
+    return return_model(model)
+
+  @app.route("/api/users/@<string:handle>/short", methods=['GET'])
+  def data_users_short(handle):
+    data = UsersShort.run(handle)
+    return data, 200
+
+  @app.route("/api/profile/update", methods=['POST','OPTIONS'])
+  @cross_origin()
+  @jwt_required()
+  def data_update_profile():
+    bio          = request.json.get('bio',None)
+    display_name = request.json.get('display_name',None)
+    model = UpdateProfile.run(
+      cognito_user_id=g.cognito_user_id,
+      bio=bio,
+      display_name=display_name
+    )
+    return model_json(model)
+```
+
+Create a file called ```messages.py``` within ```backend-flask/routes``` with the command below:
+
+```sh
+## flask
+from flask import request, g
+
+## decorators
+from aws_xray_sdk.core import xray_recorder
+from lib.cognito_jwt_token import jwt_required
+from flask_cors import cross_origin
+
+## services
+from services.message_groups import MessageGroups
+from services.messages import Messages
+from services.create_message import CreateMessage
+
+## helpers
+from lib.helpers import model_json
+
+def load(app):
+  @app.route("/api/message_groups", methods=['GET'])
+  @jwt_required()
+  def data_message_groups():
+    model = MessageGroups.run(cognito_user_id=g.cognito_user_id)
+    return model_json(model)
+
+  @app.route("/api/messages/<string:message_group_uuid>", methods=['GET'])
+  @jwt_required()
+  def data_messages(message_group_uuid):
+    model = Messages.run(
+        cognito_user_id=g.cognito_user_id,
+        message_group_uuid=message_group_uuid
+      )
+    return model_json(model)
+
+  @app.route("/api/messages", methods=['POST','OPTIONS'])
+  @cross_origin()
+  @jwt_required()
+  def data_create_message():
+    message_group_uuid   = request.json.get('message_group_uuid',None)
+    user_receiver_handle = request.json.get('handle',None)
+    message = request.json['message']
+    if message_group_uuid == None:
+      # Create for the first time
+      model = CreateMessage.run(
+        mode="create",
+        message=message,
+        cognito_user_id=g.cognito_user_id,
+        user_receiver_handle=user_receiver_handle
+      )
+    else:
+      # Push onto existing Message Group
+      model = CreateMessage.run(
+        mode="update",
+        message=message,
+        message_group_uuid=message_group_uuid,
+        cognito_user_id=g.cognito_user_id
+      )
+    return model_json(model)
+```
+
+Create a file called ```general.py``` within ```backend-flask/routes``` with the command below:
+
+```sh
+from flask import request, g
+
+def load(app):
+  @app.route('/api/health-check')
+  def health_check():
+    return {'success': True, 'ver': 1}, 200
+
+  #@app.route('/rollbar/test')
+  #def rollbar_test():
+  #  g.rollbar.report_message('Hello World!', 'warning')
+  #  return "Hello World!"
+```
+
+Create a file called ```activities.py``` within ```backend-flask/lib``` with the command below:
+
+```sh
+## flask
+from flask import request, g
+
+## decorators
+from aws_xray_sdk.core import xray_recorder
+from lib.cognito_jwt_token import jwt_required
+from flask_cors import cross_origin
+
+## services
+from services.home_activities import *
+from services.notifications_activities import *
+from services.create_activity import *
+from services.search_activities import *
+from services.show_activity import *
+from services.create_reply import *
+
+## helpers
+from lib.helpers import model_json
+
+def load(app):
+  def default_home_feed(e):
+    app.logger.debug(e)
+    app.logger.debug("unauthenicated")
+    data = HomeActivities.run()
+    return data, 200
+
+  @app.route("/api/activities/home", methods=['GET'])
+  #@xray_recorder.capture('activities_home')
+  @jwt_required(on_error=default_home_feed)
+  def data_home():
+    data = HomeActivities.run(cognito_user_id=g.cognito_user_id)
+    return data, 200
+
+  @app.route("/api/activities/notifications", methods=['GET'])
+  def data_notifications():
+    data = NotificationsActivities.run()
+    return data, 200
+
+  @app.route("/api/activities/search", methods=['GET'])
+  def data_search():
+    term = request.args.get('term')
+    model = SearchActivities.run(term)
+    return model_json(model)
+
+  @app.route("/api/activities", methods=['POST','OPTIONS'])
+  @cross_origin()
+  @jwt_required()
+  def data_activities():
+    message = request.json['message']
+    ttl = request.json['ttl']
+    model = CreateActivity.run(message, g.cognito_user_id, ttl)
+    return model_json(model)
+
+  @app.route("/api/activities/<string:activity_uuid>", methods=['GET'])
+  @xray_recorder.capture('activities_show')
+  def data_show_activity(activity_uuid):
+    data = ShowActivity.run(activity_uuid=activity_uuid)
+    return data, 200
+
+  @app.route("/api/activities/<string:activity_uuid>/reply", methods=['POST','OPTIONS'])
+  @cross_origin()
+  @jwt_required()
+  def data_activities_reply(activity_uuid):
+    message = request.json['message']
+    model = CreateReply.run(message, g.cognito_user_id, activity_uuid)
+    return model_json(model)
+```
+
+
+### Replies Work In Progress <a name="paragraph8"></a>
+
+This is the amendment to ```activities.py``` within ```backend-flask/routes```
+
+Add a ```reply.sql``` file within ```backend-flask/db/sql/activities``` with the command below:
+
+```sh
+INSERT INTO public.activities (
+  user_uuid,
+  message,
+  reply_to_activity_uuid
+)
+VALUES (
+  (SELECT uuid 
+    FROM public.users 
+    WHERE users.cognito_user_id = %(cognito_user_id)s
+    LIMIT 1
+  ),
+  %(message)s,
+  %(reply_to_activity_uuid)s
+) RETURNING uuid;
+```
+
+Amend ```object.sql``` file within ```backend-flask/db/sql/activities``` with the command below:
+
+```sh
+activities.reply_to_activity_uuid
+
+```
+
+In order to generate migrations, run the command below in the main directory:
+
+```sh
+ ./bin/generate/migration reply_to_activity_uuid_to_string
+```
+
+This generated a reply_to_activity_uuid_to_string.py file. 
+
+Amend the file with the command below:
+
+```sh
+from lib.db import db
+
+class ReplyToActivityUuidToStringMigration:
+  def migrate_sql():
+    data = """
+    ALTER TABLE activities DROP COLUMN reply_to_activity_uuid;
+    ALTER TABLE activities ADD COLUMN reply_to_activity_uuid uuid;
+    """
+    return data
+  def rollback_sql():
+    data = """
+    ALTER TABLE activities DROP COLUMN reply_to_activity_uuid;
+    ALTER TABLE activities ADD COLUMN reply_to_activity_uuid integer;
+    """
+    return data
+
+  def migrate():
+    db.query_commit(ReplyToActivityUuidToStringMigration.migrate_sql(),{
+    })
+
+  def rollback():
+    db.query_commit(ReplyToActivityUuidToStringMigration.rollback_sql(),{
+    })
+
+migration = ReplyToActivityUuidToStringMigration
+```
+
+Amend ```bin/generate/migration``` with the command below:
+
+```sh
+timestamp = str(time.time()).replace(".","")
+
+filename = f"{timestamp}_{name}.py"
+
+migration = {klass}Migration
+```
+
+Amend ```bin/db/migration``` with the command below:
+
+```sh
+import os
+import sys
+import glob
+import re
+import time
+import importlib
+
+current_path = os.path.dirname(os.path.abspath(__file__))
+parent_path = os.path.abspath(os.path.join(current_path, '..', '..','backend-flask'))
+sys.path.append(parent_path)
+from lib.db import db
+
+def get_last_successful_run():
+  sql = """
+    SELECT last_successful_run
+    FROM public.schema_information
+    LIMIT 1
+  """
+  return int(db.query_value(sql,{},verbose=False))
+
+def set_last_successful_run(value):
+  sql = """
+  UPDATE schema_information
+  SET last_successful_run = %(last_successful_run)s
+  WHERE id = 1
+  """
+  db.query_commit(sql,{'last_successful_run': value},verbose=False)
+  return int(value)
+
+last_successful_run = get_last_successful_run()
+
+migrations_path = os.path.abspath(os.path.join(current_path, '..', '..','backend-flask','db','migrations'))
+sys.path.append(migrations_path)
+migration_files = glob.glob(f"{migrations_path}/*")
+
+for migration_file in migration_files:
+  filename = os.path.basename(migration_file)
+  module_name = os.path.splitext(filename)[0]
+  match = re.match(r'^\d+', filename)
+  if match:
+    file_time = int(match.group())
+    print(last_successful_run)
+    print(file_time)
+    if last_successful_run < file_time:
+      mod = importlib.import_module(module_name)
+      print('=== running migration: ',module_name)
+      mod.migration.migrate()
+      timestamp = str(time.time()).replace(".","")
+      last_successful_run = set_last_successful_run(timestamp)
+
+```
+
+Amend ```bin/db/rollback``` with the command below:
+
+```sh
+ set_last_successful_run(str(file_time))
+```
+
+Run ```./bin/db/rollback``` to rollback data after migration
+
+Run ```./bin/db/setup``` for setup and ```./bin/db/connect``` to connect to the database.
+
+Run the commands below within the database:
+
+```sh
+Then \d to show all tables
+
+Select * from schema_information;
+
+update schema_information SET last_successful_run='1682172941'; (This is the number attached to the add_bio_column.py)
+```
+
+Amend ```frontend-react-js/src/components/ActivityItem.js``` with the command below:
+
+```sh
+ <div className="activity_main">
+  </div>
+```
+
+Amend ```frontend-react-js/src/components/ActivityItem.css``` with the command below:
+
+```sh
+.replies {
+  padding-left: 24px;
+  background: rgba(255,255,255,0.15);
+}
+.replies .activity_item{
+  background: var(--fg);
+}
+
+.activity_main {
+```
+
+
+### Refactor Error Handling and Fetch Requests <a name="paragraph9"></a>
 
