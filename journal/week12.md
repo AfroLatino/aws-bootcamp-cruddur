@@ -162,3 +162,78 @@ Comment out codes not being used as follows:
 //const preview_image_url = URL.createObjectURL(file)
 ```
 
+Amend ```frontend-react-js/src/components/MessageGroupItem.js``` with parts of the command below:
+
+```sh
+  const classes = () => {
+    let classes = ["message_group_item"];
+    if (params.message_group_uuid === props.message_group.uuid){
+      classes.push('active')
+    }
+    return classes.join(' ');
+  }
+ ```
+ 
+ Amend ```frontend-react-js/src/components/MessageForm.js``` by adding the code below:
+ 
+ ```sh
+ import { useParams } from 'react-router-dom';
+ ```
+ 
+ Amend ```frontend-react-js/src/components/DesktopSidebar.js``` with parts of the command below:
+ 
+ ```sh
+   return (
+    <section>
+      <Search />
+      {trending}
+      {suggested}
+      {join}
+      <footer>
+        <a href="/about">About!</a>
+        <a href="/terms-of-service">Terms of Service</a>
+        <a href="/privacy-policy">Privacy Policy</a>
+      </footer>
+    </section>
+  );
+}
+```
+
+Amend ```frontend-react-js/src/components/DesktopNavigationLink.js``` with parts of the command below:
+
+```sh
+ const icon = ()=> {
+    switch(props.handle){
+      case 'home':
+        return <HomeIcon className='icon' />
+        break;
+      case 'notifications':
+        return <NotificationsIcon className='icon' />
+        break;
+      case 'profile':
+        return <ProfileIcon className='icon' />
+        break;
+      case 'more':
+        return <MoreIcon className='icon' />
+        break;
+      case 'messages':
+        return <MessagesIcon className='icon' />
+        break;
+      default: 
+        break;
+    }
+  }
+```
+
+Amend ```frontend-react-js/src/components/MessageGroupItem.css``` with parts of the command below:
+
+```sh
+.message_group_item {
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+  padding: 16px;
+  cursor: pointer;
+  text-decoration: none;
+}
+```
