@@ -3,19 +3,16 @@
 ## Table of contents
 - [Introduction](#introduction)
 - [Sync tool for static website hosting](#paragraph1)
-    - [Task Definition Guard File](#subparagraph1)
-    - [CFN Guard RuleGen](#subparagraph2)
-    - [Create s3 bucket](#subparagraph3)
-- [CFN for Networking Layer](#paragraph2)
-    - [Components of CFN Networking Template File](#subparagraph4)
-    - [Fixing !RefYAML error](#subparagraph5)
-- [CFN Diagramming the Network Layer](#paragraph3)
-- [CFN Cluster Layer](#paragraph4)
-    - [Create Config Toml files](#subparagraph6)
-- [CFN Service Layer](#paragraph5)
-    - [Create Config Toml files](#subparagraph7)
-    - [Create ECS Service](#subparagraph8)
-    - [CFN Relational Database Service (RDS)](#subparagraph9)
+- [Reconnect Database and Post Confirmation Lambda](#paragraph2)
+- [Use CORS for Service](#paragraph3)
+- [CICD Pipeline and Create Activity](#paragraph4)
+- [Refactor JWT to use a decorator](#paragraph5)
+- [Refactor AppPy](#paragraph6)
+- [Refactor Flask Routes](#paragraph7)
+- [Replies Work In Progress](#paragraph8)
+- [Refactor Error Handling and Fetch Requests](#paragraph9)
+- [Activity Show Page](#paragraph10)
+
 
 ### Introduction  <a name="introduction"></a>
 
