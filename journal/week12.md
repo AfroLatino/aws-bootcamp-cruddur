@@ -66,9 +66,11 @@ const onsubmit = async (event) => {
 
 Amended ```frontend-react-js/src/components/ActivityContent.css``` by adding flex-start to align-items with parts of the command below:
 
+```sh
 .activity_content_wrap {
   display: flex;
   flex-direction: row;
+```
   align-items: flex-start;
 }
 
