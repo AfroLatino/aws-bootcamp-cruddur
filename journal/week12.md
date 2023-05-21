@@ -305,3 +305,103 @@ I typed ocubeltd.co.uk on the URL and got the web application as seen below:
 
 ![ocubeltd co uk_webapplication_showing](https://github.com/AfroLatino/aws-bootcamp-cruddur-2023/assets/78261965/b8ccfb18-bb04-4b07-bd28-13d19762ea43)
 
+Create a file called ```sync``` within ```bin / frontend``` directory with the command below:
+
+```sh
+#!/usr/bin/env ruby
+
+require 'aws_s3_website_sync'
+require 'dotenv'
+
+env_path = "/workspace/aws-bootcamp-cruddur-2023/sync.env"
+Dotenv.load(env_path)
+
+puts "== configuration"
+puts "aws_default_region:   #{ENV["AWS_DEFAULT_REGION"]}"
+puts "s3_bucket:            #{ENV["SYNC_S3_BUCKET"]}"
+puts "distribution_id:      #{ENV["SYNC_CLOUDFRONT_DISTRUBTION_ID"]}"
+puts "build_dir:            #{ENV["SYNC_BUILD_DIR"]}"
+
+changeset_path = ENV["SYNC_OUTPUT_CHANGESET_PATH"]
+changeset_path = changeset_path.sub(".json","-#{Time.now.to_i}.json")
+
+puts "output_changset_path: #{changeset_path}"
+puts "auto_approve:         #{ENV["SYNC_AUTO_APPROVE"]}"
+
+puts "sync =="
+AwsS3WebsiteSync::Runner.run(
+  aws_access_key_id:     ENV["AWS_ACCESS_KEY_ID"],
+  aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
+  aws_default_region:    ENV["AWS_DEFAULT_REGION"],
+  s3_bucket:             ENV["SYNC_S3_BUCKET"],
+  distribution_id:       ENV["SYNC_CLOUDFRONT_DISTRUBTION_ID"],
+  build_dir:             ENV["SYNC_BUILD_DIR"],
+  output_changset_path:  changeset_path,
+  auto_approve:          ENV["SYNC_AUTO_APPROVE"],
+  silent: "ignore,no_change",
+  ignore_files: [
+    'stylesheets/index',
+    'android-chrome-192x192.png',
+    'android-chrome-256x256.png',
+    'apple-touch-icon-precomposed.png',
+    'apple-touch-icon.png',
+    'site.webmanifest',
+    'error.html',
+    'favicon-16x16.png',
+    'favicon-32x32.png',
+    'favicon.ico',
+    'robots.txt',
+    'safari-pinned-tab.svg'
+  ]
+)
+```
+
+In the main directory, install gem by running the command below:
+
+```sh
+gem install aws_s3_website_sync
+```
+
+Create a new file within ```erb``` in the main directory called ```sync.env.erb``` with the command below:
+
+```sh
+SYNC_S3_BUCKET=$SYNC_S3_BUCKET
+SYNC_CLOUDFRONT_DISTRIBUTION_ID=$SYNC_CLOUDFRONT_DISTRIBUTION_ID 
+// This is the distribution ID for Frontend React JS for Cruddur
+SYNC_BUILD_DIR=<%= ENV['THEIA_WORKSPACE_ROOT'] %>/frontend-react-js/build
+SYNC_OUTPUT_CHANGESET_PATH=<%=  ENV['THEIA_WORKSPACE_ROOT'] %>/tmp
+SYNC_AUTO_APPROVE=false
+```
+
+Amend ```bin/ frontend/ generate-env``` as follows:
+
+```sh
+#!/usr/bin/env ruby
+
+require 'erb'
+
+template = File.read 'erb/frontend-react-js.env.erb'
+content = ERB.new(template).result(binding)
+filename = "frontend-react-js.env"
+File.write(filename, content)
+
+template = File.read 'erb/sync.env.erb'
+content = ERB.new(template).result(binding)
+filename = "sync.env"
+File.write(filename, content)
+```
+
+Gem install env by using the command below:
+
+```sh
+gem install dotenv
+```
+
+Make sync file executable by running ```chmod u+x ./bin/frontend/sync```
+
+Then run ```./bin/frontend/sync```
+
+Create a ```tmp``` folder in the main directory and add a file called ```.keep```
+
+
+#### Adding github actions
