@@ -405,3 +405,218 @@ Create a ```tmp``` folder in the main directory and add a file called ```.keep``
 
 
 #### Adding github actions
+
+Create a folder called ```github```, then another folder inside github called ```workflows```, then a file called ```sync.yaml.example``` with the command below:
+
+```sh
+name: Sync-Prod-Frontend
+
+on:
+  push:
+    branches: [ prod ]
+  pull_request:
+    branches: [ prod ]
+
+jobs:
+  build:
+    name: Statically Build Files
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 18.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: cd frontend-react-js
+      - run: npm ci
+      - run: npm run build
+  deploy:
+    name: Sync Static Build to S3 Bucket
+    runs-on: ubuntu-latest
+    # These permissions are needed to interact with GitHub's OIDC Token endpoint.
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Configure AWS credentials from Test account
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::$AWS_ACCOUNT_ID:role/CrdSyncRole-Role-1N0SLA7KGVS8E
+          aws-region: $AWS_DEFAULT_REGION
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+        with:
+          ruby-version: '3.1'
+      - name: Install dependencies
+        run: bundle install
+      - name: Run tests
+        run: bundle exec rake sync
+```
+
+Create a new file called ```Gemfile``` in the main directory with the command below:
+
+```sh
+source 'https://rubygems.org'
+
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
+
+gem 'rake'
+gem 'aws_s3_website_sync', tag: '1.0.1'
+gem 'dotenv', groups: [:development, :test]
+```
+
+Create a new file called Rakefile in the main directory with the command below:
+
+```sh
+require 'aws_s3_website_sync'
+require 'dotenv'
+
+task :sync do
+  puts "sync =="
+  AwsS3WebsiteSync::Runner.run(
+    aws_access_key_id:     ENV["AWS_ACCESS_KEY_ID"],
+    aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
+    aws_default_region:    ENV["AWS_DEFAULT_REGION"],
+    s3_bucket:             ENV["S3_BUCKET"],
+    distribution_id:       ENV["CLOUDFRONT_DISTRUBTION_ID"],
+    build_dir:             ENV["BUILD_DIR"],
+    output_changset_path:  ENV["OUTPUT_CHANGESET_PATH"],
+    auto_approve:          ENV["AUTO_APPROVE"],
+    silent: "ignore,no_change",
+    ignore_files: [
+      'stylesheets/index',
+      'android-chrome-192x192.png',
+      'android-chrome-256x256.png',
+      'apple-touch-icon-precomposed.png',
+      'apple-touch-icon.png',
+      'site.webmanifest',
+      'error.html',
+      'favicon-16x16.png',
+      'favicon-32x32.png',
+      'favicon.ico',
+      'robots.txt',
+      'safari-pinned-tab.svg'
+    ]
+  )
+end
+```
+
+Create a new folder called sync within ```aws / cfn```, then add template.yaml with the command below:
+
+```sh
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  GitHubOrg:
+    Description: Name of GitHub organization/user (case sensitive)
+    Type: String
+  RepositoryName:
+    Description: Name of GitHub repository (case sensitive)
+    Type: String
+    Default: 'aws-bootcamp-cruddur-2023'
+  OIDCProviderArn:
+    Description: Arn for the GitHub OIDC Provider.
+    Default: ""
+    Type: String
+  OIDCAudience:
+    Description: Audience supplied to configure-aws-credentials.
+    Default: "sts.amazonaws.com"
+    Type: String
+
+Conditions:
+  CreateOIDCProvider: !Equals 
+    - !Ref OIDCProviderArn
+    - ""
+
+Resources:
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRoleWithWebIdentity
+            Principal:
+              Federated: !If 
+                - CreateOIDCProvider
+                - !Ref GithubOidc
+                - !Ref OIDCProviderArn
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: !Ref OIDCAudience
+              StringLike:
+                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOrg}/${RepositoryName}:*
+
+  GithubOidc:
+    Type: AWS::IAM::OIDCProvider
+    Condition: CreateOIDCProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList: 
+        - sts.amazonaws.com
+      ThumbprintList:
+        - 6938fd4d98bab03faadb97b34396831e3780aea1
+
+Outputs:
+  Role:
+    Value: !GetAtt Role.Arn 
+```
+
+Create a new file called config.toml within ```aws / cfn / sync```, then add template.yaml with the command below:
+
+```sh
+[deploy]
+bucket = 'cfn-artifacts-latino'
+region = '$AWS_DEFAULT_REGION'
+stack_name = 'CrdSyncRole'
+
+[parameters]
+GitHubOrg = 'afrolatino'
+RepositoryName = 'aws-bootcamp-cruddur-2023'
+OIDCProviderArn = ''
+```
+
+Create a new file called sync within ```bin / cfn``` with the command below:
+
+```sh
+#! /usr/bin/env bash
+set -e # stop the execution of the script if it fails
+
+CFN_PATH="/workspace/aws-bootcamp-cruddur-2023/aws/cfn/sync/template.yaml"
+CONFIG_PATH="/workspace/aws-bootcamp-cruddur-2023/aws/cfn/sync/config.toml"
+echo $CFN_PATH
+
+cfn-lint $CFN_PATH
+
+BUCKET=$(cfn-toml key deploy.bucket -t $CONFIG_PATH)
+REGION=$(cfn-toml key deploy.region -t $CONFIG_PATH)
+STACK_NAME=$(cfn-toml key deploy.stack_name -t $CONFIG_PATH)
+PARAMETERS=$(cfn-toml params v2 -t $CONFIG_PATH)
+
+aws cloudformation deploy \
+  --stack-name $STACK_NAME \
+  --s3-bucket $BUCKET \
+  --s3-prefix sync \
+  --region $REGION \
+  --template-file "$CFN_PATH" \
+  --no-execute-changeset \
+  --tags group=cruddur-sync \
+  --parameter-overrides $PARAMETERS \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+
+Make the file executable by running ```chmod u+x ./bin/cfn/sync```, then run ```./bin/cfn/sync```
+
+Run ```bundle install```, then ```bundle update --bundler``` to resolve dependencies.
+
+This creates **CrdSyncRole** as seen on the screenshot below:
+
+![CrdSyncRole_created](https://github.com/AfroLatino/aws-bootcamp-cruddur-2023/assets/78261965/cecb06ca-90e4-40c5-97ff-11e7a08899f2)
