@@ -1507,3 +1507,331 @@ Amend ```frontend-react-js/src/components/ActivityItem.css``` with the command b
 
 ### Refactor Error Handling and Fetch Requests <a name="paragraph9"></a>
 
+Amend ``backend-flask/services/create_message.py``` as follows:
+
+```sh
+ model['errors'] = ['message_exceed_max_chars_1024']
+```
+
+Amend ```backend-flask/services/create_reply.py``` as follows:
+
+```sh
+from datetime import datetime, timedelta, timezone
+
+from lib.db import db
+
+class CreateReply:
+  def run(message, cognito_user_id, activity_uuid):
+    model = {
+      'errors': None,
+      'data': None
+    }
+
+    if cognito_user_id == None or len(cognito_user_id) < 1:
+      model['errors'] = ['cognito_user_id_blank']
+
+    if activity_uuid == None or len(activity_uuid) < 1:
+      model['errors'] = ['activity_uuid_blank']
+
+    if message == None or len(message) < 1:
+      model['errors'] = ['message_blank'] 
+    elif len(message) > 1024:
+      model['errors'] = ['message_exceed_max_chars_1024'] 
+
+    if model['errors']:
+      # return what we provided
+      model['data'] = {
+        'message': message,
+        'reply_to_activity_uuid': activity_uuid
+      }
+    else:
+      uuid = CreateReply.create_reply(cognito_user_id,activity_uuid,message)
+
+      object_json = CreateReply.query_object_activity(uuid)
+      model['data'] = object_json
+    return model
+
+  def create_reply(cognito_user_id, activity_uuid, message):
+    sql = db.template('activities','reply')
+    uuid = db.query_commit(sql,{
+      'cognito_user_id': cognito_user_id,
+      'reply_to_activity_uuid': activity_uuid,
+      'message': message,
+    })
+    return uuid
+  def query_object_activity(uuid):
+    sql = db.template('activities','object')
+    return db.query_object_json(sql,{
+      'uuid': uuid
+    })
+```
+
+Amend ```backend-flask/db/sql/activities/home.sql``` to remove the extra column previously added as seen below:
+
+```sh
+activities.reply_to_activity_uuid,
+```
+
+Amend ```frontend-react-js/src/components/ActivityFeed.js``` with the command below:
+
+```sh
+import './ActivityFeed.css';
+import ActivityItem from './ActivityItem';
+
+export default function ActivityFeed(props) {
+  let content;
+  if (props.activities.length === 0){
+    content = <div className='activity_feed_primer'>
+      <span>Nothing to see here yet</span>
+    </div>
+  } else {
+    content = <div className='activity_feed_collection'>
+      {props.activities.map(activity => {
+      return  <ActivityItem setReplyActivity={props.setReplyActivity} setPopped={props.setPopped} key={activity.uuid} activity={activity} />
+      })}
+    </div>
+  }
+
+
+  return (<div>
+    {content}
+  </div>
+  );
+}
+```
+
+Amend ```frontend-react-js/src/components/ActivityFeed.css``` with the command below:
+```sh
+.activity_feed_primer {
+  font-size: 20px;
+  text-align: center;
+  padding: 24px;
+  color: rgba(255,255,255,0.3)
+}
+```
+
+Created a new file called FormErrorItem.js within frontend-react-js/src/components with the command below:
+
+```sh
+export default function FormErrorItem(props) {
+  const render_error = () => {
+    switch (props.err_code)  {
+      case 'generic_500':
+        return "An internal server error has occured"
+        break;
+      case 'generic_403':
+        return "You are not authorized to perform this action"
+        break;
+      case 'generic_401':
+        return "You are not authenicated to perform this action"
+        break;
+      // Replies
+      case 'cognito_user_id_blank':
+        return "The user was not provided"
+        break;
+      case 'activity_uuid_blank':
+        return "The post id cannot be blank"
+        break;
+      case 'message_blank':
+        return "The message cannot be blank"
+        break;
+      case 'message_exceed_max_chars_1024':
+        return "The message is too long, It should be less than 1024 characters"
+        break;
+      // Users
+      case 'message_group_uuid_blank':
+        return "The message group cannot be blank"
+        break;
+      case 'user_reciever_handle_blank':
+        return "You need to send a message to a valid user"
+        break;
+      case 'user_reciever_handle_blank':
+        return "You need to send a message to a valid user"
+        break;
+      // Profile
+      case 'display_name_blank':
+        return "The display name cannot be blank"
+        break;
+      default:
+        // In the case for errror return from cognito they 
+        // directly return the error so we just display it.
+        return props.err_code
+        break;
+    }
+  }
+
+  return (
+    <div className="errorItem">
+      {render_error()}
+    </div>
+  )
+}
+```
+
+Create a new file called ```FormErrors.js``` within ```frontend-react-js/src/components``` with the command below:
+
+```sh
+import './FormErrors.css';
+import FormErrorItem from 'components/FormErrorItem';
+
+export default function FormErrors(props) {
+  let el_errors = null
+
+  if (props.errors.length > 0) {
+    el_errors = (<div className='errors'>
+      {props.errors.map(err_code => {
+        return <FormErrorItem err_code={err_code} />
+      })}
+    </div>)
+  }
+
+  return (
+    <div className='errorsWrap'>
+      {el_errors}
+    </div>
+  )
+}
+```
+
+Create a new file called ```FormErrors.css``` within ```frontend-react-js/src/components``` with the command below:
+
+```sh
+.errors {
+  padding: 16px;
+  border-radius: 8px;
+  background: rgba(255,0,0,0.3);
+  color: rgb(255,255,255);
+  margin-top: 16px;
+  font-size: 14px;
+}
+```
+
+Amend ```frontend-react-js/src/pages/MessageGroupPage.js``` with the command below:
+
+```sh
+import './MessageGroupPage.css';
+import React from "react";
+import { useParams } from 'react-router-dom';
+
+import {get} from 'lib/Requests';
+import {checkAuth} from 'lib/CheckAuth';
+
+import DesktopNavigation  from 'components/DesktopNavigation';
+import MessageGroupFeed from 'components/MessageGroupFeed';
+import MessagesFeed from 'components/MessageFeed';
+import MessagesForm from 'components/MessageForm';
+
+export default function MessageGroupPage() {
+  const [messageGroups, setMessageGroups] = React.useState([]);
+  const [messages, setMessages] = React.useState([]);
+  const [popped, setPopped] = React.useState([]);
+  const [user, setUser] = React.useState(null);
+  const dataFetchedRef = React.useRef(false);
+  const params = useParams();
+
+  const loadMessageGroupsData = async () => {
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/message_groups`
+    get(url,null,function(data){
+      setMessageGroups(data)
+    })
+  }
+
+  const loadMessageGroupData = async () => {
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/messages/${params.message_group_uuid}`
+    get(url,null,function(data){
+      setMessages(data)
+    })
+  }
+
+  React.useEffect(()=>{
+    //prevents double call
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+
+    loadMessageGroupsData();
+    loadMessageGroupData();
+    checkAuth(setUser);
+  }, [])
+  return (
+    <article>
+      <DesktopNavigation user={user} active={'home'} setPopped={setPopped} />
+      <section className='message_groups'>
+        <MessageGroupFeed message_groups={messageGroups} />
+      </section>
+      <div className='content messages'>
+        <MessagesFeed messages={messages} />
+        <MessagesForm setMessages={setMessages} />
+      </div>
+    </article>
+  );
+}
+```
+
+Amend ```frontend-react-js/src/pages/SigninPage.js``` with the command below:
+
+```sh
+import FormErrors from 'components/FormErrors';
+const onsubmit = async (event) => {
+    event.preventDefault();
+    setErrors('')
+    Auth.signIn(email, password)
+    .then(user => {
+      console.log('user',user)
+      localStorage.setItem("access_token", user.signInUserSession.accessToken.jwtToken)
+      window.location.href = "/"
+    })
+```
+
+Remove the code below from ```frontend-react-js/src/pages/SigninPage.js```:
+
+```sh
+  let el_errors;
+  if (errors){
+    el_errors = <div className='errors'>{errors}</div>;
+  }
+```
+
+Amend ```frontend-react-js/src/pages/SignupPage.js``` with the code below:
+
+```sh
+import FormErrors from 'components/FormErrors';
+ console.log('username',username)
+    console.log('email',email)
+    console.log('name',name)
+```
+
+Remove the code below from ```frontend-react-js/src/pages/SignupPage.js```:
+
+```sh
+  let el_errors;
+  if (errors){
+    el_errors = <div className='errors'>{errors}</div>;
+  }
+```
+
+Replace ```{el_errors}``` with ```<FormErrors errors={errors} />```
+
+Amend ```frontend-react-js/src/pages/SignupPage.css``` with the code below:
+
+```sh
+border: solid 1px var(--field-border);
+border: solid 1px var(--field-border-focus);
+```
+
+Removed the code below from ```frontend-react-js/src/pages/SignupPage.css```:
+
+```sh
+.errors {
+  padding: 16px;
+  border-radius: 8px;
+  background: rgba(255,0,0,0.3);
+  color: rgb(255,255,255);
+  margin-top: 16px;
+  font-size: 14px;
+}
+```
+
+
+### Activity Show Page <a name="paragraph10"></a>
+
+
