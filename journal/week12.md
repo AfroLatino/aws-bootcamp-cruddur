@@ -1,4 +1,4 @@
-# Week X — Tidying up the codes
+# Week X — Cleanup
 
 ## Table of contents
 - [Introduction](#introduction)
