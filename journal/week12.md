@@ -139,4 +139,26 @@ const classes = () => {
   }
 ```
 
+Amend ```frontend-react-js/src/components/ProfileForm.js``` with parts of the command below:
+
+```sh
+let data = await res.json();
+      if (res.status === 200) {
+        return data.url
+      } else {
+        console.log(res)
+      }
+    } catch (err) {
+      console.log(err);
+ ```
+
+Comment out codes not being used as follows:
+
+```sh
+//let data = await res.json();
+
+--
+
+//const preview_image_url = URL.createObjectURL(file)
+```
 
