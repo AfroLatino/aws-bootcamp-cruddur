@@ -920,3 +920,217 @@ Amend ```aws/cfn/cicd/template.yaml``` to include additional permissions as seen
 ```
 
 ### Refactor JWT to use a decorator <a name="paragraph5"></a>
+
+Amend ```aws/cfn/cicd/config.toml to include the command below:
+
+```sh
+BuildSpec = 'backend-flask/buildspec.yml'
+```
+
+Amend ```frontend-react-js/src/components/ReplyForm.js``` with the command below:
+
+```sh
+const close = (event)=> {
+    if (event.target.classList.contains("reply_popup")) {
+      props.setPopped(false)
+    }
+```
+
+Amend ```backend-flask/lib/cognito_jwt_token.py`` with the command below:
+
+```sh
+import os
+
+def decorated_function(*args, **kwargs):
+        cognito_jwt_token = CognitoJwtToken(
+            user_pool_id=os.getenv("AWS_COGNITO_AWS_USER_POOL_ID"), 
+            user_pool_client_id=os.getenv("AWS_COGNITO_AWS_USER_POOL_CLIENT_ID"),
+            region=os.getenv("AWS_DEFAULT_REGION")
+        )
+        access_token = extract_access_token(request.headers)
+        try:
+            claims = cognito_jwt_token.verify(access_token)
+            # is this a bad idea using a global?
+            g.cognito_user_id = claims['sub']  # storing the user_id in the global g object
+        except TokenVerifyError as e:
+            # unauthenticated request
+            app.logger.debug(e)
+            if on_error:
+                on_error(e)
+            return {}, 401
+        return f(*args, **kwargs)
+    return decorated_function
+```
+
+Amend ```backend-flask/app.py``` with the code below:
+
+```sh
+from flask import request, g
+``
+
+### Refactor AppPy <a name="paragraph6"></a>
+
+Amend ```backend-flask/app.py``` with the command below:
+
+```sh
+import os
+import sys
+
+from flask import Flask
+from flask import request, g
+
+from lib.rollbar import init_rollbar
+from lib.xray import init_xray
+from lib.cors import init_cors
+from lib.cloudwatch import init_cloudwatch
+from lib.honeycomb import init_honeycomb
+from lib.helpers import model_json
+
+import routes.general
+import routes.activities
+import routes.users
+import routes.messages
+
+app = Flask(__name__)
+
+## initalization --------
+init_xray(app)
+init_honeycomb(app)
+init_cors(app)
+with app.app_context():
+  g.rollbar = init_rollbar(app)
+
+# load routes -----------
+routes.general.load(app)
+routes.activities.load(app)
+routes.users.load(app)
+routes.messages.load(app)
+
+if __name__ == "__main__":
+  app.run(debug=True)
+```
+
+Add a file called ```rollbar.py``` within ```backend-flask/lib``` with the command below:
+
+```sh
+from flask import got_request_exception
+from time import strftime
+import os
+import rollbar
+import rollbar.contrib.flask
+
+def init_rollbar(app):
+  rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
+  rollbar.init(
+      # access token
+      rollbar_access_token,
+      # environment name
+      'production',
+      # server root directory, makes tracebacks prettier
+      root=os.path.dirname(os.path.realpath(__file__)),
+      # flask already sets up logging
+      allow_logging_basic_config=False)
+  # send exceptions from `app` to rollbar, using flask's signal system.
+  got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
+  return rollbar
+```
+
+Add a ```helpers.py``` file within ```backend-flask/lib``` with the command below:
+
+```sh
+def model_json(model):
+  if model['errors'] is not None:
+    return model['errors'], 422
+  else:
+    return model['data'], 200
+```
+
+Add a file called ```cloudwatch.py``` within ```backend-flask/lib``` with the command below:
+
+```sh
+import watchtower
+import logging
+from flask import request
+
+# Configuring Logger to Use CloudWatch
+# LOGGER = logging.getLogger(__name__)
+# LOGGER.setLevel(logging.DEBUG)
+# console_handler = logging.StreamHandler()
+# cw_handler = watchtower.CloudWatchLogHandler(log_group='cruddur')
+# LOGGER.addHandler(console_handler)
+# LOGGER.addHandler(cw_handler)
+# LOGGER.info("test log")
+
+def init_cloudwatch(response):
+  timestamp = strftime('[%Y-%b-%d %H:%M]')
+  LOGGER.error('%s %s %s %s %s %s', timestamp, request.remote_addr, request.method, request.scheme, request.full_path, response.status)
+  return response
+
+  #@app.after_request
+  #def after_request(response):
+  #  init_cloudwatch(response)
+```
+
+Add a new file called ```honeycomb.py``` within ```backend-flask/lib`` with the command below:
+
+```sh
+from opentelemetry import trace
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from opentelemetry.instrumentation.requests import RequestsInstrumentor
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
+
+provider = TracerProvider()
+processor = BatchSpanProcessor(OTLPSpanExporter())
+provider.add_span_processor(processor)
+
+# OTEL ----------
+# Show this in the logs within the backend-flask app (STDOUT)
+#simple_processor = SimpleSpanProcessor(ConsoleSpanExporter())
+#provider.add_span_processor(simple_processor)
+
+trace.set_tracer_provider(provider)
+tracer = trace.get_tracer(__name__)
+
+def init_honeycomb(app):
+  FlaskInstrumentor().instrument_app(app)
+  RequestsInstrumentor().instrument()
+```
+
+Add a new file called ```cors.py``` within ```backend-flask/lib``` with the command below:
+
+```sh
+from flask_cors import CORS
+import os
+
+def init_cors(app):
+  frontend = os.getenv('FRONTEND_URL')
+  backend = os.getenv('BACKEND_URL')
+  origins = [frontend, backend]
+  cors = CORS(
+    app, 
+    resources={r"/api/*": {"origins": origins}},
+    headers=['Content-Type', 'Authorization', 'Traceparent'], 
+    expose_headers='Authorization',
+    methods="OPTIONS,GET,HEAD,POST"
+  )
+```
+
+Add a new file called ```xray.py``` with the command below:
+
+```sh
+import os
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+
+def init_xray(app):
+  xray_url = os.getenv("AWS_XRAY_URL")
+  xray_recorder.configure(service='backend-flask', dynamic_naming=xray_url)
+  XRayMiddleware(app, xray_recorder)
+```
+
+
+
+
