@@ -966,7 +966,7 @@ Amend ```backend-flask/app.py``` with the code below:
 
 ```sh
 from flask import request, g
-``
+```
 
 ### Refactor AppPy <a name="paragraph6"></a>
 
