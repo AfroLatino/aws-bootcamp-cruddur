@@ -126,3 +126,17 @@ const resend_code = async (event) => {
     }
   }
 ```
+
+Amend ```frontend-react-js/src/components/ProfileInfo.js``` with parts of the command below:
+
+```sh
+const classes = () => {
+    let classes = ["profile-info-wrapper"];
+    if (popped === true){
+      classes.push('popped');
+    }
+    return classes.join(' ');
+  }
+```
+
+
