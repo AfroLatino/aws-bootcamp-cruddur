@@ -6,4 +6,4 @@ stack_name = 'CrdSrvBackendFlask'
 [parameters]
 EnvFrontendUrl = 'https://ocubeltd.co.uk'
 EnvBackendUrl = 'https://api.ocubeltd.co.uk'
-DDBMessageTable = 'CrdDdb-DynamoDBTable-G12N0ET4TBR0'
+DDBMessageTable = 'cruddur-messages'
