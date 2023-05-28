@@ -1,0 +1,8 @@
+[deploy]
+bucket = 'cfn-artifacts-afrolatino'
+region = 'us-east-1'
+stack_name = 'CrdSrvBackendFlask'
+
+[parameters]
+EnvFrontendUrl = 'https://ocubeltd.co.uk'
+EnvBackendUrl = 'https://api.ocubeltd.co.uk'

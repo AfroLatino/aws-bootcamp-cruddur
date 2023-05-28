@@ -1,5 +1,4 @@
 from lib.db import db
-
 class AddBioColumnMigration:
   def migrate_sql():
     data = """
@@ -11,13 +10,10 @@ class AddBioColumnMigration:
     ALTER TABLE public.users DROP COLUMN bio;
     """
     return data
-
   def migrate():
     db.query_commit(AddBioColumnMigration.migrate_sql(),{
     })
-
   def rollback():
     db.query_commit(AddBioColumnMigration.rollback_sql(),{
     })
-
 migration = AddBioColumnMigration
